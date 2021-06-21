@@ -34,6 +34,16 @@ export default {
       modalTimeout: null
     };
   },
+  computed: {
+    mobileResponsive: {
+      get() {
+        return this.$store.state.responsive.mobileResponsive;
+      },
+      set(val) {
+        this.$store.commit("TOGGLE_MOBILE_RESPONSIVE", val);
+      }
+    }
+  },
   watch: {
     // automatically close the modal after 4 seconds
     notify(newNotify) {
@@ -41,6 +51,10 @@ export default {
         clearTimeout(this.modalTimeout);
         this.modalTimeout = setTimeout(this.closeModal, 4000);
       }
+    },
+    $route() {
+      const mobileState = !this.mobileResponsive.open;
+      this.$store.commit("TOGGLE_MOBILE_RESPONSIVE", { open: mobileState });
     }
   },
   components: { Modal, AdminLayoutWrapper, MainIcon },
