@@ -53,8 +53,9 @@ export default {
       }
     },
     $route() {
-      const mobileState = !this.mobileResponsive.open;
-      this.$store.commit("TOGGLE_MOBILE_RESPONSIVE", { open: mobileState });
+      // const mobileState = !this.mobileResponsive.open;
+      // this.$store.commit("TOGGLE_MOBILE_RESPONSIVE", { open: mobileState });
+      this.$store.commit("TOGGLE_MOBILE_RESPONSIVE", { open: true });
     }
   },
   components: { Modal, AdminLayoutWrapper, MainIcon },

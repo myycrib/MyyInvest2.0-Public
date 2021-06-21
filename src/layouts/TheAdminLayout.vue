@@ -8,14 +8,11 @@
       <nav class="top-nav">
         <the-nav />
       </nav>
-      <main :class="{'sidebar-is-open': sideBarNavMenuActive.open}">
-        <nav class="side-nav" 
-        v-if="windowWidth > 1023"
-        @mouseleave="closeSideBarTemp" @mouseenter="openSideBarTemp">
+      <main :class="{ 'sidebar-is-open': sideBarNavMenuActive.open }">
+        <nav class="side-nav" v-if="windowWidth > 1023" @mouseleave="closeSideBarTemp" @mouseenter="openSideBarTemp">
           <the-side-nav ref="sidebar" />
         </nav>
-        <nav class="side-nav" :class="{'d-none': mobileResponsive.open}" 
-        v-if="windowWidth < 1023">
+        <nav class="side-nav" style="margin-top: -.8em" :class="{ 'd-none': mobileResponsive.open }" v-if="windowWidth < 1023">
           <the-side-nav />
         </nav>
 
@@ -43,10 +40,10 @@
 
             <div class="input-grp">
               <input type="text" class="my-auto" name="search" id="search_query" placeholder="Search" />
-                <select name="" style="width: 5vw" class="ml-2 w-50 form-control" id="">
-                    <option value="">Sort By</option>
-                    <option value="">Category 2</option>
-                </select>
+              <select name="" style="width: 5vw" class="ml-2 w-50 form-control" id="">
+                <option value="">Sort By</option>
+                <option value="">Category 2</option>
+              </select>
             </div>
           </div>
 
@@ -82,6 +79,7 @@ export default {
         open: true,
         stay: true
       },
+      stylenone: "display:none !important",
       count: 1,
       selectOptions: [
         {
@@ -98,72 +96,82 @@ export default {
   },
   computed: {
     mobileResponsive: {
-      get()    { return this.$store.state.responsive.mobileResponsive },
-      set(val) { this.$store.commit('TOGGLE_MOBILE_RESPONSIVE', val) }
+      get() {
+        return this.$store.state.responsive.mobileResponsive;
+      },
+      set(val) {
+        this.$store.commit("TOGGLE_MOBILE_RESPONSIVE", val);
+      }
     },
     sideBarNavMenuActive: {
-      get()    { return this.$store.state.responsive.sideBarNavMenuActive },
-      set(val) { this.$store.commit('TOGGLE_SIDEBAR_NAV_MENU_ACTIVE', val) }
+      get() {
+        return this.$store.state.responsive.sideBarNavMenuActive;
+      },
+      set(val) {
+        this.$store.commit("TOGGLE_SIDEBAR_NAV_MENU_ACTIVE", val);
+      }
     },
-    windowWidth()     { return this.$store.state.responsive.windowWidth },
+    windowWidth() {
+      return this.$store.state.responsive.windowWidth;
+    },
     hasOptions() {
       return this.$route.path.includes("/admin/view-") || this.$route.path.includes("/admin/transactions");
     },
 
     supportedDevice() {
       return this.deviceType() === "desktop";
-    },
+    }
   },
   watch: {
-    windowWidth(newValue, oldValue)  { 
+    windowWidth(newValue, oldValue) {
       if (newValue > 1023) {
-        this.$store.commit('TOGGLE_MOBILE_RESPONSIVE', {open: true})
-        this.$store.commit('TOGGLE_SIDEBAR_NAV_MENU_ACTIVE', {open: true, stay: true});
+        this.$store.commit("TOGGLE_MOBILE_RESPONSIVE", { open: true });
+        this.$store.commit("TOGGLE_SIDEBAR_NAV_MENU_ACTIVE", { open: true, stay: true });
       }
     }
   },
   mounted() {
-    this.$store.commit('UPDATE_WINDOW_WIDTH', window.innerWidth)
-    window.addEventListener('resize', this.handleWindowResize)
-    window.addEventListener('scroll', this.handleScroll)
+    this.$store.commit("UPDATE_WINDOW_WIDTH", window.innerWidth);
+    window.addEventListener("resize", this.handleWindowResize);
+    window.addEventListener("scroll", this.handleScroll);
   },
   destroyed() {
-    window.removeEventListener('resize', this.handleWindowResize)
-    window.removeEventListener('scroll', this.handleScroll)
+    window.removeEventListener("resize", this.handleWindowResize);
+    window.removeEventListener("scroll", this.handleScroll);
   },
   methods: {
     // VUEX RESPONSIVE HANDLE METHODS BEGINS HERE
     smCloseSidebar() {
       if (!this.mobileResponsive.open) {
-        const mobileState = !this.mobileResponsive.open
-        this.$store.commit('TOGGLE_MOBILE_RESPONSIVE', {open: mobileState});
+        const mobileState = !this.mobileResponsive.open;
+        this.$store.commit("TOGGLE_MOBILE_RESPONSIVE", { open: mobileState });
       }
     },
     handleWindowResize() {
-      this.$store.commit('UPDATE_WINDOW_WIDTH', window.innerWidth)
+      this.$store.commit("UPDATE_WINDOW_WIDTH", window.innerWidth);
     },
     handleScroll() {
-      this.$store.commit('UPDATE_WINDOW_SCROLL_Y', window.scrollY)
+      this.$store.commit("UPDATE_WINDOW_SCROLL_Y", window.scrollY);
     },
     openSideBarTemp() {
       if (!this.sideBarNavMenuActive.open) {
-       this.$store.commit('TOGGLE_SIDEBAR_NAV_MENU_ACTIVE', {open: true, stay: false})
+        this.$store.commit("TOGGLE_SIDEBAR_NAV_MENU_ACTIVE", { open: true, stay: false });
       }
     },
     closeSideBarTemp() {
       if (!this.sideBarNavMenuActive.stay) {
-        this.$store.commit('TOGGLE_SIDEBAR_NAV_MENU_ACTIVE', {open: false, stay: true})
+        this.$store.commit("TOGGLE_SIDEBAR_NAV_MENU_ACTIVE", { open: false, stay: true });
       }
     },
 
     // VUEX RESPONSIVE HANDLE METHODS ENDS HERE
 
     toggler(value) {
-      this.sideBarToggleValue = value
+      this.sideBarToggleValue = value;
     },
     parentMutate() {
-      this.$refs.sidebar.sideBarState.open = true
-      this.$refs.sidebar.sideBarState.stay = true
+      this.$refs.sidebar.sideBarState.open = true;
+      this.$refs.sidebar.sideBarState.stay = true;
     },
     deviceType() {
       const ua = navigator.userAgent;
@@ -204,13 +212,11 @@ export default {
 
   created() {
     // return this.deviceType();
-  },
+  }
 };
 </script>
 
 <style scoped>
-
-
 *:focus:not(:-moz-focusring) {
   outline: none;
 }
@@ -263,17 +269,17 @@ main {
   }
 
   main article .content-wrapper {
-  display: block !important;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  padding: 10px;
-  box-sizing: border-box;
-  border: 1px solid var(--myyinvest-red);
-  border-radius: 10px;
-  overflow-y: auto;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
+    display: block !important;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+    border: 1px solid var(--myyinvest-red);
+    border-radius: 10px;
+    overflow-y: auto;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
   main article .content-wrapper::-webkit-scrollbar {
     display: none !important;
@@ -281,10 +287,9 @@ main {
 
   /* Hide scrollbar for IE, Edge and Firefox */
   main article .content-wrapper {
-    -ms-overflow-style: none !important;  /* IE and Edge */
-    scrollbar-width: none !important;  /* Firefox */
+    -ms-overflow-style: none !important; /* IE and Edge */
+    scrollbar-width: none !important; /* Firefox */
   }
-
 }
 
 @media (min-width: 1024px) {
@@ -298,13 +303,13 @@ main {
     display: inherit;
   }
   .sidebar-is-open {
-      grid-template-columns: 20% 80%;
+    grid-template-columns: 20% 80%;
   }
 }
 
 @media (min-width: 1200px) {
   .sidebar-is-open {
-      grid-template-columns: 18% 82%;
+    grid-template-columns: 18% 82%;
   }
 }
 
@@ -351,7 +356,6 @@ main nav.side-nav::-webkit-scrollbar {
   grid-row: 2 / 3; */
   margin: 10px;
   max-width: 100%;
-
 }
 
 main article {
