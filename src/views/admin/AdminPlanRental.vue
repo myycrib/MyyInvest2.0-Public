@@ -1,6 +1,10 @@
 <template>
   <section class="main-wrapper">
-    <p class="main-title">Rental Plan</p>
+    <div class="plan_header">
+      <p class="main-title">Rental Plan</p>
+      <button>Delete</button>
+    </div>
+    <hr />
     <section>
       <nav class="tab-nav">
         <div :class="[{ 'is-active': index === currentIndex }]" tabindex="0" @click="changeTab(tab.id, index)" v-for="(tab, index) in tabs" :key="tab.id">{{ tab.name }}</div>
@@ -69,6 +73,24 @@ export default {
 </script>
 
 <style scoped>
+.main-title {
+  color: var(--myyinvest-red);
+  font-weight: 500;
+}
+button {
+  padding: 7.5px 75px;
+  border-radius: 0.3em;
+  background-color: var(--myyinvest-red);
+  color: var(--myyinvest-white);
+  font-weight: 600 !important;
+  border: 2px solid transparent;
+  transition: all 0.5 ease;
+}
+
+button:hover {
+  box-shadow: 2px 2px 6px 0 #bebebe, -2px -2px 6px 0 #ffffff;
+  transform: scale(1.02);
+}
 /* nav {
   display: flex;
   flex-direction: row;

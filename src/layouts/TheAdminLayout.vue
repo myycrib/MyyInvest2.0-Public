@@ -115,7 +115,7 @@ export default {
       return this.$store.state.responsive.windowWidth;
     },
     hasOptions() {
-      return this.$route.path.includes("/admin/view-") || this.$route.path.includes("/admin/transactions");
+      return this.$route.path.includes("/admin/view-") || this.$route.path.includes("/admin/finance");
     },
 
     supportedDevice() {
@@ -185,7 +185,7 @@ export default {
 
     smallHeight() {
       const currentRoute = this.$route.path;
-      const routes = ["/admin/view-users", "/admin/transactions", "/admin/view-insights", "/admin/view-notifications", "/admin/view-faqs"];
+      const routes = ["/admin/finance/transactions", "/admin/view-users", "/admin/view-insights", "/admin/view-notifications", "/admin/view-faqs"];
       // const routes = ["/admin/view-", "/admin/transactions"];
       if (routes.includes(currentRoute)) {
         return "height: 78vh;";
@@ -374,9 +374,26 @@ main article .content-wrapper {
   box-sizing: border-box;
   border: 1px solid var(--myyinvest-red);
   border-radius: 10px;
-  /* overflow-y: auto; */
+  overflow-y: auto;
   -ms-overflow-style: none;
   scrollbar-width: none;
+}
+
+.content-wrapper::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #f5f5f5;
+}
+
+.content-wrapper::-webkit-scrollbar {
+  width: 12px;
+  background-color: #f5f5f5;
+}
+
+.content-wrapper::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #d62929;
 }
 
 .header-options {

@@ -1,37 +1,30 @@
 <template>
   <the-admin-layout>
     <form style="overflow-y: auto; overflow-x:hidden" id="overflow-wrapper">
-        <div class="row">
-            <div class="mx-auto mb-5 col-md-6">
-                <fieldset class="input-grp">
-                    <legend><label for="ptitle">Post Name</label></legend>
-                    <input type="text" class="form-control" id="ptitle" placeholder="How to invest in Real Estates Seamlessly" />
-                </fieldset>
-                <fieldset class="input-grp">
-                    <legend><label for="ptitle">Written by</label></legend>
-                    <input type="text" class="form-control" id="ptitle" placeholder="How to invest in Real Estates Seamlessly" />
-                </fieldset>
-                <fieldset class="input-grp">
-                    <legend><label for="pcategory">Post Category</label></legend>
-                    <select name="" class="form-control" id="">
-                        <option value="">Category 1</option>
-                        <option value="">Category 2</option>
-                    </select>
-                 </fieldset>
-                <fieldset class="input-grp pcontent">
-                    <legend><label for="pcontent">Post Content</label></legend>
-                    <textarea
-                        class="form-control"
-                        i="pcontent"
-                        placeholder="Post Content"
-                        cols="4"
-                        rows="5"
-                    ></textarea>
-                </fieldset>
-                 <button class="m-2" type="submit">Submit</button>
-
-            </div>
+      <div class="row">
+        <div class="mx-auto mb-5 col-md-10">
+          <fieldset class="input-grp">
+            <legend><label for="ptitle">Post Name</label></legend>
+            <input type="text" class="form-control" id="ptitle" placeholder="How to invest in Real Estates Seamlessly" />
+          </fieldset>
+          <fieldset class="input-grp">
+            <legend><label for="ptitle">Written by</label></legend>
+            <input type="text" class="form-control" id="ptitle" placeholder="How to invest in Real Estates Seamlessly" />
+          </fieldset>
+          <fieldset class="input-grp">
+            <legend><label for="pcategory">Post Category</label></legend>
+            <select name="" class="form-control" id="">
+              <option value="">Category 1</option>
+              <option value="">Category 2</option>
+            </select>
+          </fieldset>
+          <fieldset class="input-grp pcontent">
+            <legend><label for="pcontent">Post Content</label></legend>
+            <textarea class="form-control" i="pcontent" placeholder="Post Content" cols="4" rows="5"></textarea>
+          </fieldset>
+          <button class="m-2" type="submit">Submit</button>
         </div>
+      </div>
     </form>
   </the-admin-layout>
 </template>
@@ -96,24 +89,21 @@ export default {
 </script>
 
 <style scoped>
-#overflow-wrapper::-webkit-scrollbar-track
-{
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	border-radius: 10px;
-	background-color: #F5F5F5;
+#overflow-wrapper::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #f5f5f5;
 }
 
-#overflow-wrapper::-webkit-scrollbar
-{
-	width: 12px;
-	background-color: #F5F5F5;
+#overflow-wrapper::-webkit-scrollbar {
+  width: 12px;
+  background-color: #f5f5f5;
 }
 
-#overflow-wrapper::-webkit-scrollbar-thumb
-{
-	border-radius: 10px;
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-	background-color: #D62929;
+#overflow-wrapper::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #d62929;
 }
 
 *:focus:not(:-moz-focusring) {

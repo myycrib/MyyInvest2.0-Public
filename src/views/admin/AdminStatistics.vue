@@ -1,6 +1,7 @@
 <template>
   <section class="main-wrapper">
-    <p class="main-title">Statistics</p>
+    <p class="main-title page-header">Statistics</p>
+    <hr />
     <section>
       <nav>
         <div :class="[{ 'is-active': index === currentIndex }]" @click="changeTab(tab.id, index)" v-for="(tab, index) in tabs" :key="tab.id">{{ tab.name }}</div>
@@ -106,5 +107,9 @@ nav div:hover {
 .is-active {
   color: var(--myyinvest-red);
   border-color: var(--myyinvest-red);
+}
+.page-header {
+  color: var(--myyinvest-red);
+  font-weight: 600;
 }
 </style>

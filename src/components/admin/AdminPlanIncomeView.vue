@@ -1,134 +1,132 @@
 <template>
-  <section class="main-wrapper">
-    <article class="form">
-      <form :class="[!validForm ? 'invalid-form' : '', '']" @submit.prevent="submit">
-        <section class="plan_form-area view-form">
-          <div class="plan_image income-image">
-            <div class="plan-title">Income Plan</div>
-          </div>
-
-          <div class="plan_inputs-group">
-            <div>
-              <fieldset class="input-grp">
-                <label for="min_investment">Minimum Investment</label>
-                <input type="text" id="min_investment" placeholder="Minimum Investment" minlength="3" required v-model.trim.lazy="minInvestment" />
-              </fieldset>
-
-              <fieldset class="input-grp">
-                <label for="holding_period">Holding/Ownership Period</label>
-                <input type="text" id="holding_period" placeholder="Holding/Ownership Period" minlength="3" required v-model.trim.lazy="holdingPeriod" />
-              </fieldset>
-
-              <fieldset class="input-grp">
-                <label for="gov_body">Governance Body</label>
-                <input type="text" id="gov_body" placeholder="Governance Body" minlength="3" required v-model.trim.lazy="govBody" />
-              </fieldset>
-            </div>
-
-            <div>
-              <fieldset class="input-grp plan_view">
-                <label for="document1">Document 1</label>
-                <input
-                  type="file"
-                  accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                  id="document1"
-                  class="custom-file_upload"
-                  placeholder="Document 1"
-                  minlength="3"
-                  required
-                  @change="updateFilename1"
-                />
-                <label for="document1" class="custom-file_label">
-                  <img src="@/assets/admin/icons/image.svg" alt="Image icon" />
-                  <span class="file-name">{{ selectedFilename1 }}</span>
-                </label>
-              </fieldset>
-
-              <fieldset class="input-grp plan_view">
-                <label for="document2">Document 2</label>
-                <input
-                  type="file"
-                  accept=".doc,.docx,application/msword,application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-                  id="document2"
-                  class="custom-file_upload"
-                  placeholder="Document 2"
-                  minlength="3"
-                  required
-                  @change="updateFilename2"
-                />
-                <label for="document2" class="custom-file_label">
-                  <img src="@/assets/admin/icons/image.svg" alt="Image icon" />
-                  <span class="file-name">{{ selectedFilename2 }}</span>
-                </label>
-              </fieldset>
-
-              <fieldset class="input-grp">
-                <label for="p_returns">Returns</label>
-                <input type="text" id="p_returns" placeholder="Returns" minlength="3" required v-model.trim.lazy="pReturns" />
-              </fieldset>
-
-              <fieldset class="input-grp">
-                <label for="investment_purpose">Investment Purpose</label>
-                <input type="text" id="investment_purpose" placeholder="Investment Purpose" minlength="3" required v-model.trim.lazy="investmentPurpose" />
-              </fieldset>
-            </div>
-          </div>
-        </section>
-
-        <section class="plan_form-area view-form">
-          <div></div>
-          <div>
-            <fieldset class="input-grp">
-              <label for="about">About</label>
-              <textarea name="" id="about" placeholder="About" cols="30" rows="10" minlength="3" required v-model.trim.lazy="about"></textarea>
-            </fieldset>
-
-            <div class="submit-area">
-              <p class="warning" v-if="!validForm">Kindly fill the form correctly.</p>
-              <button class="submit" type="submit" @click.prevent="submit" :disabled="submitStatus === 'PENDING'">{{ btnMsg }}</button>
-            </div>
-          </div>
-        </section>
-      </form>
-    </article>
-
-    <article class="new-table">
-      <p class="new-title">Projects</p>
-      <div class="table">
-        <div class="table-title table-row">
-          <div class="sn">SN</div>
-          <div class="project-name">Name of Project</div>
-          <div class="roi">ROI</div>
-          <div class="holding-period">Holding Period</div>
-          <div class="project-start">Start Date</div>
-          <div class="project-end">End Date</div>
-          <div class="tokens-count">Number of Tokens</div>
-          <div class="options"></div>
-        </div>
-        <div class="table-content table-row" v-for="x in 50" :key="x">
-          <div class="sn">{{ formatNum(x) }}</div>
-          <div class="project-name">John Doe</div>
-          <div class="roi">₦70000</div>
-          <div class="holding-period">5</div>
-          <div class="project-start">Project {{ x }}</div>
-          <div class="project-end">1 year</div>
-          <div class="tokens-count">Once</div>
-          <div class="options">
-            <img src="@/assets/admin/icons/edit-alt.svg" alt="Edit Icon" />
-            <img src="@/assets/admin/icons/trash-alt.svg" alt="Delete Icon" />
-          </div>
+  <div class="custom-card" style="overflow: hidden">
+    <div class="p-2 row">
+      <div class="mb-5 col-md-3" style="cursor: pointer">
+        <div class="plan_image income-image">
+          <div class="plan-title">Income Plan</div>
         </div>
       </div>
-    </article>
-  </section>
+      <div class="col-md-9">
+        <form action="">
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="">Minimum Investment</label>
+              <input type="text" class="form-control" placeholder="Minimum Investment" />
+            </div>
+            <div class="form-group col-md-6">
+              <label for="">Returns</label>
+              <input type="text" class="form-control" placeholder="Returns" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="">Holding Period</label>
+              <input type="text" class="form-control" placeholder="Holding Period" />
+            </div>
+            <div class="form-group col-md-6">
+              <label for="">Investment Purpose</label>
+              <input type="text" class="form-control" placeholder="Investment Purpose" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="" class="mt-1">Governance Body</label>
+              <input type="text" class="form-control" placeholder="Governance Body" />
+            </div>
+            <div class="form-group col-md-6">
+              <label for="">About</label>
+              <textarea class="form-control" name="" id="" cols="2" rows="3">About</textarea>
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-group col-md-6">
+              <label for="">Document 1</label>
+              <div class="upload">
+                <div class="upload-window">
+                  <img :src="imgURL" v-if="imgURL !== '/img/camera.f17f2a7e.svg'" style="height: 135px; width: 230px; object-fit: cover" alt="User Image Preview" class="img-fluid" />
+                  <img :src="imgURL" v-else alt="User Image Preview" class="img-fluid" />
+                </div>
+
+                <div class="file-input">
+                  <input type="file" accept="image/*" id="file" class="file" @change="updateFilename1" />
+                  <label for="file"> Select file </label>
+
+                  <p class="file-name">{{ selectedFilename1 }}</p>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-6">
+              <label for="">Document 2</label>
+              <div class="upload">
+                <div class="upload-window">
+                  <img :src="imgURL" v-if="imgURL !== '/img/camera.f17f2a7e.svg'" style="height: 135px; width: 230px; object-fit: cover" alt="User Image Preview" class="img-fluid" />
+                  <img :src="imgURL" v-else alt="User Image Preview" class="img-fluid" />
+                </div>
+
+                <div class="file-input">
+                  <input type="file" accept="image/*" id="file" class="file" @change="updateFilename2" />
+                  <label for="file"> Select file </label>
+
+                  <p class="file-name">{{ selectedFilename2 }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end">
+            <button type="submit" class="m-3 form-btn">Edit</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div class="p-2 row">
+      <div class="col">
+        <div class="plan_header">
+          <h4 class="p-2 main-title">Projects</h4>
+        </div>
+        <hr />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <div id="style-2" class="mt-3 table-responsive">
+          <table class="table table-bordered table-hover">
+            <thead class="table-header">
+              <tr>
+                <th scope="col">S/N</th>
+                <th scope="col">Name of Project</th>
+                <th scope="col">ROI</th>
+                <th scope="col">Holding Period</th>
+                <th scope="col">End Date</th>
+                <th scope="col">Number of Tokens</th>
+                <th scope="col">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="x in 20" :key="x">
+                <td>{{ x }}</td>
+                <td>Project {{ x }}</td>
+                <td>{{ x * 2 }}%</td>
+                <td>{{ x }} year(s)</td>
+                <td>17th Feb. 2021</td>
+                <td>{{ x * 3 }}</td>
+                <td>
+                  <div class="d-flex justify-content-around">
+                    <img src="@/assets/admin/icons/edit-alt.svg" alt="Edit Icon" />
+                    <img src="@/assets/admin/icons/trash-alt.svg" alt="Delete Icon" />
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <script>
-import "@/assets/admin/styles/new-form.css";
-import "@/assets/admin/styles/new-table.css";
-
 import { required } from "vuelidate/lib/validators";
-
+import "@/assets/admin/styles/new-form.css";
 export default {
   name: "AdminPlanIncomeView",
 
@@ -142,6 +140,7 @@ export default {
       minInvestment: "",
       holdingPeriod: "",
       govBody: "",
+      imgURL: require("../../assets/admin/icons/camera.svg"),
       // updateFilename1: "",
       // updateFilename2: "",
       pReturns: "",
@@ -215,16 +214,6 @@ export default {
       }
     },
 
-    // async updateFilename1() {
-    //   try {
-    //     await this.updateFilename();
-    //     // this.selectedFilename1 = this.newFilename;
-    //     alert("Hello");
-    //   } catch (e) {
-    //     alert(e);
-    //   }
-    // },
-
     submit() {
       console.log("submitting...");
       this.$v.$touch();
@@ -249,62 +238,184 @@ export default {
 </script>
 
 <style scoped>
-.plan_image.income-image {
-  background-image: url("../../assets/admin/images/income-plan.jpg");
+button {
+  padding: 7.5px 75px;
+  border-radius: 0.3em;
+  background-color: var(--myyinvest-red);
+  color: var(--myyinvest-white);
+  font-weight: 600 !important;
+  border: 2px solid transparent;
+  transition: all 0.5 ease;
 }
 
-.plan_view.input-grp {
+button:hover {
+  box-shadow: 2px 2px 6px 0 #bebebe, -2px -2px 6px 0 #ffffff;
+  transform: scale(1.02);
+}
+
+#style-2::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #f5f5f5;
+}
+
+#style-2::-webkit-scrollbar {
+  width: 12px;
+  background-color: #f5f5f5;
+}
+
+#style-2::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #d62929;
+}
+#style-2 {
   position: relative;
-  /* z-index: -1; */
 }
 
-.plan_view .custom-file_upload {
-  position: absolute;
+.table-header {
+  box-shadow: var(--myyinvest-red) 2px 0px 4px 0px;
+  position: sticky !important;
+  /* top: -10px !important; */
+  position: -webkit-sticky !important;
+  /* font-size: var(--font-md) !important; */
+  font-weight: 200 !important;
+  color: var(--myyinvest-red);
+  border: 2px solid var(--myyinvest-red);
+  background-color: var(--myyinvest-white);
+}
+.table-hover tbody tr:hover {
+  box-shadow: 2px 2px 6px #c5baba, -2px -2px 6px #ffffff !important;
+  /* box-shadow: 2px 2px 6px #bebebe, -2px -2px 6px #ffffff; */
+}
+textarea {
+  border: 1px solid var(--myyinvest-red);
+}
+input {
+  border: 1px solid var(--myyinvest-red);
+  height: 3rem;
+}
+label {
+  color: var(--myyinvest-red);
+  font-weight: 500;
+  font-size: 1.2em;
+}
+.upload {
+  width: 100%;
+  height: fit-content;
+  height: -moz-fit-content;
+  height: max-content;
+}
+
+.upload-window {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* width: 150px; */
+  max-width: 250px;
+  height: 150px;
+  border: 1px solid gray;
+  border-radius: 10px;
+  object-fit: contain;
+  border: 1px solid var(--myyinvest-red);
+}
+
+.file {
   opacity: 0;
   width: 0.1px;
   height: 0.1px;
-  /* z-index: -1; */
+  position: absolute;
 }
 
-.plan_view .custom-file_label {
+.file-input {
   position: relative;
-  width: 100%;
-  /* height: 100%; */
-  height: 30px;
-  padding: 5px;
-  border: 2px solid rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  overflow-x: auto !important;
-  overflow-y: hidden !important;
-  /* z-index: -1; */
 }
 
-.custom-file_upload:hover + label,
-.custom-file_upload:focus + label {
-  border-color: var(--myyinvest-red);
-}
-
-.plan_view .file-name {
-  font-size: var(--font-normal) !important;
-  color: rgba(0, 0, 0, 0.75);
-  font-weight: 400;
-}
-
-.new-table .table-row div {
-  width: 14%;
+.file-input label {
+  display: block;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
+  width: 150px;
+  margin: 10px 0;
+  padding: 10px 0;
+  border-radius: 5px;
+  background-color: var(--myyinvest-red);
+  box-shadow: 0 4px 7px rgba(0, 0, 0, 0.4);
+  color: #fff;
+  font-weight: 500;
+  cursor: pointer;
+  transition: transform 0.2s ease-out;
 }
 
-.table-row div.sn {
-  width: 4%;
+input:hover + label,
+input:focus + label {
+  transform: scale(1.02);
 }
 
-.table-row div.project-name {
-  width: 20%;
+.file-name {
+  font-size: var(--font-sm) !important;
+  color: #555;
+}
+.main-title {
+  color: var(--myyinvest-red);
 }
 
-.table-row div.tokens-count,
-.table-row div.roi {
-  width: 10%;
+.custom-card .plan_image:hover {
+  cursor: pointer;
+  transform: scale(1.02);
+  /* box-shadow: 2px 2px 6px 0 #bebebe, -2px -2px 6px 0 #ffffff; */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.12), 0 4px 8px rgba(168, 43, 43, 0.06);
+}
+
+.plan_header button {
+  padding: 7.5px 75px;
+  font-weight: 600 !important;
+  border: 2px solid transparent;
+  transition: all 0.5 ease;
+}
+
+.plan_image {
+  position: relative;
+  width: 250px;
+  margin: 0 auto;
+  height: 200px;
+  border-radius: var(--base-size);
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-origin: border-box;
+  -webkit-background-origin: border-box;
+  -moz-background-origin: border-box;
+  background-position: 0 0;
+  /* z-index: -1; */
+  box-shadow: 0px 16px 16px rgba(0, 0, 0, 0.1);
+  transition: transform 0.5s;
+  cursor: pointer;
+}
+
+.income-image {
+  background-image: url("../../assets/admin/images/income-plan.jpg");
+}
+
+.plan_image.rental-image {
+  background-image: url("../../assets/admin/images/rental-plan.jpg");
+}
+
+.plan_image.special-image {
+  background-image: url("../../assets/admin/images/special-plan.jpg");
+}
+
+.plan-title {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: fit-content;
+  width: -moz-fit-content;
+  width: max-content;
+  font-size: 1.5em;
+  font-weight: 600;
+  transform: translate(-50%, -50%);
 }
 </style>

@@ -1,52 +1,45 @@
 <template>
   <the-admin-layout>
     <form style="overflow-y: auto; overflow-x:hidden" id="overflow-wrapper">
-        <div class="row">
-            <div class="mx-auto mb-5 col-md-6">
-                <fieldset class="input-grp">
-                    <legend><label for="ptitle">Post Name</label></legend>
-                    <input type="text" class="form-control" id="ptitle" placeholder="How to invest in Real Estates Seamlessly" />
-                </fieldset>
-                <fieldset class="input-grp">
-                    <legend><label for="pcategory">Recipient</label></legend>
-                    <select name="" class="form-control" id="">
-                        <option value="">Recipient 1</option>
-                        <option value="">Recipient 2</option>
-                    </select>
-                 </fieldset>
-                <div class="row">
-                    <div class="col-8">
-                        <div class="upload">
-                            <div class="upload-window">
-                                <img :src="imgURL" v-if="imgURL !== '/img/camera.f17f2a7e.svg'" style="height: 135px; width:230px; object-fit:cover" alt="User Image Preview" class="img-fluid" />
-                                <img :src="imgURL" v-else  alt="User Image Preview" class="img-fluid" />
-                            </div>
-
-                            <div class="file-input">
-                                <input type="file" accept="image/*" id="file" class="file" @change="updateFilename" />
-                                <label for="file">
-                                Select file
-                                </label>
-
-                                <p class="file-name">{{ selectedFilename }}</p>
-                            </div>
-                        </div>
-                    </div>
+      <div class="row">
+        <div class="mx-auto mb-5 col-md-10">
+          <fieldset class="input-grp">
+            <legend><label for="ptitle">Post Name</label></legend>
+            <input type="text" class="form-control" id="ptitle" placeholder="How to invest in Real Estates Seamlessly" />
+          </fieldset>
+          <fieldset class="input-grp">
+            <legend><label for="pcategory">Recipient</label></legend>
+            <select name="" class="form-control" id="">
+              <option value="">Recipient 1</option>
+              <option value="">Recipient 2</option>
+            </select>
+          </fieldset>
+          <div class="row">
+            <div class="col-8">
+              <div class="upload">
+                <div class="upload-window">
+                  <img :src="imgURL" v-if="imgURL !== '/img/camera.f17f2a7e.svg'" style="height: 135px; width:230px; object-fit:cover" alt="User Image Preview" class="img-fluid" />
+                  <img :src="imgURL" v-else alt="User Image Preview" class="img-fluid" />
                 </div>
-                <fieldset class="input-grp pcontent">
-                    <legend><label for="pcontent">Post Content</label></legend>
-                    <textarea
-                        class="form-control"
-                        i="pcontent"
-                        placeholder="Post Content"
-                        cols="4"
-                        rows="5"
-                    ></textarea>
-                </fieldset>
-                 <button class="m-2" type="submit">Submit</button>
 
+                <div class="file-input">
+                  <input type="file" accept="image/*" id="file" class="file" @change="updateFilename" />
+                  <label for="file">
+                    Select file
+                  </label>
+
+                  <p class="file-name">{{ selectedFilename }}</p>
+                </div>
+              </div>
             </div>
+          </div>
+          <fieldset class="input-grp pcontent">
+            <legend><label for="pcontent">Post Content</label></legend>
+            <textarea class="form-control" i="pcontent" placeholder="Post Content" cols="4" rows="5"></textarea>
+          </fieldset>
+          <button class="m-2" type="submit">Submit</button>
         </div>
+      </div>
     </form>
   </the-admin-layout>
 </template>
@@ -111,24 +104,21 @@ export default {
 </script>
 
 <style scoped>
-#overflow-wrapper::-webkit-scrollbar-track
-{
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	border-radius: 10px;
-	background-color: #F5F5F5;
+#overflow-wrapper::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #f5f5f5;
 }
 
-#overflow-wrapper::-webkit-scrollbar
-{
-	width: 12px;
-	background-color: #F5F5F5;
+#overflow-wrapper::-webkit-scrollbar {
+  width: 12px;
+  background-color: #f5f5f5;
 }
 
-#overflow-wrapper::-webkit-scrollbar-thumb
-{
-	border-radius: 10px;
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-	background-color: #D62929;
+#overflow-wrapper::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #d62929;
 }
 
 *:focus:not(:-moz-focusring) {

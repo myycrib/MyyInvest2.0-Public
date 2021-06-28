@@ -14,6 +14,54 @@ export default [
     // ]
   },
   {
+    path: "/admin/statistics",
+    name: "AdminStatistics",
+    component: () => import("@/views/admin/AdminStatistics.vue"),
+    meta: {
+      layout: "TheAdminLayout"
+    }
+  },
+  {
+    path: "/admin/plans",
+    name: "AdminPlans",
+    component: () => import("@/views/admin/AdminPlans.vue"),
+    meta: {
+      layout: "TheAdminLayout"
+    }
+  },
+  {
+    path: "/admin/plans/add",
+    name: "AdminPlanAdd",
+    component: () => import("@/views/admin/AdminPlanAdd.vue"),
+    meta: {
+      layout: "TheAdminLayout"
+    }
+  },
+  {
+    path: "/admin/plans/income",
+    name: "AdminPlanIncome",
+    component: () => import("@/views/admin/AdminPlanIncome.vue"),
+    meta: {
+      layout: "TheAdminLayout"
+    }
+  },
+  {
+    path: "/admin/plans/rental",
+    name: "AdminPlanIncome",
+    component: () => import("@/views/admin/AdminPlanRental.vue"),
+    meta: {
+      layout: "TheAdminLayout"
+    }
+  },
+  {
+    path: "/admin/plans/special",
+    name: "AdminPlanIncome",
+    component: () => import("@/views/admin/AdminPlanSpecial.vue"),
+    meta: {
+      layout: "TheAdminLayout"
+    }
+  },
+  {
     path: "/admin/view-insights",
     name: "ViewInsights",
     component: () => import("@/views/admin/ViewInsights.vue")
@@ -53,10 +101,15 @@ export default [
     // }
   },
   {
-    path: "/admin/transactions",
-    name: "AdminTransactions",
-    component: () => import("@/views/admin/AdminTransactions.vue")
+    path: "/admin/finance/transactions",
+    name: "AdminFinanceTransactions",
+    component: () => import("@/views/admin/AdminFinanceTransactions.vue")
   },
+  // {
+  //   path: "/admin/finance/",
+  //   name: "AdminTransactions",
+  //   component: () => import("@/views/admin/AdminTransactions.vue")
+  // },
   {
     path: "/admin/view-notifications",
     name: "ViewNotifications",

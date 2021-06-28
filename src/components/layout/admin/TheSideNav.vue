@@ -2,23 +2,57 @@
   <div>
     <div class="menu-toggler-wrapper">
       <span>
-        <svg  @click="closeSidebar" v-if="sideBarNavMenuActive.open && sideBarNavMenuActive.stay" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" 
-          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
-          stroke-linejoin="round" class="lg-menu-toggler collapse-toggle-icon feather feather-disc">
+        <svg
+          @click="closeSidebar"
+          v-if="sideBarNavMenuActive.open && sideBarNavMenuActive.stay"
+          xmlns="http://www.w3.org/2000/svg"
+          width="20px"
+          height="20px"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lg-menu-toggler collapse-toggle-icon feather feather-disc"
+        >
           <circle cx="12" cy="12" r="10"></circle>
           <circle cx="12" cy="12" r="3"></circle>
         </svg>
 
-        <svg  @click="openSidebar" v-if="!sideBarNavMenuActive.stay && sideBarNavMenuActive.open" xmlns="http://www.w3.org/2000/svg" width="20px" height="20px" viewBox="0 0 24 24" 
-          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
-          stroke-linejoin="round" class="lg-menu-toggler collapse-toggle-icon feather feather-disc">
+        <svg
+          @click="openSidebar"
+          v-if="!sideBarNavMenuActive.stay && sideBarNavMenuActive.open"
+          xmlns="http://www.w3.org/2000/svg"
+          width="20px"
+          height="20px"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="lg-menu-toggler collapse-toggle-icon feather feather-disc"
+        >
           <circle cx="12" cy="12" r="10"></circle>
         </svg>
         <!-- cross -->
-        <svg v-if="windowWidth < 1023" xmlns="http://www.w3.org/2000/svg" @click="smCloseSideBar" width="20px" height="20px" 
-          viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" 
-          stroke-linecap="round" stroke-linejoin="round" class="sm-menu-toggler d-block d-xl-none feather feather-x">
-          <line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line>
+        <svg
+          v-if="windowWidth < 1023"
+          xmlns="http://www.w3.org/2000/svg"
+          @click="smCloseSideBar"
+          width="20px"
+          height="20px"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          class="sm-menu-toggler d-block d-xl-none feather feather-x"
+        >
+          <line x1="18" y1="6" x2="6" y2="18"></line>
+          <line x1="6" y1="6" x2="18" y2="18"></line>
         </svg>
       </span>
     </div>
@@ -35,14 +69,35 @@
         <img src="@/assets/admin/icons/user.svg" alt="User Logo" class="logo" />
         <span v-if="sideBarNavMenuActive.open">Users</span>
       </router-link>
-      <router-link to="/admin/projects" class="main-route">
-        <img src="@/assets/admin/icons/checklist.svg" alt="Projects Logo" class="logo" />
-        <span v-if="sideBarNavMenuActive.open">Projects</span>
-      </router-link>
-      <router-link to="/admin/transactions" class="main-route">
+
+      <div :class="[myPath('/admin/plans'), 'main-route']" tabindex="0" @click="noPlan = !noPlan">
+        <img src="@/assets/admin/icons/checklist.svg" alt="Plans icon" class="logo" />
+        <span v-if="sideBarNavMenuActive.open">Plans</span>
+      </div>
+      <div class="sub-nav" v-if="!noPlan">
+        <router-link to="/admin/plans/"> <span></span>Plans</router-link>
+        <router-link to="/admin/plans/add"> <span></span>Add Plan</router-link>
+        <router-link to="/admin/plans/income"> <span></span>Income Plan</router-link>
+        <router-link to="/admin/plans/rental"> <span></span>Rental Plan</router-link>
+        <router-link to="/admin/plans/special"> <span></span>Special Plan</router-link>
+      </div>
+
+      <div :class="[myPath('/admin/finance'), 'main-route']" tabindex="0" @click="noTransaction = !noTransaction">
+        <img src="@/assets/admin/icons/money.svg" alt="Plans icon" class="logo" />
+        <span v-if="sideBarNavMenuActive.open">Financial Report</span>
+      </div>
+      <div class="sub-nav" v-if="!noTransaction">
+        <router-link to="/admin/finance/transactions"> <span></span>Transactions</router-link>
+        <router-link to="/admin/plans/add"> <span></span>Wallet Accounts</router-link>
+        <router-link to="/admin/plans/income"> <span></span>Bank Accounts</router-link>
+        <router-link to="/admin/plans/rental"> <span></span>Refer and Earn</router-link>
+      </div>
+
+      <!-- <router-link to="/admin/transactions" class="main-route">
         <img src="@/assets/admin/icons/money.svg" alt="Transactions Logo" class="logo" />
         <span v-if="sideBarNavMenuActive.open">Transactions</span>
-      </router-link>
+      </router-link> -->
+
       <div :class="[myPath('-insights'), 'main-route']" @click="noInsight = !noInsight">
         <img src="@/assets/admin/icons/window.svg" alt="Insight Logo" class="logo" />
         <span v-if="sideBarNavMenuActive.open">Insights</span>
@@ -88,31 +143,47 @@ export default {
     return {
       noInsight: true,
       noPost: true,
+      noPlan: true,
+      noTransaction: true,
       noNotification: true,
       sideBarState: {
         open: true,
         stay: true
-      },
+      }
     };
   },
 
   computed: {
     mobileResponsive: {
-      get()    { return this.$store.state.responsive.mobileResponsive },
-      set(val) { this.$store.commit('TOGGLE_MOBILE_RESPONSIVE', val) }
+      get() {
+        return this.$store.state.responsive.mobileResponsive;
+      },
+      set(val) {
+        this.$store.commit("TOGGLE_MOBILE_RESPONSIVE", val);
+      }
     },
     currentPath() {
       return this.$route.path;
     },
-    windowWidth()     { return this.$store.state.responsive.windowWidth },
+    windowWidth() {
+      return this.$store.state.responsive.windowWidth;
+    },
     isSideBarNavMenuActive: {
-      get()    { return this.$store.state.responsive.isSideBarNavMenuActive },
-      set(val) { this.$store.commit('TOGGLE_IS_SIDEBAR_NAV_MENU_ACTIVE', val) }
+      get() {
+        return this.$store.state.responsive.isSideBarNavMenuActive;
+      },
+      set(val) {
+        this.$store.commit("TOGGLE_IS_SIDEBAR_NAV_MENU_ACTIVE", val);
+      }
     },
     sideBarNavMenuActive: {
-      get()    { return this.$store.state.responsive.sideBarNavMenuActive },
-      set(val) { this.$store.commit('TOGGLE_SIDEBAR_NAV_MENU_ACTIVE', val) }
-    },
+      get() {
+        return this.$store.state.responsive.sideBarNavMenuActive;
+      },
+      set(val) {
+        this.$store.commit("TOGGLE_SIDEBAR_NAV_MENU_ACTIVE", val);
+      }
+    }
   },
 
   methods: {
@@ -122,17 +193,16 @@ export default {
       } else "";
     },
     smCloseSideBar() {
-      this.$store.commit('TOGGLE_MOBILE_RESPONSIVE', {open: true});
+      this.$store.commit("TOGGLE_MOBILE_RESPONSIVE", { open: true });
     },
     closeSidebar() {
-      this.$store.commit('TOGGLE_SIDEBAR_NAV_MENU_ACTIVE', {open: false, stay: true});
+      this.$store.commit("TOGGLE_SIDEBAR_NAV_MENU_ACTIVE", { open: false, stay: true });
     },
 
     openSidebar() {
-      this.$store.commit('TOGGLE_SIDEBAR_NAV_MENU_ACTIVE', {open: true, stay: true});
-    },
-  },
-  
+      this.$store.commit("TOGGLE_SIDEBAR_NAV_MENU_ACTIVE", { open: true, stay: true });
+    }
+  }
 };
 </script>
 
@@ -152,7 +222,7 @@ export default {
   margin-top: 1rem;
   display: flex;
   justify-content: flex-end;
-  padding-right: .5em;
+  padding-right: 0.5em;
   cursor: pointer;
 }
 

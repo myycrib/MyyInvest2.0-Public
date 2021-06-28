@@ -109,6 +109,11 @@ export default {
 </script>
 
 <style scoped>
+table {
+  background-color: white;
+  color: #c10000;
+}
+
 section div {
   width: 11%;
 }

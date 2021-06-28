@@ -2,21 +2,32 @@
   <div>
     <section class="section-wrap">
       <p class="section-title">Total number of investors</p>
-
-      <div class="card-group">
-        <div class="investor-card">
-          <div class="card-title">Income Plan</div>
-          <div class="card-value">5,000</div>
-        </div>
-
-        <div class="investor-card">
-          <div class="card-title">Rental Plan</div>
-          <div class="card-value">10,000</div>
-        </div>
-
-        <div class="investor-card">
-          <div class="card-title">Total Transactions</div>
-          <div class="card-value">10,000</div>
+      <div class="custom-card" style="overflow: hidden !important">
+        <div class="row">
+          <div class="mb-3 col-md-4">
+            <div class="card">
+              <div class="d-flex justify-content-between">
+                <span class="text-mute">Income Plan</span>
+              </div>
+              <h5 class="card-value">10,000</h5>
+            </div>
+          </div>
+          <div class="mb-3 col-md-4">
+            <div class="card">
+              <div class="d-flex justify-content-between">
+                <span class="text-mute">Rental Plan</span>
+              </div>
+              <h5 class="card-value">200,000</h5>
+            </div>
+          </div>
+          <div class="mb-3 col-md-4">
+            <div class="card">
+              <div class="d-flex justify-content-between">
+                <span class="text-mute">Total Transactions</span>
+              </div>
+              <h5 class="card-value">100,000</h5>
+            </div>
+          </div>
         </div>
       </div>
     </section>
@@ -54,6 +65,23 @@ export default {
 </script>
 
 <style scoped>
+.custom-card .card {
+  padding: var(--base-size);
+  background: #ffffff;
+  z-index: -1 !important;
+  border-radius: 10px;
+  box-shadow: 1px 1px 3px 0 #bebebe, -1px -1px 3px 0 #ffffff;
+  box-shadow: 0px 8.67606px 8.67606px rgba(0, 0, 0, 0.05);
+}
+.custom-card {
+  /* z-index: auto; */
+  cursor: pointer;
+}
+.custom-card .card:hover {
+  transform: scale(1.02);
+  z-index: auto !important;
+  box-shadow: 2px 2px 6px 0 #bebebe, -2px -2px 6px 0 #ffffff;
+}
 .investor-card {
   width: calc(100% / 4);
 }
@@ -77,7 +105,7 @@ export default {
 }
 
 .card-value {
-  font-size: var(--font-xxx) !important;
+  font-weight: 500 !important;
   color: var(--myyinvest-red);
 }
 </style>
