@@ -17,7 +17,7 @@
         </thead>
         <tbody>
           <tr v-for="x in 10" :key="x">
-            <th scope="row">{{ zeroPrefix(x) }}{{ x }}</th>
+            <td>{{ zeroPrefix(x) }}{{ x }}</td>
             <td>How to invest seamlessly in Real Estate</td>
             <td>
               <img style="width: 180px; height: 100px; object-fit: cover" src="@/assets/admin/images/dummy-img.jpg" alt="Content Image" />
@@ -141,6 +141,10 @@ export default {
 </script>
 
 <style scoped>
+.table-hover tbody tr:hover {
+  box-shadow: 2px 2px 6px #c5baba, -2px -2px 6px #ffffff !important;
+  /* box-shadow: 2px 2px 6px #bebebe, -2px -2px 6px #ffffff; */
+}
 #style-2::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
@@ -155,7 +159,7 @@ export default {
 #style-2::-webkit-scrollbar-thumb {
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: #d62929;
+  background-color: #f5f5f5;
 }
 
 .table-header {

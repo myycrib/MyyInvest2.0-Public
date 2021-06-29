@@ -5,32 +5,18 @@
         <thead class="table-header">
           <tr>
             <th scope="col">S/N</th>
+            <th scope="col">Full Name</th>
             <th scope="col">Email Address</th>
-            <th scope="col">Investment Cost</th>
-            <th scope="col">Tokens</th>
-            <th scope="col">Project</th>
-            <th scope="col">Payment Channel</th>
-            <th scope="col">Post Status</th>
-            <th scope="col" class="options">Post Date</th>
+            <th scope="col">Wallet Account</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="x in 10" :key="x">
-            <th scope="row">{{ zeroPrefix(x) }}{{ x }}</th>
+            <td>{{ zeroPrefix(x) }}{{ x }}</td>
+            <td>Full Name {{ x }}</td>
             <td>voffiah@gmail.com</td>
-            <td>₦70000</td>
-            <td>35</td>
             <td>
-              Cambridge Apartment
-            </td>
-            <td>RIBY</td>
-            <td>
-              <div class="status">
-                <div class="text-white p-lg-1 status-content" style="border-radius: 1em" :style="changeBackgroundColor(status[x])">{{ status[x] }}</div>
-              </div>
-            </td>
-            <td>
-              17th Feb. 2021
+              00909039300
             </td>
           </tr>
         </tbody>
@@ -120,6 +106,10 @@ export default {
 </script>
 
 <style scoped>
+.table-hover tbody tr:hover {
+  box-shadow: 2px 2px 6px #c5baba, -2px -2px 6px #ffffff !important;
+  /* box-shadow: 2px 2px 6px #bebebe, -2px -2px 6px #ffffff; */
+}
 #style-2::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
@@ -134,7 +124,7 @@ export default {
 #style-2::-webkit-scrollbar-thumb {
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: #d62929;
+  background-color: #f5f5f5;
 }
 
 .table-header {

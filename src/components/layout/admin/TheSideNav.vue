@@ -88,15 +88,10 @@
       </div>
       <div class="sub-nav" v-if="!noTransaction">
         <router-link to="/admin/finance/transactions"> <span></span>Transactions</router-link>
-        <router-link to="/admin/plans/add"> <span></span>Wallet Accounts</router-link>
-        <router-link to="/admin/plans/income"> <span></span>Bank Accounts</router-link>
-        <router-link to="/admin/plans/rental"> <span></span>Refer and Earn</router-link>
+        <router-link to="/admin/finance/wallet"> <span></span>Wallet Accounts</router-link>
+        <router-link to="/admin/finance/bank-accounts"> <span></span>Bank Accounts</router-link>
+        <!-- <router-link to="/admin/plans/rental"> <span></span>Refer and Earn</router-link> -->
       </div>
-
-      <!-- <router-link to="/admin/transactions" class="main-route">
-        <img src="@/assets/admin/icons/money.svg" alt="Transactions Logo" class="logo" />
-        <span v-if="sideBarNavMenuActive.open">Transactions</span>
-      </router-link> -->
 
       <div :class="[myPath('-insights'), 'main-route']" @click="noInsight = !noInsight">
         <img src="@/assets/admin/icons/window.svg" alt="Insight Logo" class="logo" />

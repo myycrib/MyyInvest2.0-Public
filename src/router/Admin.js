@@ -105,11 +105,16 @@ export default [
     name: "AdminFinanceTransactions",
     component: () => import("@/views/admin/AdminFinanceTransactions.vue")
   },
-  // {
-  //   path: "/admin/finance/",
-  //   name: "AdminTransactions",
-  //   component: () => import("@/views/admin/AdminTransactions.vue")
-  // },
+  {
+    path: "/admin/finance/wallet",
+    name: "AdminFinanceWallet",
+    component: () => import("@/views/admin/AdminFinanceWallet.vue")
+  },
+  {
+    path: "/admin/finance/bank-accounts",
+    name: "AdminFinanceBank",
+    component: () => import("@/views/admin/AdminFinanceBank.vue")
+  },
   {
     path: "/admin/view-notifications",
     name: "ViewNotifications",

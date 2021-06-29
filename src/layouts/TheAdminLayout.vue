@@ -39,8 +39,8 @@
             </div>
 
             <div class="input-grp">
-              <input type="text" class="my-auto" name="search" id="search_query" placeholder="Search" />
-              <select name="" style="width: 5vw" class="ml-2 w-50 form-control" id="">
+              <input type="text" class="my-auto form-control" name="search" id="search_query" placeholder="Search Content..." />
+              <select name="" styl="width: 5vw" class="ml-5 w-50 form-control" id="">
                 <option value="">Sort By</option>
                 <option value="">Category 2</option>
               </select>
@@ -115,7 +115,10 @@ export default {
       return this.$store.state.responsive.windowWidth;
     },
     hasOptions() {
-      return this.$route.path.includes("/admin/view-") || this.$route.path.includes("/admin/finance");
+      if (this.$route.path.includes("/admin/view-notifications")) {
+        return false;
+      }
+      return this.$route.path.includes("/admin/view-") || this.$route.path.includes("/admin/newsletters") || this.$route.path.includes("/admin/finance");
     },
 
     supportedDevice() {
@@ -185,7 +188,7 @@ export default {
 
     smallHeight() {
       const currentRoute = this.$route.path;
-      const routes = ["/admin/finance/transactions", "/admin/view-users", "/admin/view-insights", "/admin/view-notifications", "/admin/view-faqs"];
+      const routes = ["/admin/newsletters", "/admin/finance/transactions", "/admin/finance/bank-accounts", "/admin/finance/wallet", "/admin/view-users", "/admin/view-insights", "/admin/view-faqs"];
       // const routes = ["/admin/view-", "/admin/transactions"];
       if (routes.includes(currentRoute)) {
         return "height: 78vh;";
@@ -393,7 +396,7 @@ main article .content-wrapper {
 .content-wrapper::-webkit-scrollbar-thumb {
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: #d62929;
+  background-color: #f5f5f5;
 }
 
 .header-options {
@@ -422,7 +425,7 @@ main article .content-wrapper {
 .header-options .input-grp {
   margin-left: auto;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
 }
 
 .dropbtn {

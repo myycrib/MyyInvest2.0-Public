@@ -19,7 +19,7 @@
         </div>
       </div>
       <h5 class="mt-3">Latest Users</h5>
-      <div id="style-" class="mt-3 table-responsive">
+      <div id="style-2" class="mt-3 table-responsive">
         <table class="table table-bordered table-hover">
           <thead class="table-header">
             <tr>
