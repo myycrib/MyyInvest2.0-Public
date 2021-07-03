@@ -28,6 +28,11 @@
   background-color: var(--myyinvest-red-fade);
 }
 
+.chart {
+  z-index: -1;
+  background-color: var(--myyinvest-red-fade);
+}
+
 .chart-group div:nth-child(2n) div.chart {
   width: 20%;
 }

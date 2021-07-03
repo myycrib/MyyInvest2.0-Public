@@ -1,6 +1,6 @@
 const transactions = [
   {
-    topic: "What us the primary reason you are interested in investing wit Myyinvest?",
+    topic: "What is the primary reason you are interested in investing wit Myyinvest?",
     chart: [
       {
         classname: "diversify-portfolio",
@@ -188,6 +188,56 @@ const transactions = [
         title: "I am in for the Long term",
         representation: "",
         value: "20"
+      }
+    ]
+  },
+  {
+    topic: "Who advises you on your financial decisions?",
+    chart: [
+      {
+        classname: "low-income",
+        title: "A Professional Investment Advisor",
+        representation: "",
+        value: "60"
+      },
+
+      {
+        classname: "short",
+        title: "Self-Education through Books and Videos",
+        representation: "",
+        value: "20"
+      },
+
+      {
+        classname: "medium-term",
+        title: "Friends and Family",
+        representation: "",
+        value: "90"
+      },
+
+      {
+        classname: "long-term",
+        title: "I just do",
+        representation: "",
+        value: "50"
+      }
+    ]
+  },
+  {
+    topic: "Do you need a financial advisor?",
+    chart: [
+      {
+        classname: "low-income",
+        title: "Yes",
+        representation: "",
+        value: "90"
+      },
+
+      {
+        classname: "short",
+        title: "No",
+        representation: "",
+        value: "10"
       }
     ]
   }

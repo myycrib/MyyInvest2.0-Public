@@ -2,7 +2,7 @@
   <the-admin-layout>
     <div id="style-2" class="table-responsive">
       <table class="table table-bordered table-hover">
-        <thead class="table-header">
+        <thead class="table-header" style="z-index: 100 !important;">
           <tr>
             <th scope="col">S/N</th>
             <th scope="col">First Name</th>
@@ -11,22 +11,20 @@
             <th scope="col">Phone Number</th>
             <th scope="col">Date of Birth</th>
             <th scope="col">Date of registration</th>
-            <th scope="col" class="options">Actions</th>
+            <th scope="col">Actions</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="x in 20" :key="x">
-            <th scope="row">{{ zeroPrefix(x) }}{{ x }}</th>
+            <td>{{ zeroPrefix(x) }}{{ x }}</td>
             <td>Valentine</td>
             <td>Otto</td>
             <td>voffiah@gmail.com</td>
-            <td>
-              09051843790
-            </td>
+            <td>09051843790</td>
             <td>17th Feb. 2021</td>
             <td>17th Feb. 2021</td>
-            <td style="display: flex; justify-content: space-between">
-              <span @click="viewUser(x)" class="mr-2">
+            <td style="display: flex; justify-content: space-between;">
+              <span class="mr-2 cursor-pointer dropdown">
                 <svg width="17" height="11" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" fill="#0baa12">
                   <svg xmlns="http://www.w3.org/2000/svg" width="17" height="11">
                     <path
@@ -36,6 +34,10 @@
                     />
                   </svg>
                 </svg>
+                <div class="dropdown-content">
+                  <li @click="viewUser(x, null)">User Details</li>
+                  <li @click="viewUser(x, 'transactions')">User Transactions</li>
+                </div>
               </span>
               <span @click="deleteItem" class="ml-2">
                 <svg width="12" height="14" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" fill="#c10000">
@@ -98,8 +100,12 @@ export default {
       } else return "";
     },
 
-    viewUser(id) {
-      this.$router.push("/admin/users/" + id);
+    viewUser(id, route) {
+      if (route === "transactions") {
+        this.$router.push(`/admin/users/${id}/${route}`);
+      } else {
+        this.$router.push("/admin/users/" + id);
+      }
     },
 
     deleteItem() {
@@ -118,6 +124,41 @@ export default {
 </script>
 
 <style scoped>
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f9f9f9;
+  min-width: 200px;
+  font-size: 1.1em;
+  border: 1px solid #d62929;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  padding: 15px;
+  border-radius: 1em 1em 1.2em 2em;
+  list-style-type: none;
+  z-index: 1;
+  left: auto;
+  right: 1px;
+}
+.dropdown-content li {
+  padding-bottom: 8px;
+}
+.dropdown-content li:hover {
+  cursor: pointer;
+  background-color: #d62929 !important;
+  padding: 2px 5px;
+  /* border-radius: 2px 5px; */
+  border-radius: 0.5em 0.8em 0.5em 0.7em;
+  color: #f5f5f5;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
 #style-2::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
@@ -132,7 +173,7 @@ export default {
 #style-2::-webkit-scrollbar-thumb {
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: #d62929;
+  background-color: #f5f5f5;
 }
 
 .table-header {

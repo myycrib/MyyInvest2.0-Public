@@ -5,35 +5,33 @@
         <thead class="table-header">
           <tr>
             <th scope="col">S/N</th>
+            <th scope="col" class="options">Date</th>
             <th scope="col">Full Name</th>
             <th scope="col">Email Address</th>
-            <th scope="col">Investment Cost</th>
-            <th scope="col">Tokens</th>
+            <th scope="col">Amount Invested</th>
+            <th scope="col">No Tokens</th>
             <th scope="col">Plan</th>
-            <th scope="col">Wallet Account</th>
-            <th scope="col">Status</th>
-            <th scope="col" class="options">Date</th>
+            <th scope="col">Project</th>
+            <th scope="col">Payment Frequency</th>
+            <!-- <th scope="col">Status</th> -->
           </tr>
         </thead>
         <tbody>
           <tr v-for="x in 10" :key="x">
             <td>{{ zeroPrefix(x) }}{{ x }}</td>
+            <td>17th Feb. 2021</td>
             <td>Full Name {{ x }}</td>
             <td>voffiah@gmail.com</td>
             <td>₦70,000</td>
-            <td>35</td>
+            <td>{{ x * 4 }}</td>
             <td>Plan {{ x }}</td>
-            <td>
-              00909039300
-            </td>
-            <td>
+            <td>Project {{ x }}</td>
+            <td>{{ x }} Month(s)</td>
+            <!-- <td>
               <div class="status">
                 <div class="text-white p-lg-1 status-content" style="border-radius: 1em" :style="changeBackgroundColor(status[x])">{{ status[x] }}</div>
               </div>
-            </td>
-            <td>
-              17th Feb. 2021
-            </td>
+            </td> -->
           </tr>
         </tbody>
       </table>

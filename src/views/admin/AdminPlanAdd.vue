@@ -28,14 +28,16 @@
         </div>
         <div class="form-row">
           <div class="form-group col-md-6">
-            <label for="">Investment Purpose</label>
-            <input type="text" class="form-control" placeholder="Investment Purpose" />
-            <label for="" class="mt-1">Governance Body</label>
-            <input type="text" class="form-control" placeholder="Governance Body" />
+            <label for="">Governance Body</label>
+            <textarea class="form-control" name="" id="" cols="3" rows="5">Governance Body</textarea>
           </div>
           <div class="form-group col-md-6">
             <label for="">About</label>
             <textarea class="form-control" name="" id="" cols="3" rows="5">About</textarea>
+          </div>
+          <div class="form-group col-md-6">
+            <label for="">Investment Purpose</label>
+            <input type="text" class="form-control" placeholder="Investment Purpose" />
           </div>
         </div>
         <div class="form-row">
@@ -55,8 +57,8 @@
               </div>
             </div>
           </div>
-          <div class="form-group col-md-6">
-            <label for="">Upload Document</label>
+          <div class="form-group col-md-3">
+            <label for="">Upload Brochure</label>
             <div class="upload">
               <div class="upload-window">
                 <img :src="imgURL" v-if="imgURL !== '/img/camera.f17f2a7e.svg'" style="height: 135px; width: 230px; object-fit: cover" alt="User Image Preview" class="img-fluid" />
@@ -71,6 +73,25 @@
               </div>
             </div>
           </div>
+          <div class="form-group col-md-3">
+            <label for="">Upload Legal Document</label>
+            <div class="upload">
+              <div class="upload-window">
+                <img :src="imgURL" v-if="imgURL !== '/img/camera.f17f2a7e.svg'" style="height: 135px; width: 230px; object-fit: cover" alt="User Image Preview" class="img-fluid" />
+                <img :src="imgURL" v-else alt="User Image Preview" class="img-fluid" />
+              </div>
+
+              <div class="file-input">
+                <input type="file" accept="image/*" id="file" class="file" @change="uploadDocument1" />
+                <label for="file"> Select file </label>
+
+                <p class="file-name">{{ selectedFilename }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex justify-content-end">
+          <button type="submit" class="m-3 form-btn">Submit</button>
         </div>
       </div>
       <div class="project">
@@ -90,6 +111,14 @@
           <div class="form-group col-md-6">
             <label for="">Holding Period</label>
             <input type="text" class="form-control" placeholder="Holding Period" />
+          </div>
+          <div class="form-group col-md-6">
+            <label for="">Number of Tokens</label>
+            <input type="text" class="form-control" placeholder="Holding Period" />
+          </div>
+          <div class="form-group col-md-6">
+            <label for="">Payout Date</label>
+            <input type="date" class="form-control" />
           </div>
           <div class="form-group col-md-6">
             <label for="">Start Date</label>

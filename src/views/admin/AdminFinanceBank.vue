@@ -5,15 +5,22 @@
         <thead class="table-header">
           <tr>
             <th scope="col">S/N</th>
-            <th scope="col">Account Name</th>
-            <th scope="col" class="text-center">Account Details</th>
+            <th scope="col">Full Name</th>
+            <th scope="col">Email Address</th>
+            <th scope="col" class="text-center">Account Name</th>
+            <th scope="col" class="text-center">Account Number</th>
+            <th scope="col" class="text-center">Bank Name</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="x in 10" :key="x">
             <td>{{ zeroPrefix(x) }}{{ x }}</td>
+            <td>Full Name {{ x }}</td>
+            <td>test{{ x }}@gmail.com</td>
             <td>Account Name {{ x }}</td>
-            <td>
+            <td>909289099</td>
+            <td>Bank Name {{ x }}</td>
+            <!-- <td>
               <div class="bank d-flex justify-content-between">
                 <span class="text-center">Bank1 (3454679909 - Savings), Bank2 (5993467990 - Current)</span>
                 <span class="mr-md-3 dropdown" v-if="x % 3 === 0">
@@ -54,7 +61,7 @@
                   </div>
                 </span>
               </div>
-            </td>
+            </td> -->
           </tr>
         </tbody>
       </table>
@@ -143,6 +150,9 @@ export default {
 </script>
 
 <style scoped>
+.bank {
+  cursor: pointer;
+}
 .dropdown {
   position: relative;
   display: inline-block;
@@ -154,13 +164,14 @@ export default {
   background-color: #f9f9f9;
   min-width: 260px;
   font-size: 1.1em;
+  border: 1px solid #d62929;
   box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
   padding: 15px;
-  border-radius: 1em;
+  border-radius: 1em 1em 1.2em 2.8em;
   list-style-type: none;
   z-index: 1;
   left: auto;
-  right: 10px;
+  right: 1px;
 }
 .dropdown-content li {
   padding-bottom: 8px;
@@ -168,6 +179,9 @@ export default {
 .dropdown-content li:hover {
   cursor: pointer;
   background-color: #d62929 !important;
+  padding: 2px 5px;
+  /* border-radius: 2px 5px; */
+  border-radius: 0.5em 0.8em 0.5em 0.7em;
   color: #f5f5f5;
 }
 

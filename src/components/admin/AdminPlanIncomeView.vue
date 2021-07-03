@@ -86,7 +86,7 @@
         <hr />
       </div>
     </div>
-    <div class="row">
+    <div v-if="!flipView" class="row">
       <div class="col-12">
         <div id="style-2" class="mt-3 table-responsive">
           <table class="table table-bordered table-hover">
@@ -96,6 +96,7 @@
                 <th scope="col">Name of Project</th>
                 <th scope="col">ROI</th>
                 <th scope="col">Holding Period</th>
+                <th scope="col">Start Date</th>
                 <th scope="col">End Date</th>
                 <th scope="col">Number of Tokens</th>
                 <th scope="col">Actions</th>
@@ -108,13 +109,60 @@
                 <td>{{ x * 2 }}%</td>
                 <td>{{ x }} year(s)</td>
                 <td>17th Feb. 2021</td>
+                <td>17th Feb. 2021</td>
                 <td>{{ x * 3 }}</td>
                 <td>
-                  <div class="d-flex justify-content-around">
+                  <div class="cursor-pointer d-flex justify-content-around">
                     <img src="@/assets/admin/icons/edit-alt.svg" alt="Edit Icon" />
                     <img src="@/assets/admin/icons/trash-alt.svg" alt="Delete Icon" />
+                    <img @click="flipView = !flipView" src="@/assets/admin/icons/view.svg" alt="Delete Icon" />
                   </div>
                 </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div v-else class="row">
+      <div class="mb-1 ml-3">
+        <svg style="width: 50px; height: 30px; cursor: pointer" @click="flipView = !flipView" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+          <path
+            fill="red"
+            d="M 11 0 C 10.488 0 9.9759375 0.1954375 9.5859375 0.5859375 L 0.5859375 9.5859375 C -0.1950625 10.366937 -0.1950625 11.633062 0.5859375 12.414062 L 9.5859375 21.414062 C 9.9759375 21.805063 10.488 22 11 22 C 11.512 22 12.024062 21.805063 12.414062 21.414062 C 13.195062 20.633063 13.195063 19.366937 12.414062 18.585938 L 6.828125 13 L 32 13 C 39.721 13 46 19.28 46 27 C 46 34.721 39.721 41 32 41 L 18 41 L 17 41 L 0 41 L 0 45 L 17 45 L 18 45 L 33 45 L 33 44.949219 C 42.458993 44.425652 50 36.587491 50 27 C 50 17.587873 42.734578 9.8537846 33.519531 9.078125 C 33.352599 9.0329042 33.181176 9 33 9 L 6.828125 9 L 12.414062 3.4140625 C 13.195062 2.6330625 13.195063 1.3669375 12.414062 0.5859375 C 12.024062 0.1954375 11.512 0 11 0 z"
+          ></path>
+        </svg>
+      </div>
+      <div class="col-12">
+        <div id="style-2" class="mt-3 table-responsive">
+          <table class="table table-bordered table-hover">
+            <thead class="table-header">
+              <tr>
+                <th scope="col">S/N</th>
+                <th scope="col">Date</th>
+                <th scope="col">Full Name</th>
+                <th scope="col">Email Address</th>
+                <th scope="col">Investment Cost</th>
+                <th scope="col">No of Tokens</th>
+                <th scope="col">Payment Frequency</th>
+                <th scope="col">Frequency Duration</th>
+                <th scope="col">ROI</th>
+                <th scope="col">Expected Payout</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="x in 20" :key="x">
+                <td>{{ x }}</td>
+                <td>17th Feb. 2021</td>
+                <td>Full Name {{ x }}</td>
+                <td>test{{ x }}@email.com</td>
+                <td>1,200</td>
+                <td>{{ x * 3 }}</td>
+                <td>Monthly</td>
+                <td>{{ x }} year(s)</td>
+                <td>1/2</td>
+                <td>Payout</td>
               </tr>
             </tbody>
           </table>
@@ -139,6 +187,7 @@ export default {
     return {
       minInvestment: "",
       holdingPeriod: "",
+      flipView: false,
       govBody: "",
       imgURL: require("../../assets/admin/icons/camera.svg"),
       // updateFilename1: "",

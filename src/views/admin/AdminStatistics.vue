@@ -3,7 +3,7 @@
     <p class="main-title page-header">Statistics</p>
     <hr />
     <section>
-      <nav>
+      <nav style="z-index: 20 !important">
         <div :class="[{ 'is-active': index === currentIndex }]" @click="changeTab(tab.id, index)" v-for="(tab, index) in tabs" :key="tab.id">{{ tab.name }}</div>
       </nav>
 

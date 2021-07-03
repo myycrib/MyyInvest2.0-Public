@@ -35,9 +35,18 @@
             <td>
               17th Feb. 2021
             </td>
-            <td style="display: flex; justify-content: space-between">
+            <td style="display: flex; justify-content: space-between;cursor:pointer">
               <span>
-                <svg width="15" height="13" class="m-3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" fill="#0a47a0">
+                <svg
+                  @click="() => $router.push({ name: 'AddInsights' })"
+                  width="15"
+                  height="13"
+                  class="m-3"
+                  xmlns="http://www.w3.org/2000/svg"
+                  xmlns:xlink="http://www.w3.org/1999/xlink"
+                  xmlns:svgjs="http://svgjs.com/svgjs"
+                  fill="#0a47a0"
+                >
                   <svg xmlns="http://www.w3.org/2000/svg" width="15" height="13">
                     <path
                       paint-order="stroke fill markers"

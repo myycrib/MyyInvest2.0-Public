@@ -2,25 +2,31 @@
   <section class="main-wrapper">
     <div class="plan_header">
       <h4 class="main-title">Plans</h4>
-      <button class="header-btn">Add Plan</button>
+      <button class="header-btn" @click="() => $router.push({ name: 'AdminPlanAdd' })">Add Plan</button>
     </div>
     <hr />
     <div class="custom-card" style="overflow: hidden !important">
       <div class="mx-auto text-center row">
         <div class="mb-3 col-md-4">
-          <div class="plan_image income-image">
-            <div class="plan-title">Income Plan</div>
-          </div>
+          <router-link :to="{ name: 'AdminPlanIncome' }">
+            <div class="plan_image income-image">
+              <div class="plan-title">Income Plan</div>
+            </div>
+          </router-link>
         </div>
         <div class="mb-3 col-md-4">
-          <div class="plan_image rental-image">
-            <div class="plan-title">Rental Plan</div>
-          </div>
+          <router-link :to="{ name: 'AdminPlanRental' }">
+            <div class="plan_image rental-image">
+              <div class="plan-title">Growth Plan</div>
+            </div>
+          </router-link>
         </div>
         <div class="mb-3 col-md-4">
-          <div class="plan_image special-image">
-            <div class="plan-title">Special Plan</div>
-          </div>
+          <router-link :to="{ name: 'AdminPlanSpecial' }">
+            <div class="plan_image special-image">
+              <div class="plan-title">Flex Plan</div>
+            </div>
+          </router-link>
         </div>
       </div>
     </div>

@@ -12,12 +12,12 @@
         <nav class="side-nav" v-if="windowWidth > 1023" @mouseleave="closeSideBarTemp" @mouseenter="openSideBarTemp">
           <the-side-nav ref="sidebar" />
         </nav>
-        <nav class="side-nav" style="margin-top: -.8em" :class="{ 'd-none': mobileResponsive.open }" v-if="windowWidth < 1023">
+        <nav class="side-nav" style="margin-top: -0.8em" :class="{ 'd-none': mobileResponsive.open }" v-if="windowWidth < 1023">
           <the-side-nav />
         </nav>
 
         <div class="main-contents" @click="smCloseSidebar">
-          <div class="header-options" v-if="hasOptions">
+          <div class="header-options" v-if="hasOptions === true">
             <button class="mr-1 download" v-if="windowWidth > 553" @click="previewDownload">Download</button>
 
             <div class="download-overlay" v-if="noDownloadModal === false">
@@ -41,12 +41,25 @@
             <div class="input-grp">
               <input type="text" class="my-auto form-control" name="search" id="search_query" placeholder="Search Content..." />
               <select name="" styl="width: 5vw" class="ml-5 w-50 form-control" id="">
-                <option value="">Sort By</option>
-                <option value="">Category 2</option>
+                <option value="">Sort by A to Z</option>
+                <option value="">Sort by Z to A </option>
               </select>
             </div>
           </div>
-
+          <div v-else-if="hasOptions == 'only-remove-download'">
+            <div class="mb-2 row">
+              <div class="col-md-6">
+                <input type="text" style="border-radius: 2em" class="my-auto form-control" name="search" id="search_query" placeholder="Search Content..." />
+              </div>
+              <div class="col-md-5">
+                <select name="" class="ml-5 w-100 form-control" id="">
+                  <option value="">Sort by A to Z</option>
+                  <option value="">Sort by Z to A </option>
+                </select>
+              </div>
+              <div class="col-md-1"></div>
+            </div>
+          </div>
           <article :style="smallHeight()">
             <div class="content-wrapper">
               <!-- <component :is="layout"> -->
@@ -115,10 +128,16 @@ export default {
       return this.$store.state.responsive.windowWidth;
     },
     hasOptions() {
-      if (this.$route.path.includes("/admin/view-notifications")) {
-        return false;
+      if (this.$route.path.includes("admin/view-insights") || this.$route.path.includes("/admin/view-faqs") || this.$route.path.includes("/admin/view-notifications")) {
+        return "only-remove-download";
       }
-      return this.$route.path.includes("/admin/view-") || this.$route.path.includes("/admin/newsletters") || this.$route.path.includes("/admin/finance");
+      return (
+        this.$route.path.includes("/admin/view-") ||
+        this.$route.path.includes("/admin/newsletters") ||
+        this.$route.path.includes("/admin/all-users") ||
+        this.$route.path.includes("/admin/users/") ||
+        this.$route.path.includes("/admin/finance")
+      );
     },
 
     supportedDevice() {
@@ -188,9 +207,17 @@ export default {
 
     smallHeight() {
       const currentRoute = this.$route.path;
-      const routes = ["/admin/newsletters", "/admin/finance/transactions", "/admin/finance/bank-accounts", "/admin/finance/wallet", "/admin/view-users", "/admin/view-insights", "/admin/view-faqs"];
-      // const routes = ["/admin/view-", "/admin/transactions"];
-      if (routes.includes(currentRoute)) {
+      const routes = [
+        "/admin/all-users",
+        "/admin/newsletters",
+        "/admin/finance/transactions",
+        "/admin/finance/bank-accounts",
+        "/admin/finance/wallet",
+        "/admin/view-users",
+        "/admin/view-insights",
+        "/admin/view-faqs"
+      ];
+      if (routes.includes(currentRoute) || this.$route.name === "ViewUser" || this.$route.name === "AdminUsersTransactions") {
         return "height: 78vh;";
       } else return "";
     },

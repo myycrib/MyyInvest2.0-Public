@@ -78,8 +78,8 @@
         <router-link to="/admin/plans/"> <span></span>Plans</router-link>
         <router-link to="/admin/plans/add"> <span></span>Add Plan</router-link>
         <router-link to="/admin/plans/income"> <span></span>Income Plan</router-link>
-        <router-link to="/admin/plans/rental"> <span></span>Rental Plan</router-link>
-        <router-link to="/admin/plans/special"> <span></span>Special Plan</router-link>
+        <router-link to="/admin/plans/rental"> <span></span>Growth Plan</router-link>
+        <router-link to="/admin/plans/special"> <span></span>Flex Plan</router-link>
       </div>
 
       <div :class="[myPath('/admin/finance'), 'main-route']" tabindex="0" @click="noTransaction = !noTransaction">

@@ -7,7 +7,9 @@
             <th scope="col">S/N</th>
             <th scope="col">Full Name</th>
             <th scope="col">Email Address</th>
+            <th scope="col">Wallet Account Name</th>
             <th scope="col">Wallet Account</th>
+            <th scope="col">Wallet Bank Name</th>
           </tr>
         </thead>
         <tbody>
@@ -15,9 +17,11 @@
             <td>{{ zeroPrefix(x) }}{{ x }}</td>
             <td>Full Name {{ x }}</td>
             <td>voffiah@gmail.com</td>
+            <td>User Account {{ x }}</td>
             <td>
               00909039300
             </td>
+            <td>User Bank {{ x }}</td>
           </tr>
         </tbody>
       </table>

@@ -18,29 +18,27 @@
           </div>
         </div>
       </div>
-      <h5 class="mt-3">Latest Users</h5>
+      <h5 class="mt-3">Newly Registered Users</h5>
       <div id="style-2" class="mt-3 table-responsive">
         <table class="table table-bordered table-hover">
           <thead class="table-header">
             <tr>
               <th scope="col">S/N</th>
+              <th scope="col">Date</th>
               <th scope="col">Full Name</th>
-              <th scope="col">Tokens</th>
-              <th scope="col">Project</th>
-              <th scope="col">Project Duration</th>
-              <th scope="col">Frequency Duration</th>
+              <th scope="col">Email</th>
+              <th scope="col">Phone Number</th>
             </tr>
           </thead>
           <tbody>
             <tr v-for="x in 20" :key="x">
               <td>{{ zeroPrefix(x) }}{{ x }}</td>
-              <td>Valentine</td>
-              <td>Otto</td>
+              <td>17th Feb. 2021</td>
+              <td>Valentine Noah</td>
+              <td>Otto@mail.com</td>
               <td>
                 09051843790
               </td>
-              <td>17th Feb. 2021</td>
-              <td>17th Feb. 2021</td>
             </tr>
           </tbody>
         </table>
@@ -75,7 +73,7 @@ export default {
           value: "10,000"
         },
         {
-          title: "Total Transactions",
+          title: "Total Amount Invested",
           icon: require("@/assets/admin/icons/money.svg"),
           value: "100,000"
         },
@@ -85,7 +83,7 @@ export default {
           value: "10,000"
         },
         {
-          title: "No of Uploaded",
+          title: "No of Projects Uploaded",
           icon: require("@/assets/admin/icons/upload.svg"),
           value: "10,000"
         }

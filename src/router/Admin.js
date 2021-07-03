@@ -47,7 +47,7 @@ export default [
   },
   {
     path: "/admin/plans/rental",
-    name: "AdminPlanIncome",
+    name: "AdminPlanRental",
     component: () => import("@/views/admin/AdminPlanRental.vue"),
     meta: {
       layout: "TheAdminLayout"
@@ -55,7 +55,7 @@ export default [
   },
   {
     path: "/admin/plans/special",
-    name: "AdminPlanIncome",
+    name: "AdminPlanSpecial",
     component: () => import("@/views/admin/AdminPlanSpecial.vue"),
     meta: {
       layout: "TheAdminLayout"
@@ -71,6 +71,16 @@ export default [
   },
   {
     path: "/admin/add-insights",
+    name: "AddInsights",
+    component: () => import("@/views/admin/AddInsights.vue")
+  },
+  {
+    path: "/admin/edit-insight/:id",
+    name: "AddInsights",
+    component: () => import("@/views/admin/AddInsights.vue")
+  },
+  {
+    path: "/admin/view-insight/:id",
     name: "AddInsights",
     component: () => import("@/views/admin/AddInsights.vue")
   },
@@ -99,6 +109,12 @@ export default [
     //   // function mode, more about it below
     //   sidebar: route => ({ search: route.query.q })
     // }
+  },
+  {
+    path: "/admin/users/:id/transactions",
+    name: "AdminUsersTransactions",
+    component: () => import("@/views/admin/AdminUsersTransactions.vue"),
+    props: true
   },
   {
     path: "/admin/finance/transactions",
