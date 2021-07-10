@@ -9,6 +9,7 @@
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
+    "@morioh/v-quill-editor": "^1.0.2",
     "@pusher/push-notifications-web": "^1.1.0",
     "axios": "^0.21.1",
     "bootstrap": "^4.5.3",

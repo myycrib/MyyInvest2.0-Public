@@ -42,7 +42,7 @@
             <div class=" col-lg-6 col-md-6 col-12">
               <div class="form__div">
                 <!-- added custom styles for xmx-datepicker and xmx-input classes in the datepicker stylesheet -->
-                <date-picker prefix-class="xmx" :formatter="momentFormat" v-model="signUpForm.dateOfBirth" valueType="format" :input-attr="{ required: 'true' }"></date-picker>
+                <date-picker v-if="authClasses[1] === 'sign-up-mode'" prefix-class="xmx" :formatter="momentFormat" v-model="signUpForm.dateOfBirth" valueType="format" :input-attr="{ required: 'true' }"></date-picker>
                 <label class="label ft-10 mt-n4">Date Of Birth (DOB)</label>
                 <!--  <main-input class="col-md-12" label="Date of Birth" v-model="profile.dob" />-->
               </div>
@@ -235,6 +235,50 @@ export default {
       } catch (e) {
         this.registerText = "Sign Up";
       }
+    },
+    handleValidation(payload) {
+      let keys = Object.keys(payload);
+      let validationSuccess = true;
+
+      //check and ensures all fields are required and filled
+      for (let i = 0; i < keys.length; i++) {
+        if (payload[keys[i]] === "" || typeof payload[keys[i]] === "undefined") {
+          this.handleNotify({
+            message: `${keys[i]} field is required`,
+            status: "Error"
+          });
+          validationSuccess = false;
+          break;
+        }
+      }
+
+      //if password and confirm password exists ensure they are identical
+      if (payload.confirm_password && payload.password) {
+        if (payload.password !== payload.confirm_password) {
+          this.handleNotify({
+            message: `Password fields do not match `,
+            status: "Error"
+          });
+          validationSuccess = false;
+        }
+      }
+
+      return validationSuccess;
+    },
+    handleNotify(payload) {
+      this.$Bus.$emit("notify", {
+        show: true,
+        mainMessage: payload.message
+          .split("_")
+          .join(" ")
+          .replace(/\\\//g, "/"),
+        tinyMessage: payload.message
+          .split("_")
+          .join(" ")
+          .replace(/\\\//g, "/"),
+        extras: "",
+        status: payload.status
+      });
     },
     switchToSignup() {
       this.$router.push({ name: "register" });

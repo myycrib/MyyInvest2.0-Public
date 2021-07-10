@@ -1,14 +1,19 @@
-<script>
 export default {
   data() {},
   methods: {
     handleNotify(payload) {
       this.$Bus.$emit("notify", {
         show: true,
-        mainMessage: payload.message.split("_").join(" ").replace(/\\\//g, "/"),
-        tinyMessage: payload.message.split("_").join(" ").replace(/\\\//g, "/"),
+        mainMessage: payload.message
+          .split("_")
+          .join(" ")
+          .replace(/\\\//g, "/"),
+        tinyMessage: payload.message
+          .split("_")
+          .join(" ")
+          .replace(/\\\//g, "/"),
         extras: "",
-        status: payload.status,
+        status: payload.status
       });
     },
     handleValidation(payload) {
@@ -20,10 +25,10 @@ export default {
         if (payload[keys[i]] === "" || typeof payload[keys[i]] === "undefined") {
           this.handleNotify({
             message: `${keys[i]} field is required`,
-            status: "Error",
+            status: "Error"
           });
           validationSuccess = false;
-          break;
+        //   break;
         }
       }
 
@@ -32,7 +37,7 @@ export default {
         if (payload.password !== payload.confirm_password) {
           this.handleNotify({
             message: `Password fields do not match `,
-            status: "Error",
+            status: "Error"
           });
           validationSuccess = false;
         }
@@ -40,6 +45,10 @@ export default {
 
       return validationSuccess;
     },
-  },
+    transformToFormData(object) {
+        const formData = new FormData()
+        Object.keys(object).forEach(key => formData.append(key, object[key]))
+        return formData
+    },
+  }
 };
-</script>

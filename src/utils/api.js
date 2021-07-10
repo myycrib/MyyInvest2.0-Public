@@ -1,5 +1,6 @@
 import axios from "axios";
 import { store } from "@/store/store";
+import router from 'vue-router'
 // import NProgress from "nprogress";
 // import "nprogress/nprogress.css";
 import progressFns from "@/utils/helper.js";
@@ -63,7 +64,13 @@ class Api {
       };
       return requireAuth ? await instance.post(url, payload, config) : await instance.post(url, payload);
     } catch (error) {
-      console.log(`My Error: ${error}`);
+      // console.log(`My Error: ${error}`);
+      if (error.response.data.message === 'Invalid Token') {
+        localStorage.clear();
+        router.replace({
+          name: "login"
+        });
+      }
       return error.response;
     }
   }

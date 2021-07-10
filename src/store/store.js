@@ -6,6 +6,7 @@ import admin from "./admin";
 import users from "./users";
 import shared from "./shared";
 import responsive from "./responsive";
+import insights from "./insights";
 
 Vue.use(Vuex);
 
@@ -16,6 +17,7 @@ export const store = new Vuex.Store({
     users,
     shared,
     responsive,
+    insights,
   },
   plugins: [
     createPersistedState({

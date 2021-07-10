@@ -1,116 +1,135 @@
 <template>
   <the-admin-layout>
-    <form style="overflow-y: aut" id="overflow-wrapper">
-        <div class="row">
-            <div class="mb-5 col-md-6">
-                <fieldset class="input-grp">
-                    <legend><label for="ptitle">Post Title</label></legend>
-                    <input type="text" class="form-control" id="ptitle" placeholder="How to invest in Real Estates Seamlessly" />
-                </fieldset>
-                <fieldset class="input-grp">
-                    <legend><label for="pauthor">Post Author</label></legend>
-                    <input type="text" class="form-control" id="pauthor" placeholder="Valentine Offiah" />
-                </fieldset>
-                <fieldset class="input-grp">
-                    <legend><label for="ptags">Post Tags</label></legend>
-                    <input type="text" class="form-control" id="ptags" placeholder="Investments, Finance, Money, Real Estates" />
-                </fieldset>
-                <fieldset class="input-grp">
-                    <legend><label for="pstatus">Post Status</label></legend>
-                    <select name="" class="form-control" id="">
-                        <option value="">Option 1</option>
-                        <option value="">Option 2</option>
-                    </select>
-                </fieldset>
-                 <fieldset class="input-grp">
-                    <legend><label for="pcategory">Post Category</label></legend>
-                    <select name="" class="form-control" id="">
-                        <option value="">Category 1</option>
-                        <option value="">Category 2</option>
-                    </select>
-                 </fieldset>
-            </div>
-            <div class="col-md-6">
-                <div class="row">
-                    <div class="col-8">
-                        <div class="upload">
-                            <div class="upload-window">
-                                <img :src="imgURL" v-if="imgURL !== '/img/camera.f17f2a7e.svg'" style="height: 135px; width:230px; object-fit:cover" alt="User Image Preview" class="img-fluid" />
-                                <img :src="imgURL" v-else  alt="User Image Preview" class="img-fluid" />
-                            </div>
-
-                            <div class="file-input">
-                                <input type="file" accept="image/*" id="file" class="file" @change="updateFilename" />
-                                <label for="file">
-                                Select file
-                                </label>
-
-                                <p class="file-name">{{ selectedFilename }}</p>
-                            </div>
-                        </div>
-                    </div>
+    <form @submit.prevent="handleAddInsight" style="overflow-x: hidden" id="overflow-wrapper">
+      <div class="row">
+        <div class="mb-5 col-md-6">
+          <fieldset class="input-grp">
+            <legend><label for="ptitle">Post Title</label></legend>
+            <input v-model="payloadForm.postTitle" type="text" class="form-control" id="ptitle" placeholder="How to invest in Real Estates Seamlessly" />
+          </fieldset>
+          <fieldset class="input-grp">
+            <legend><label for="pauthor">Post Author</label></legend>
+            <input v-model="payloadForm.authoredBy" type="text" class="form-control" id="pauthor" placeholder="Valentine Offiah" />
+          </fieldset>
+          <fieldset class="input-grp">
+            <legend><label for="ptags">Post Tags</label></legend>
+            <input type="text" class="form-control" id="ptags" placeholder="Investments, Finance, Money, Real Estates" />
+          </fieldset>
+          <fieldset class="input-grp">
+            <legend><label for="pcategory">Post Category</label></legend>
+            <select v-model="payloadForm.category" name="" class="form-control" id="">
+              <option value="Category 1" selected="true">Category 1</option>
+              <option value="Category 2">Category 2</option>
+            </select>
+          </fieldset>
+        </div>
+        <div class="col-md-6">
+          <div class="row">
+            <div class="col-8">
+              <div class="upload">
+                <div class="upload-window">
+                  <img :src="imgURL" v-if="imgURL !== '/img/camera.f17f2a7e.svg'" style="height: 135px; width: 230px; object-fit: cover" alt="User Image Preview" class="img-fluid" />
+                  <img :src="imgURL" v-else alt="User Image Preview" class="img-fluid" />
                 </div>
 
-                <fieldset class="input-grp pcontent">
-                    <legend><label for="pcontent">Post Content</label></legend>
-                    <textarea
-                        class="form-control"
-                        i="pcontent"
-                        placeholder="Post Content"
-                        cols="4"
-                        rows="5"
-                    ></textarea>
-                </fieldset>
-                 <button class="m-2" type="submit">Submit</button>
+                <div class="file-input">
+                  <input type="file" accept="image/*" id="file" class="file" @change="updateFilename" />
+                  <label for="file"> Select file </label>
+
+                  <p class="file-name">{{ selectedFilename }}</p>
+                </div>
+              </div>
             </div>
+          </div>
+
+          <fieldset class="input-grp pcontent">
+            <legend><label for="pcontent">Post Content</label></legend>
+            <editor v-model="payloadForm.postContent" theme="snow"></editor>
+          </fieldset>
+          <button class="mb-3 mr-4 w-50 btn" type="submit">Submit</button>
         </div>
+      </div>
     </form>
   </the-admin-layout>
 </template>
 
 <script>
+import handleValidation from "../../mixins/validationMixins";
+// import handleNotify from '../../mixins/notify.vue';
+import { mapActions } from "vuex";
+
 export default {
   name: "AddInsights",
+  mixins: [handleValidation],
 
   metaInfo: {
     title: "Myyinvest - Add Insights (Admin)",
-    titleTemplate: null
+    titleTemplate: null,
   },
 
   data() {
     return {
+      payloadForm: {
+        postTitle: "",
+        postContent: "",
+        authoredBy: "",
+        image: '',
+        category: '',
+      },
       selectedPostStatus: "",
       postStatuses: [
         {
-          name: "Published"
+          name: "Published",
         },
         {
-          name: "Unpublished"
+          name: "Unpublished",
         },
         {
-          name: "Scheduled/Delayed"
-        }
+          name: "Scheduled/Delayed",
+        },
       ],
 
       selectedCategory: "",
       categories: [
         {
-          name: "News"
+          name: "News",
         },
         {
-          name: "Blog"
+          name: "Blog",
         },
         {
-          name: "Research"
-        }
+          name: "Research",
+        },
       ],
 
       imgURL: require("../../assets/admin/icons/camera.svg"),
-      selectedFilename: "No file selected"
+      selectedFilename: "No file selected",
     };
   },
 
   methods: {
+    ...mapActions({
+      addInsight: "insights/addInsight",
+    }),
+    handleAddInsight(e) {
+      if (!this.handleValidation(this.payloadForm)) {
+        return;
+      }
+      this.addInsight(this.transformToFormData(this.payloadForm)).then((res) => {
+        if (res.status === 200 || res.status === 201) {
+          e.target.reset()
+          this.handleNotify({
+            message: res.data.message,
+            status: "Success"
+          });
+        } else {
+          this.handleNotify({
+            message: res.data.message,
+            status: "Error",
+          });
+        }
+      })
+    },
     newPostStatus(val) {
       this.selectedPostStatus = val;
       alert(val);
@@ -127,40 +146,38 @@ export default {
       if (file) {
         const fileSize = (size / 1024).toFixed(2);
         const fileNameAndSize = `${fileName} - (${fileSize}KB)`;
-
+ 
         this.selectedFilename = fileNameAndSize;
 
         const reader = new FileReader();
-        reader.onload = e => {
+        reader.onload = (e) => {
           this.imgURL = e.target.result;
         };
 
         reader.readAsDataURL(event.target.files[0]);
+        this.payloadForm.image = event.target.files[0]
       }
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
-#overflow-wrapper::-webkit-scrollbar-track
-{
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
-	border-radius: 10px;
-	background-color: #F5F5F5;
+#overflow-wrapper::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #f5f5f5;
 }
 
-#overflow-wrapper::-webkit-scrollbar
-{
-	width: 12px;
-	background-color: #F5F5F5;
+#overflow-wrapper::-webkit-scrollbar {
+  width: 12px;
+  background-color: #f5f5f5;
 }
 
-#overflow-wrapper::-webkit-scrollbar-thumb
-{
-	border-radius: 10px;
-	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
-	background-color: #D62929;
+#overflow-wrapper::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #f5f5f5;
 }
 *:focus:not(:-moz-focusring) {
   outline: none;

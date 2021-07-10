@@ -10,6 +10,11 @@ import { BootstrapVue, IconsPlugin } from "bootstrap-vue";
 import "./scss/app.scss";
 import "./assets/admin/styles/base.css";
 import helpers from "./utils/helper";
+import '@morioh/v-quill-editor/dist/editor.css';
+import Editor from '@morioh/v-quill-editor'
+// global register
+Vue.use(Editor);
+
 // Import Bootstrap an BootstrapVue CSS files (order is important)
 // import "bootstrap/dist/css/bootstrap.css";
 // import "bootstrap-vue/dist/bootstrap-vue.css";

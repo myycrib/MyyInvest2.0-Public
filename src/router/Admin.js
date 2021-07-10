@@ -1,3 +1,4 @@
+import auth from "./middleware/auth";
 export default [
   {
     path: "/admin",
@@ -72,7 +73,10 @@ export default [
   {
     path: "/admin/add-insights",
     name: "AddInsights",
-    component: () => import("@/views/admin/AddInsights.vue")
+    component: () => import("@/views/admin/AddInsights.vue"),
+    meta: {
+      middleware: [auth]
+    },
   },
   {
     path: "/admin/edit-insight/:id",
