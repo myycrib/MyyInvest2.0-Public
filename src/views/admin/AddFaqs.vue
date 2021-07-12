@@ -1,28 +1,24 @@
 <template>
   <the-admin-layout>
-    <form style="overflow-y: auto; overflow-x:hidden" id="overflow-wrapper">
-      <div class="row">
+    <form @submit.prevent="handleAddFaq" style="overflow-y: auto; overflow-x: hidden" id="overflow-wrapper">
+      <div class="mt-5 row">
         <div class="mx-auto mb-5 col-md-10">
           <fieldset class="input-grp">
-            <legend><label for="ptitle">Post Name</label></legend>
-            <input type="text" class="form-control" id="ptitle" placeholder="How to invest in Real Estates Seamlessly" />
+            <legend><label for="ptitle">Question</label></legend>
+            <input v-model="payloadForm.question" type="text" class="form-control" id="ptitle" placeholder="Your Question" />
           </fieldset>
           <fieldset class="input-grp">
-            <legend><label for="ptitle">Written by</label></legend>
-            <input type="text" class="form-control" id="ptitle" placeholder="How to invest in Real Estates Seamlessly" />
+            <legend><label for="ptitle">Answer</label></legend>
+            <input type="text" v-model="payloadForm.answer" class="form-control" id="ptitle" placeholder="Your Answer" />
           </fieldset>
           <fieldset class="input-grp">
             <legend><label for="pcategory">Post Category</label></legend>
-            <select name="" class="form-control" id="">
-              <option value="">Category 1</option>
-              <option value="">Category 2</option>
+            <select v-model="payloadForm.category" class="form-control" id="">
+              <option>Category 1</option>
+              <option>Category 2</option>
             </select>
           </fieldset>
-          <fieldset class="input-grp pcontent">
-            <legend><label for="pcontent">Post Content</label></legend>
-            <textarea class="form-control" i="pcontent" placeholder="Post Content" cols="4" rows="5"></textarea>
-          </fieldset>
-          <button class="m-2" type="submit">Submit</button>
+          <button class="w-20 mb-3 btn btn-block" type="submit">Submit</button>
         </div>
       </div>
     </form>
@@ -30,61 +26,66 @@
 </template>
 
 <script>
+import handleValidation from "../../mixins/validationMixins";
+import { mapActions } from "vuex";
+
 export default {
   name: "AddAdminNotification",
-
+  mixins: [handleValidation],
   metaInfo: {
     title: "Myyinvest - Add Notifications (Admin)",
-    titleTemplate: null
+    titleTemplate: null,
   },
 
   data() {
     return {
+      payloadForm: {
+        question: "",
+        answer: "",
+        category: "",
+      },
       selectedProject: "",
       newProjectNames: [
         {
-          name: "Project One"
+          name: "Project One",
         },
         {
-          name: "Project Two"
+          name: "Project Two",
         },
         {
-          name: "Project Three"
+          name: "Project Three",
         },
         {
-          name: "Project Four"
-        }
+          name: "Project Four",
+        },
       ],
-
-      imgURL: require("../../assets/admin/icons/camera.svg"),
-      selectedFilename: "No file selected"
     };
   },
 
   methods: {
-    newProjectName(val) {
-      this.selectedProject = val;
-      alert(val);
-    },
-
-    updateFilename(event) {
-      const [file] = event.target.files;
-      const { name: fileName, size } = file;
-      if (file) {
-        const fileSize = (size / 1024).toFixed(2);
-        const fileNameAndSize = `${fileName} - (${fileSize}KB)`;
-
-        this.selectedFilename = fileNameAndSize;
-
-        const reader = new FileReader();
-        reader.onload = e => {
-          this.imgURL = e.target.result;
-        };
-
-        reader.readAsDataURL(event.target.files[0]);
+    ...mapActions({
+      addFaq: "admin/addFaq",
+    }),
+    handleAddFaq(e) {
+      if (!this.handleValidation(this.payloadForm)) {
+        return;
       }
-    }
-  }
+      this.addFaq(this.payloadForm).then((res) => {
+        if (res.status === 200 || res.status === 201) {
+          e.target.reset();
+          this.handleNotify({
+            message: res.data.message,
+            status: "Success",
+          });
+        } else {
+          this.handleNotify({
+            message: res.data.message,
+            status: "Error",
+          });
+        }
+      });
+    },
+  },
 };
 </script>
 

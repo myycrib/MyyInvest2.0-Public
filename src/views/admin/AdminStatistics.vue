@@ -4,7 +4,7 @@
     <hr />
     <section>
       <nav style="z-index: 20 !important">
-        <div :class="[{ 'is-active': index === currentIndex }]" @click="changeTab(tab.id, index)" v-for="(tab, index) in tabs" :key="tab.id">{{ tab.name }}</div>
+        <div class="header-text" :class="[{ 'is-active': index === currentIndex }]" @click="changeTab(tab.id, index)" v-for="(tab, index) in tabs" :key="tab.id">{{ tab.name }}</div>
       </nav>
 
       <section class="main-content">
@@ -69,6 +69,12 @@ export default {
 </script>
 
 <style scoped>
+@media (max-width: 750px) {
+  .header-text {
+    font-size: 1em
+  }
+}
+
 nav {
   display: flex;
   flex-direction: row;

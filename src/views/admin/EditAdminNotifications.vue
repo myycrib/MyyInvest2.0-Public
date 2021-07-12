@@ -1,65 +1,61 @@
 <template>
   <the-admin-layout>
-    <form class="wrapper">
-      <fieldset class="input-grp">
-        <legend><label for="pname">Post Name</label></legend>
-        <input type="text" id="pname" placeholder="How to buy tokens in Myyinvest" />
-      </fieldset>
+    <form @submit.prevent="handleAddNotification" style="overflow-y: auto; overflow-x:hidden" id="overflow-wrapper">
+      <div class="row">
+        <div class="mx-auto mb-5 col-md-10">
+          <fieldset class="input-grp">
+            <legend><label for="ptitle">Title</label></legend>
+            <input type="text" v-model="payloadForm.title" class="form-control" id="ptitle" placeholder="Title" />
+          </fieldset>
+          <fieldset class="input-grp">
+            <legend><label for="pcategory">Recipient</label></legend>
+            <select v-model="payloadForm.userId" class="form-control" id="">
+              <option :value="user._id" v-for="(user, index) in getAllUsers" :key="index">{{user.firstName+' '+user.lastName}}</option>
+            </select>
+          </fieldset>
+          <div class="row">
+            <div class="col-8">
+              <div class="upload">
+                <div class="upload-window">
+                  <img :src="imgURL" v-if="imgURL !== '/img/camera.f17f2a7e.svg'" style="height: 135px; width:230px; object-fit:cover" alt="User Image Preview" class="img-fluid" />
+                  <img :src="imgURL" v-else alt="User Image Preview" class="img-fluid" />
+                </div>
 
-      <fieldset class="input-grp">
-        <legend><label for="precepient">Recipient</label></legend>
-        <input type="text" id="precepient" placeholder="Project One" />
-        <div class="dropdown-wrap">
-          <div class="dropdown">
-            <button class="dropbtn">{{ selectedProject || "Category" }} <img src="@/assets/admin/icons/caret-down.svg" alt="Dropdown" /></button>
-            <div class="dropdown-content">
-              <div class="option" v-for="(option, index) in newProjectNames" :key="index" @click="newProjectName(option.name)">{{ option.name }}</div>
+                <div class="file-input">
+                  <input type="file" accept="image/*" id="file" class="file" @change="updateFilename" />
+                  <label for="file">
+                    Select file
+                  </label>
+
+                  <p class="file-name">{{ selectedFilename }}</p>
+                </div>
+              </div>
             </div>
           </div>
-        </div>
-      </fieldset>
-
-      <div class="upload">
-        <div class="upload-window">
-          <img :src="imgURL" alt="User Image Preview" class="img-fluid" />
-        </div>
-
-        <div class="file-input">
-          <input type="file" accept="image/*" id="file" class="file" @change="updateFilename" />
-          <label for="file">
-            Select file
-          </label>
-
-          <p class="file-name">{{ selectedFilename }}</p>
+          <fieldset class="input-grp pcontent">
+            <legend><label for="pcontent">Post Content</label></legend>
+            <editor v-model="payloadForm.content" theme="snow"></editor>
+          </fieldset>
+         <button class="mb-3 btn" type="submit">Submit</button>
         </div>
       </div>
-
-      <fieldset class="input-grp pcontent">
-        <legend><label for="pcontent">Post Content</label></legend>
-        <textarea
-          name=""
-          id="pcontent"
-          placeholder="Lorem ipsum dolor sit amet consectetur, adipisicing elit. Labore fugit quibusdam praesentium molestiae debitis autem fugiat iure ratione voluptas fuga, consequuntur dignissimos minima, veniam dolorum! Debitis quae officiis et sint."
-          cols="30"
-          rows="10"
-        ></textarea>
-      </fieldset>
-      <button>SUBMIT</button>
     </form>
   </the-admin-layout>
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
+import handleValidation from "../../mixins/validationMixins";
 export default {
-  name: "AddAdminNotification",
-
+  name: "EditAdminNotification",
+  mixins: [handleValidation],
   metaInfo: {
-    title: "Myyinvest - Add Notifications (Admin)",
+    title: "Myyinvest - Edit Notifications (Admin)",
     titleTemplate: null
   },
-
   data() {
     return {
+      payloadForm: {},
       selectedProject: "",
       newProjectNames: [
         {
@@ -80,13 +76,41 @@ export default {
       selectedFilename: "No file selected"
     };
   },
-
+  computed: {
+    ...mapState({
+      getAllUsers: state => state.admin.allUsers,
+    })
+  },
+  created() {
+    this.singleNotification(this.$route.params.id).then((res) => {
+      this.imgURL = res.data.insightDetails.image;
+      this.payloadForm = res.data
+    });
+  },
   methods: {
-    newProjectName(val) {
-      this.selectedProject = val;
-      alert(val);
+    ...mapActions({
+      singleNotification: 'admin/singleNotification',
+      allUsers: 'admin/allUsers',
+    }),
+    handleAddNotification(e) {
+      if (!this.handleValidation(this.payloadForm)) {
+        return;
+      }
+      this.addNotification(this.transformToFormData(this.payloadForm)).then((res) => {
+        if (res.status === 200 || res.status === 201) {
+          e.target.reset()
+          this.handleNotify({
+            message: res.data.message,
+            status: "Success"
+          });
+        } else {
+          this.handleNotify({
+            message: res.data.message,
+            status: "Error",
+          });
+        }
+      })
     },
-
     updateFilename(event) {
       const [file] = event.target.files;
       const { name: fileName, size } = file;
@@ -102,6 +126,7 @@ export default {
         };
 
         reader.readAsDataURL(event.target.files[0]);
+        this.payloadForm.image = event.target.files[0]
       }
     }
   }
@@ -109,6 +134,23 @@ export default {
 </script>
 
 <style scoped>
+#overflow-wrapper::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  background-color: #f5f5f5;
+}
+
+#overflow-wrapper::-webkit-scrollbar {
+  width: 12px;
+  background-color: #f5f5f5;
+}
+
+#overflow-wrapper::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  background-color: #f5f5f5;
+}
+
 *:focus:not(:-moz-focusring) {
   outline: none;
 }
@@ -117,36 +159,23 @@ export default {
   outline: none;
 }
 
-.wrapper {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 60%;
-  margin: var(--base-size) auto 0;
-  padding: 1px;
-  scrollbar-width: none;
+.left-area {
+  margin-right: var(--base-size);
 }
 
-.wrapper::-webkit-scrollbar {
-  display: none;
+.right-area {
+  margin-left: var(--base-size);
 }
 
 fieldset {
-  width: 100%;
-  padding: 10px;
+  padding: 5px;
   border: 1px solid var(--myyinvest-red-fade);
   border-radius: 5px;
   stroke-opacity: 0.5;
 }
 
-.image-upload-wrapper,
 fieldset:not(:last-child) {
   margin-bottom: var(--base-size);
-}
-
-fieldset:not(:first-child) {
-  margin-top: var(--base-size);
 }
 
 legend {
@@ -165,23 +194,19 @@ label {
 input,
 /* select, */
 textarea {
-  width: 100%;
-  height: fit-content;
+  /* width: 100%; */
+  /* height: fit-content;
   height: -moz-fit-content;
-  height: max-content;
-  padding: 5px;
+  height: max-content; */
+  /* padding: 5px; */
   font-size: var(--font-md);
-  border: 1px solid transparent;
-  border-radius: 5px;
+  /* border: 1px solid transparent; */
+  /* border-radius: 5px; */
   background-color: var(--myyinvest-white);
-  -moz-appearance: none;
-  -webkit-appearance: none;
-  text-indent: 0.01px;
-  text-overflow: "";
-}
-
-textarea {
-  height: 200px;
+  /* -moz-appearance: none;
+  -webkit-appearance: none; */
+  /* text-indent: 0.01px; */
+  /* text-overflow: ""; */
 }
 
 input:hover:not(.upload input),
@@ -194,16 +219,25 @@ textarea:focus {
   outline: none;
 }
 
-input {
-  /* select::-ms-expand { */
-  display: none;
+button {
+  margin-top: 10px;
+  color: var(--myyinvest-white);
+  background-color: var(--myyinvest-red);
+}
+
+.pcontent {
+  max-width: 100%;
+  /* height: 300px; */
+  margin-top: var(--base-size);
+}
+
+.pcontent input {
+  height: 100%;
 }
 
 button {
-  margin: 10px 0 var(--base-size);
+  float: right;
   padding: 5px 10px;
-  color: var(--myyinvest-white);
-  background-color: var(--myyinvest-red);
   border: 1px solid transparent;
   border-radius: 5px;
 }

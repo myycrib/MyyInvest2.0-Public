@@ -46,7 +46,7 @@
               </select>
             </div>
           </div>
-          <div v-else-if="hasOptions == 'only-remove-download'">
+          <!-- <div v-else-if="hasOptions == 'only-remove-download'">
             <div class="mb-2 row">
               <div class="col-md-6">
                 <input type="text" style="border-radius: 2em" class="my-auto form-control" name="search" id="search_query" placeholder="Search Content..." />
@@ -59,7 +59,7 @@
               </div>
               <div class="col-md-1"></div>
             </div>
-          </div>
+          </div> -->
           <article :style="smallHeight()">
             <div class="content-wrapper">
               <!-- <component :is="layout"> -->
@@ -133,7 +133,7 @@ export default {
       }
       return (
         this.$route.path.includes("/admin/view-") ||
-        this.$route.path.includes("/admin/newsletters") ||
+        // this.$route.path.includes("/admin/newsletters") ||
         this.$route.path.includes("/admin/all-users") ||
         this.$route.path.includes("/admin/users/") ||
         this.$route.path.includes("/admin/finance")
@@ -209,13 +209,14 @@ export default {
       const currentRoute = this.$route.path;
       const routes = [
         "/admin/all-users",
-        "/admin/newsletters",
+        // "/admin/newsletters",
         "/admin/finance/transactions",
         "/admin/finance/bank-accounts",
         "/admin/finance/wallet",
         "/admin/view-users",
-        "/admin/view-insights",
-        "/admin/view-faqs"
+        // "/admin/view-insights",
+        // "/admin/view-faqs",
+        // "/admin/view-notifications"
       ];
       if (routes.includes(currentRoute) || this.$route.name === "ViewUser" || this.$route.name === "AdminUsersTransactions") {
         return "height: 78vh;";

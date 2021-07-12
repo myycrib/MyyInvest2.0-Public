@@ -65,10 +65,10 @@ export default [
   {
     path: "/admin/view-insights",
     name: "ViewInsights",
-    component: () => import("@/views/admin/ViewInsights.vue")
-    // meta: {
-    //   layout: "TheAdminLayout"
-    // }
+    component: () => import("@/views/admin/ViewInsights.vue"),
+    meta: {
+      middleware: [auth],
+    }
   },
   {
     path: "/admin/add-insights",
@@ -80,23 +80,35 @@ export default [
   },
   {
     path: "/admin/edit-insight/:id",
-    name: "AddInsights",
-    component: () => import("@/views/admin/AddInsights.vue")
-  },
-  {
-    path: "/admin/view-insight/:id",
-    name: "AddInsights",
-    component: () => import("@/views/admin/AddInsights.vue")
+    name: "EditInsights",
+    component: () => import("@/views/admin/EditInsights.vue"),
+    meta: {
+      middleware: [auth],
+    }
   },
   {
     path: "/admin/view-faqs",
     name: "ViewFaqs",
-    component: () => import("@/views/admin/ViewFaqs.vue")
+    component: () => import("@/views/admin/ViewFaqs.vue"),
+    meta: {
+      middleware: [auth],
+    }
   },
   {
     path: "/admin/add-faqs",
     name: "AddFaqs",
-    component: () => import("@/views/admin/AddFaqs.vue")
+    component: () => import("@/views/admin/AddFaqs.vue"),
+    meta: {
+      middleware: [auth],
+    }
+  },
+  {
+    path: "/admin/edit-faqs/:id",
+    name: "EditFaqs",
+    component: () => import("@/views/admin/EditFaqs.vue"),
+    meta: {
+      middleware: [auth],
+    }
   },
   {
     path: "/admin/all-users",
@@ -138,12 +150,26 @@ export default [
   {
     path: "/admin/view-notifications",
     name: "ViewNotifications",
-    component: () => import("@/views/admin/ViewAdminNotifications.vue")
+    component: () => import("@/views/admin/ViewAdminNotifications.vue"),
+    meta: {
+      middleware: [auth],
+    }
   },
   {
     path: "/admin/add-notifications",
     name: "AddNotifications",
-    component: () => import("@/views/admin/AddAdminNotifications.vue")
+    component: () => import("@/views/admin/AddAdminNotifications.vue"),
+    meta: {
+      middleware: [auth],
+    }
+  },
+  {
+    path: "/admin/edit-notifications/:id",
+    name: "EditNotifications",
+    component: () => import("@/views/admin/EditAdminNotifications.vue"),
+    meta: {
+      middleware: [auth],
+    }
   },
   {
     path: "/admin/newsletters",

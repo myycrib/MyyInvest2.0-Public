@@ -2,7 +2,7 @@
   <the-admin-layout>
     <div id="style-2" class="table-responsive">
       <table class="table table-bordered table-hover">
-        <thead class="table-header" style="z-index: 100 !important;">
+        <thead class="table-header" style="z-index: 10 !important;">
           <tr>
             <th scope="col">S/N</th>
             <th scope="col">First Name</th>

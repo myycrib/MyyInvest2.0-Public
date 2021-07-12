@@ -1,55 +1,85 @@
 <template>
-  <div class="admin-pagination">
-    <button>Previous</button>
-    <button v-for="n in 5" :key="n" :class="[n === currentPage ? 'button-active' : '']">{{ n }}</button>
-    <button>Next</button>
-  </div>
+    <div class="pagination">
+      <button 
+        @click.prevent="changePage(paginationData.currentPage - 1)"
+        :class="{'button-disabled': paginationData.currentPage === 1}"
+        :disabled="paginationData.currentPage === 1 ? true : false"
+        class="mt-2"
+        >Previous
+      </button>
+        <button 
+        class="mt-2" 
+        v-for="(page, index) in paginationData.lastPage" 
+        @click.prevent="changePage(page)"
+        :key="index" :class="[paginationData.currentPage === page ? 'button-active' : '']">
+          {{ page }}
+        </button>
+      <button 
+        @click.prevent="changePage(paginationData.currentPage + 1)"
+        :class="{'button-disabled': paginationData.currentPage === paginationData.lastPage}"
+        :disabled="paginationData.currentPage === paginationData.lastPage ? true : false"
+        class="mt-2"
+        >Next
+      </button>
+    </div>
 </template>
 
 <script>
 export default {
-  props: {
-    currentPage: {
-      type: Number,
-      default: 1
+  data() {
+    return {
+      currentPage: 1,
     }
-  }
+  },
+  props: {
+    paginationData: {
+      type: Object,
+      required: true,
+    }
+  },
+  methods: {
+    changePage(page) {
+      this.$emit('pagination', page)
+    }
+  },
 };
 </script>
 
 <style scoped>
-.admin-pagination {
+.pagination {
+  border-top: 1px solid grey;
   display: flex;
   justify-content: right;
   align-items: center;
-  margin-bottom: var(--base-size);
+  margin-top: auto;
+  /* margin-top: var(--base-size); */
 }
 
-.admin-pagination button {
-  margin: 0 !important;
+.pagination button {
   padding: 5px 10px;
   border: 1px solid var(--myyinvest-red);
   border-radius: 5px;
   color: var(--myyinvest-red);
-  background-color: var(--myyinvest-white);
+  background-color: var(--myinvest-white);
 }
 
-.admin-pagination button:first-child {
-  margin-left: auto !important;
+.pagination button:first-child {
+  margin-left: auto;
 }
 
-.admin-pagination button:not(:first-child) {
-  margin-left: 10px !important;
+.pagination button:not(:first-child) {
+  margin-left: 10px;
 }
 
-.admin-pagination button:hover,
-.admin-pagination .button-active {
+.pagination button:hover,
+.pagination button:focus,
+.pagination .button-active {
   background-color: var(--myyinvest-red);
   color: var(--myyinvest-white);
 }
-
-.admin-pagination button:focus {
-  outline: none;
-  box-shadow: 0 0 3px 3px var(--myyinvest-red-fade);
+.button-disabled {
+  border: 1px solid #999999 !important;
+  background-color: #cccccc !important;
+  color: #666666 !important;
 }
 </style>

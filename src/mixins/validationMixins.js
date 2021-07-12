@@ -46,9 +46,9 @@ export default {
       return validationSuccess;
     },
     transformToFormData(object) {
-        const formData = new FormData()
-        Object.keys(object).forEach(key => formData.append(key, object[key]))
-        return formData
+      const formData = new FormData()
+      Object.keys(object).forEach(key => formData.append(key, object[key]))
+      return formData
     },
   }
 };

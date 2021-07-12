@@ -1,6 +1,7 @@
 .section-wrap {
   margin-top: var(--base-size);
   padding: 10px;
+  padding-bottom: 1px;
   box-shadow: 0 0 2px 0 gray;
   border-radius: 5px;
 }

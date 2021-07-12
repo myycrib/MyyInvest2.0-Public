@@ -1,17 +1,16 @@
 <template>
   <the-admin-layout>
-    <form style="overflow-y: auto; overflow-x:hidden" id="overflow-wrapper">
+    <form @submit.prevent="handleAddNotification" style="overflow-y: auto; overflow-x:hidden" id="overflow-wrapper">
       <div class="row">
         <div class="mx-auto mb-5 col-md-10">
           <fieldset class="input-grp">
-            <legend><label for="ptitle">Post Name</label></legend>
-            <input type="text" class="form-control" id="ptitle" placeholder="How to invest in Real Estates Seamlessly" />
+            <legend><label for="ptitle">Title</label></legend>
+            <input type="text" v-model="payloadForm.title" class="form-control" id="ptitle" placeholder="Title" />
           </fieldset>
           <fieldset class="input-grp">
             <legend><label for="pcategory">Recipient</label></legend>
-            <select name="" class="form-control" id="">
-              <option value="">Recipient 1</option>
-              <option value="">Recipient 2</option>
+            <select v-model="payloadForm.userId" class="form-control" id="">
+              <option :value="user._id" v-for="(user, index) in getAllUsers" :key="index">{{user.firstName+' '+user.lastName}}</option>
             </select>
           </fieldset>
           <div class="row">
@@ -35,9 +34,9 @@
           </div>
           <fieldset class="input-grp pcontent">
             <legend><label for="pcontent">Post Content</label></legend>
-            <textarea class="form-control" i="pcontent" placeholder="Post Content" cols="4" rows="5"></textarea>
+            <editor v-model="payloadForm.content" theme="snow"></editor>
           </fieldset>
-          <button class="m-2" type="submit">Submit</button>
+         <button class="mb-3 btn" type="submit">Submit</button>
         </div>
       </div>
     </form>
@@ -45,16 +44,23 @@
 </template>
 
 <script>
+import { mapActions, mapState } from 'vuex'
+import handleValidation from "../../mixins/validationMixins";
 export default {
   name: "AddAdminNotification",
-
+  mixins: [handleValidation],
   metaInfo: {
     title: "Myyinvest - Add Notifications (Admin)",
     titleTemplate: null
   },
-
   data() {
     return {
+      payloadForm: {
+        image: '',
+        title: '',
+        userId: '',
+        content: '',
+      },
       selectedProject: "",
       newProjectNames: [
         {
@@ -75,8 +81,38 @@ export default {
       selectedFilename: "No file selected"
     };
   },
-
+  computed: {
+    ...mapState({
+      getAllUsers: state => state.admin.allUsers,
+    })
+  },
+  created() {
+    this.allUsers()
+  },
   methods: {
+    ...mapActions({
+      addNotification: 'admin/addNotification',
+      allUsers: 'admin/allUsers',
+    }),
+    handleAddNotification(e) {
+      if (!this.handleValidation(this.payloadForm)) {
+        return;
+      }
+      this.addNotification(this.transformToFormData(this.payloadForm)).then((res) => {
+        if (res.status === 200 || res.status === 201) {
+          e.target.reset()
+          this.handleNotify({
+            message: res.data.message,
+            status: "Success"
+          });
+        } else {
+          this.handleNotify({
+            message: res.data.message,
+            status: "Error",
+          });
+        }
+      })
+    },
     newProjectName(val) {
       this.selectedProject = val;
       alert(val);
@@ -97,6 +133,7 @@ export default {
         };
 
         reader.readAsDataURL(event.target.files[0]);
+        this.payloadForm.image = event.target.files[0]
       }
     }
   }
@@ -118,7 +155,7 @@ export default {
 #overflow-wrapper::-webkit-scrollbar-thumb {
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
-  background-color: #d62929;
+  background-color: #f5f5f5;
 }
 
 *:focus:not(:-moz-focusring) {

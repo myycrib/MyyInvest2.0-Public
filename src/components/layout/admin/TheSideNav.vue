@@ -229,7 +229,7 @@ export default {
 
 .menu a.main-route,
 .menu div.main-route {
-  max-width: 75%;
+  max-width: 90%;
   padding: 10px var(--base-size);
   border: 1px solid transparent;
   border-top-right-radius: var(--base-size);

@@ -2,7 +2,7 @@
   <div id="app">
     <modal v-show="notify.show" show-cancel @close-modal="closeModal">
       <img src="https://res.cloudinary.com/myyinvest/image/upload/v1614001064/mmyyinvest-2.0/logos/Myylogo2_uwpfw9.png" alt="Logo" width="98" height="15" />
-      <div class="d-flex flex-column justify-content-center align-items-center ">
+      <div class="d-flex flex-column justify-content-center align-items-center">
         <main-icon v-if="notify.status === 'Success'" name="success" size="retain" class="mt-4" />
         <main-icon v-if="notify.status === 'Error'" name="error" size="lg" class="mt-4" />
         <p class="mt-4 text-success text-center ft-18" v-if="notify.status === 'Success'">{{ notify.tinyMessage }}</p>
@@ -29,9 +29,9 @@ export default {
         mainMessage: "",
         tinyMessage: "",
         extras: "",
-        status: ""
+        status: "",
       },
-      modalTimeout: null
+      modalTimeout: null,
     };
   },
   computed: {
@@ -41,8 +41,8 @@ export default {
       },
       set(val) {
         this.$store.commit("TOGGLE_MOBILE_RESPONSIVE", val);
-      }
-    }
+      },
+    },
   },
   watch: {
     // automatically close the modal after 4 seconds
@@ -56,7 +56,7 @@ export default {
       // const mobileState = !this.mobileResponsive.open;
       // this.$store.commit("TOGGLE_MOBILE_RESPONSIVE", { open: mobileState });
       this.$store.commit("TOGGLE_MOBILE_RESPONSIVE", { open: true });
-    }
+    },
   },
   components: { Modal, AdminLayoutWrapper, MainIcon },
   methods: {
@@ -69,13 +69,13 @@ export default {
       if (this.notify) {
         this.notify.show = false;
       }
-    }
+    },
   },
   created() {
     this.$Bus.$on("close-modal", () => {
       this.notify = false;
     });
-    this.$Bus.$on("notify", data => {
+    this.$Bus.$on("notify", (data) => {
       this.notify = data;
     });
     // setInterval(() => {
@@ -83,7 +83,7 @@ export default {
     //     this.notify.show = false;
     //   }
     // }, 10000);
-  }
+  },
 };
 </script>
 <style lang="scss">

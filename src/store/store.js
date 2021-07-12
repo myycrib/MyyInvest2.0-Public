@@ -19,9 +19,9 @@ export const store = new Vuex.Store({
     responsive,
     insights,
   },
-  plugins: [
-    createPersistedState({
-      key: "myyinvest-app"
-    })
-  ]
+  // plugins: [
+  //   createPersistedState({
+  //     key: "myyinvest-app"
+  //   })
+  // ]
 });

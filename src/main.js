@@ -50,8 +50,10 @@ Vue.use(VueMeta, IconsPlugin, VueTelInput, plugin);
 
 Vue.config.productionTip = false;
 
-new Vue({
-  router,
-  store,
-  render: h => h(App)
-}).$mount("#app");
+store.dispatch('attemptLogin', localStorage.getItem('myyinvest-token')).then(() => {
+  new Vue({
+    router,
+    store,
+    render: h => h(App)
+  }).$mount("#app");
+})

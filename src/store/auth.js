@@ -34,7 +34,7 @@ const mutations = {
   },
   setProfile(state, data) {
     return (state.profile = data);
-  }
+  },
 };
 const actions = {
   async login({ commit, dispatch }, payload) {
@@ -50,6 +50,15 @@ const actions = {
       return res;
     }
   },
+
+  attemptLogin({commit, dispatch}, token) {
+    if (token) {
+      commit("setToken", JSON.parse(token));
+      commit("setUser", JSON.parse(localStorage.getItem('myyinvest-user')));
+      dispatch("getUserProfileDetails");
+    }
+  },
+
   /* eslint-disable no-unused-vars */
   async forgotPassword({ commit }, payload) {
     return await Api.post(`/users/recover`, payload);
@@ -95,7 +104,6 @@ const actions = {
       instanceId: "152ee166-ce1b-4279-a308-a88e57d847cb"
     });
     beamsClient.stop().catch(console.error);
-
     commit("setToken", "");
     commit("setUser", {});
     commit("setProfile", {});

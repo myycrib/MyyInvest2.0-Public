@@ -1,32 +1,51 @@
 <template>
   <the-admin-layout>
-    <div id="style-2" class="table-responsive">
+    <div id="style-2" style="overflow-x:hidden" class="table-responsive">
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group row">
+            <label for="colFormLabelSm" class="my-auto col-12 col-sm-2 col-form-label col-form-label-sm">Search</label>
+            <div class="text-left col-12 col-sm-6">
+              <input type="text" name="" class="text-left form-control form-control-s" placeholder="Search Table" id="colFormLabelSm">
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="float-righ form-group row">
+            <div class="col-sm-3"></div>
+            <label for="colFormLabelSm" class="my-auto col-12 col-sm-2 col-form-label col-form-label-sm">Filter</label>
+            <div class="text-left col-12 col-sm-6">
+              <select class="custom-select custom-select-s">
+                <!-- <option selected>Filter Opti</option> -->
+                <option value="">Sort by A to Z</option>
+                <option value="">Sort by Z to A </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
       <table class="table table-bordered table-hover">
         <thead class="table-header">
           <tr>
             <th scope="col">S/N</th>
-            <th scope="col">Post Name</th>
-            <th scope="col">Post Image</th>
-            <th scope="col">Post Content</th>
-            <th scope="col">Post Date</th>
+            <th scope="col">Title</th>
+            <th scope="col">Image</th>
+            <th scope="col">Date</th>
             <th scope="col" class="options">Actions</th>
           </tr>
         </thead>
         <tbody>
-          <tr v-for="x in 10" :key="x">
-            <td>{{ zeroPrefix(x) }}{{ x }}</td>
-            <td>How to invest seamlessly in Real Estate</td>
+          <tr v-for="(notification, index) in getAllNotifications" :key="index">
+            <td>{{ ++index }}</td>
+            <td>{{ notification.title }}</td>
             <td>
-              <img style="width: 180px; height: 100px; object-fit: cover" src="@/assets/admin/images/dummy-img.jpg" alt="Content Image" />
+              <img style="width: 180px; height: 100px; object-fit: cover" :src="notification.image" alt="Content Image" />
             </td>
             <td>
-              Real Estates Investments, Finance
+              {{ notification.createdAt }}
             </td>
-            <td>
-              17th Feb. 2021
-            </td>
-            <td style="display: flex; justify-content: space-between">
-              <span>
+            <td style="display: flex; justify-content: space-between; cursor: pointer">
+              <span @click="() => $router.push({ name: 'AddNotifications' })">
                 <svg width="15" height="13" class="m-3" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" fill="#0a47a0">
                   <svg xmlns="http://www.w3.org/2000/svg" width="15" height="13">
                     <path
@@ -37,7 +56,7 @@
                   </svg>
                 </svg>
               </span>
-              <span @click="viewUser(x)" class="m-3">
+              <span @click="() => $router.push({ name: 'EditNotifications', params: { id: notification._id } })" class="m-3">
                 <svg width="17" height="11" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" fill="#0baa12">
                   <svg xmlns="http://www.w3.org/2000/svg" width="17" height="11">
                     <path
@@ -48,7 +67,7 @@
                   </svg>
                 </svg>
               </span>
-              <span @click="deleteItem" class="m-3">
+              <span @click="deleteItem(notification._id)" class="m-3">
                 <svg width="12" height="14" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" fill="#c10000">
                   <svg xmlns="http://www.w3.org/2000/svg" width="12" height="14">
                     <path
@@ -64,21 +83,14 @@
         </tbody>
       </table>
     </div>
-
-    <div class="pagination">
-      <!-- <div class="mt-2 pagination-wrapper"> -->
-      <button class="mt-2">Previous</button>
-      <button class="mt-2" v-for="n in 5" :key="n" :class="[n === currentPage ? 'button-active' : '']">{{ n }}</button>
-      <button class="mt-2">Next</button>
-      <!-- </div> -->
-    </div>
+    <BasePagination @pagination="fetchAllNotifications" :pagination-data="paginationData" />
     <div class="delete-overlay" v-if="!noDeleteModal">
       <div class="delete-modal">
         <p>Delete post</p>
         <p>Are you sure you want to delete post?</p>
         <div>
           <button @click="cancelDelete">Cancel</button>
-          <button @click="proceedDelete">Proceed</button>
+          <button @click="proceedToDelete(deleteId)">Proceed</button>
         </div>
       </div>
     </div>
@@ -86,47 +98,78 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+import handleValidation from "../../mixins/validationMixins";
+import BasePagination from "@/components/admin/BasePagination.vue";
+
 export default {
   name: "ViewAdminNotifications",
-
+  components: {
+    BasePagination,
+  },
+  mixins: [handleValidation],
   metaInfo: {
     title: "Myyinvest - View Notifications (Admin)",
-    titleTemplate: null
+    titleTemplate: null,
   },
 
   data() {
     return {
+      deleteId: null,
       status: "Published",
-      currentPage: 1,
-      noDeleteModal: true
+      paginationData: {},
+      noDeleteModal: true,
     };
   },
-
+  computed: {
+    ...mapState({
+      getAllNotifications: (state) => state.admin.allNotifications,
+    }),
+  },
+  created() {
+    this.fetchAllNotifications();
+  },
   methods: {
-    zeroPrefix(num) {
-      if (num < 10) {
-        return 0;
-      } else return "";
+    ...mapActions({
+      allNotifications: "admin/allNotifications",
+      destroyNotification: "admin/destroyNotification",
+    }),
+    fetchAllNotifications(page) {
+      this.allNotifications(page).then((res) => {
+        this.paginationData = res.data.pagination;
+      });
     },
-
     changeColor(val) {
       if (val.toLowerCase().normalize() === "published") {
         return "color: var(--myyinvest-green)";
       } else return "color: var(--myyinvest-danger)";
     },
 
-    deleteItem() {
+    deleteItem(id) {
+      this.deleteId = id;
       this.noDeleteModal = !this.noDeleteModal;
     },
 
     cancelDelete() {
       this.noDeleteModal = !this.noDeleteModal;
     },
-
-    proceedDelete() {
-      alert("What next?");
-    }
-  }
+    proceedToDelete(id) {
+      this.destroyNotification(id).then((res) => {
+        if (res.status === 200 || res.status === 201) {
+          this.noDeleteModal = !this.noDeleteModal;
+          this.handleNotify({
+            message: res.data.message,
+            status: "Success",
+          });
+        } else {
+          this.handleNotify({
+            message: res.data.message,
+            status: "Error",
+          });
+        }
+      });
+    },
+  },
 };
 </script>
 

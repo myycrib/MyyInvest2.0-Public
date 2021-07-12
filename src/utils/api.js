@@ -1,6 +1,6 @@
 import axios from "axios";
 import { store } from "@/store/store";
-import router from 'vue-router'
+import router from '../router/router'
 // import NProgress from "nprogress";
 // import "nprogress/nprogress.css";
 import progressFns from "@/utils/helper.js";
@@ -51,6 +51,12 @@ class Api {
       };
       return requireAuth ? await instance.get(url, config) : await instance.get(url);
     } catch (error) {
+      if (error.response.status === 401 || error.response.data.message === 'Invalid Token') {
+        localStorage.clear();
+        router.push({
+          name: "login"
+        });
+      }
       return error.response;
     }
   }
@@ -65,9 +71,9 @@ class Api {
       return requireAuth ? await instance.post(url, payload, config) : await instance.post(url, payload);
     } catch (error) {
       // console.log(`My Error: ${error}`);
-      if (error.response.data.message === 'Invalid Token') {
+      if (error.response.status === 401 || error.response.data.message === 'Invalid Token') {
         localStorage.clear();
-        router.replace({
+        router.push({
           name: "login"
         });
       }
@@ -84,6 +90,12 @@ class Api {
       };
       return requireAuth ? await instance.patch(url, payload, config) : await instance.patch(url, payload);
     } catch (error) {
+      if (error.response.status === 401 || error.response.data.message === 'Invalid Token') {
+        localStorage.clear();
+        router.push({
+          name: "login"
+        });
+      }
       return error.response;
     }
   }
@@ -97,6 +109,12 @@ class Api {
       };
       return requireAuth ? await instance.put(url, payload, config) : await instance.put(url, payload);
     } catch (error) {
+      if (error.response.status === 401 || error.response.data.message === 'Invalid Token') {
+        localStorage.clear();
+        router.push({
+          name: "login"
+        });
+      }
       return error.response;
     }
   }
@@ -111,6 +129,12 @@ class Api {
       };
       return requireAuth ? await instance.delete(url, config) : await instance.delete(url, { data: payload });
     } catch (error) {
+      if (error.response.status === 401 || error.response.data.message === 'Invalid Token') {
+        localStorage.clear();
+        router.push({
+          name: "login"
+        });
+      }
       return error.response;
     }
   }

@@ -1,6 +1,6 @@
 <template>
   <the-admin-layout>
-    <form @submit.prevent="handleAddInsight" style="overflow-x: hidden" id="overflow-wrapper">
+    <form @submit.prevent="handleeditInsight" style="overflow-x: hidden" id="overflow-wrapper">
       <div class="row">
         <div class="mb-5 col-md-6">
           <fieldset class="input-grp">
@@ -58,7 +58,7 @@ import handleValidation from "../../mixins/validationMixins";
 import { mapActions } from "vuex";
 
 export default {
-  name: "AddInsights",
+  name: "EditInsights",
   mixins: [handleValidation],
 
   metaInfo: {
@@ -68,13 +68,7 @@ export default {
 
   data() {
     return {
-      payloadForm: {
-        postTitle: "",
-        postContent: "",
-        authoredBy: "",
-        image: '',
-        category: '',
-      },
+      payloadForm: {},
       selectedPostStatus: "",
       postStatuses: [
         {
@@ -104,21 +98,36 @@ export default {
       selectedFilename: "No file selected",
     };
   },
+  created() {
+    this.singleInsight(this.$route.params.id).then((res) => {
+      this.imgURL = res.data.insightDetails.image;
+      this.payloadForm = res.data.insightDetails;
+    });
+  },
 
   methods: {
     ...mapActions({
-      addInsight: "admin/addInsight",
+      editInsight: "admin/editInsight",
+      singleInsight: "admin/singleInsight",
     }),
-    handleAddInsight(e) {
+    handleeditInsight(e) {
       if (!this.handleValidation(this.payloadForm)) {
         return;
       }
-      this.addInsight(this.transformToFormData(this.payloadForm)).then((res) => {
+      const data = {
+        id: this.payloadForm._id,
+        image: this.payloadForm.image,
+        category: this.payloadForm.category,
+        postTitle: this.payloadForm.postTitle,
+        postContent: this.payloadForm.postContent,
+        authoredBy: this.payloadForm.authoredBy,
+      };
+      if (this.selectedFilename === 'No file selected') delete data.image;
+      this.editInsight(this.transformToFormData(data)).then((res) => {
         if (res.status === 200 || res.status === 201) {
-          e.target.reset()
           this.handleNotify({
             message: res.data.message,
-            status: "Success"
+            status: "Success",
           });
         } else {
           this.handleNotify({
@@ -126,7 +135,7 @@ export default {
             status: "Error",
           });
         }
-      })
+      });
     },
     newPostStatus(val) {
       this.selectedPostStatus = val;
@@ -144,7 +153,7 @@ export default {
       if (file) {
         const fileSize = (size / 1024).toFixed(2);
         const fileNameAndSize = `${fileName} - (${fileSize}KB)`;
- 
+
         this.selectedFilename = fileNameAndSize;
 
         const reader = new FileReader();
@@ -153,7 +162,7 @@ export default {
         };
 
         reader.readAsDataURL(event.target.files[0]);
-        this.payloadForm.image = event.target.files[0]
+        this.payloadForm.image = event.target.files[0];
       }
     },
   },

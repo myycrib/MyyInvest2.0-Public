@@ -1,6 +1,29 @@
 <template>
   <the-admin-layout>
-    <div id="style-2" class="table-responsive">
+    <div id="style-2" style="overflow-x:hidden" class="table-responsive">
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group row">
+            <label for="colFormLabelSm" class="my-auto col-12 col-sm-2 col-form-label col-form-label-sm">Search</label>
+            <div class="text-left col-12 col-sm-6">
+              <input type="text" name="" class="text-left form-control form-control-s" placeholder="Search Table" id="colFormLabelSm">
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="float-righ form-group row">
+            <div class="col-sm-3"></div>
+            <label for="colFormLabelSm" class="my-auto col-12 col-sm-2 col-form-label col-form-label-sm">Filter</label>
+            <div class="text-left col-12 col-sm-6">
+              <select class="custom-select custom-select-s">
+                <!-- <option selected>Filter Opti</option> -->
+                <option value="">Sort by A to Z</option>
+                <option value="">Sort by Z to A </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
       <table class="table table-bordered table-hover">
         <thead class="table-header">
           <tr>
@@ -12,15 +35,11 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="x in 10" :key="x">
-            <td>{{ zeroPrefix(x) }}{{ x }}</td>
-            <td>
-              17th Feb. 2021
-            </td>
+          <tr v-for="(newsletter, index) in getAllNewsletters" :key="index">
+            <td>{{++index}}</td>
+            <td>17th Feb. 2021</td>
             <td>test@mail.com</td>
-            <td>
-              14, Shinra Tensei Street, Amaterasu Town, Gakido, land of Water.
-            </td>
+            <td>14, Shinra Tensei Street, Amaterasu Town, Gakido, land of Water.</td>
             <td style="display: flex; justify-content: space-between">
               <span @click="deleteItem" class="m-3">
                 <svg width="12" height="14" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" fill="#c10000">
@@ -38,21 +57,14 @@
         </tbody>
       </table>
     </div>
-
-    <div class="pagination">
-      <!-- <div class="mt-2 pagination-wrapper"> -->
-      <button class="mt-2">Previous</button>
-      <button class="mt-2" v-for="n in 5" :key="n" :class="[n === currentPage ? 'button-active' : '']">{{ n }}</button>
-      <button class="mt-2">Next</button>
-      <!-- </div> -->
-    </div>
+    <BasePagination @pagination="fetchAllNewsletters" :pagination-data="paginationData" />
     <div class="delete-overlay" v-if="!noDeleteModal">
       <div class="delete-modal">
         <p>Delete post</p>
         <p>Are you sure you want to delete post?</p>
         <div>
           <button @click="cancelDelete">Cancel</button>
-          <button @click="proceedDelete">Proceed</button>
+          <button @click="proceedToDelete(deleteId)">Proceed</button>
         </div>
       </div>
     </div>
@@ -60,29 +72,45 @@
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+import handleValidation from "../../mixins/validationMixins";
+import BasePagination from "@/components/admin/BasePagination.vue";
+
 export default {
   name: "AdminNewsletters",
-
+  mixins: [handleValidation],
+  components: {
+    BasePagination,
+  },
   metaInfo: {
     title: "Myyinvest - Newsletters (Admin)",
-    titleTemplate: null
+    titleTemplate: null,
   },
-
   data() {
     return {
-      status: "Published",
-      currentPage: 1,
-      noDeleteModal: true
+      deleteId: null,
+      noDeleteModal: true,
+      paginationData: {},
     };
   },
-
+  computed: {
+    ...mapState({
+      getAllNewsletters: (state) => state.admin.allNewsletters,
+    }),
+  },
+  created() {
+    this.fetchAllNewsletters();
+  },
   methods: {
-    zeroPrefix(num) {
-      if (num < 10) {
-        return 0;
-      } else return "";
+    ...mapActions({
+      allNewsletters: "admin/allNewsletters",
+      destroyNewsletter: "admin/destroyNewsletter",
+    }),
+    fetchAllNewsletters(page) {
+      this.allNewsletters(page).then((res) => {
+        this.paginationData = res.data.pagination;
+      });
     },
-
     changeColor(val) {
       if (val.toLowerCase().normalize() === "published") {
         return "color: var(--myyinvest-green)";
@@ -99,8 +127,8 @@ export default {
 
     proceedDelete() {
       alert("What next?");
-    }
-  }
+    },
+  },
 };
 </script>
 

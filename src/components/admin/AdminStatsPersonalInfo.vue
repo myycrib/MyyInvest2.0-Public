@@ -3,15 +3,14 @@
     <div v-if="!flipView">
       <section class="section-wrap" v-for="(info, index) in personalInfoView" :key="index">
         <p class="section-title">{{ info.topic }}</p>
-
-        <div class="mb-3 row" v-for="(detail, index) in info.chart" :key="index">
-          <div class="col-2 col-lg-2">{{ detail.title }}</div>
-          <div class="col-5 col-lg-7">
+        <div class="mb-4 row" v-for="(detail, index) in info.chart" :key="index">
+          <div class="col-4 col-lg-2">{{ detail.title }}</div>
+          <div class="col-6 col-lg-7">
             <div class="chart" :style="{ width: detail.value + '%' }"><span style="visibility: hidden">l</span></div>
           </div>
-          <div class="col-1 col-lg-1">{{ detail.value }}%</div>
-          <div class="col-2 col-lg-1">{{ detail.value * detail.value }}/{{ detail.value * 100 }}</div>
-          <div class="col-2 col-lg-1" style="cursor: pointer">
+          <div class="p-0 col-2 col-lg-1">{{ detail.value }}%</div>
+          <div class="mt-4 mt-md-0 col-6 col-lg-1">{{ detail.value * detail.value }}/{{ detail.value * 100 }}</div>
+          <div class="mt-4 text-right mt-md-0 col-6 col-lg-1" style="cursor: pointer; ">
             <svg @click="changeView" width="17" height="11" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" fill="#0baa12">
               <svg xmlns="http://www.w3.org/2000/svg" width="17" height="11">
                 <path
@@ -22,6 +21,7 @@
               </svg>
             </svg>
           </div>
+          <div class="mt-3 showDivider" style="width: 300px; margin-right:7px; margin-left:7px; border-top: 1px solid grey"></div>
         </div>
       </section>
     </div>
@@ -87,6 +87,11 @@ export default {
 </script>
 
 <style scoped>
+@media (min-width: 400px) {
+  .showDivider {
+    display: none;
+  }
+}
 #style-2::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
