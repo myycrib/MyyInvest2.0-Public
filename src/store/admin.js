@@ -8,6 +8,9 @@ const state = {
   allNotifications: [],
   allFaq: [],
   allNewsletters: [],
+  allUsersPaginated: [],
+  singleUser: [],
+  allTransactions: [],
 };
 
 const getters = {};
@@ -31,6 +34,15 @@ const mutations = {
   SET_ALL_NEWSLETTERS(state, data) {
     return (state.allNewsletters = data);
   },
+  SET_ALL_USERS_PAGINATED(state, data) {
+    return (state.allUsersPaginated = data)
+  },
+  SET_SINGLE_USER(state, data) {
+    return (state.singleUser = data)
+  },
+  SET_ALL_TRANSACTIONS(state, data) {
+    return (state.allTransactions = data)
+  }
 };
 
 const actions = {
@@ -150,7 +162,38 @@ const actions = {
     if (response.status === 200 || response.status === 201) {
       commit("SET_ALL_USERS", response.data.users);
     }
-  }
+  },
+  // Get All Paginated Users List
+  async allUsersPaginated({ commit }, payload) {
+    // const response = await Api.get("users/get", true);
+    const response = await Api.get(`users/get?page=${payload}&perpage=5`, true);
+    if (response.status === 200 || response.status === 201) {
+      commit("SET_ALL_USERS_PAGINATED", response.data.users);
+    }
+  },
+  // Delete A User
+  async destroyUser(_, payload) {
+    const response = await Api.delete(`users/delete/${payload}`, _, true);
+    return response;
+  },
+  // Get single Faq
+  async singleUser(_, payload) {
+    const response = await Api.get(`users/get/${payload}`, true);
+    if (response.status === 200 || response.status === 201) {
+      return response.data.user
+    }
+  },
+
+  // ALL TRANSACTIONS VUEX OPERATIONS
+  async allTransactions({commit}, payload) {
+    const response = await Api.get(`transactions/get?page=${payload}&perpage=10`, true);
+    if (response.status === 200 || response.status === 201) {
+      commit("SET_ALL_TRANSACTIONS", response.data.transactions);
+      return response;
+    }
+  },
+
+
 };
 
 export default {

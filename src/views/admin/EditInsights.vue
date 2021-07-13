@@ -60,7 +60,6 @@ import { mapActions } from "vuex";
 export default {
   name: "EditInsights",
   mixins: [handleValidation],
-
   metaInfo: {
     title: "Myyinvest - Add Insights (Admin)",
     titleTemplate: null,

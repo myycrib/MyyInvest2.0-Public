@@ -1,18 +1,18 @@
 <template>
   <the-admin-layout>
     <form style="overflow-x: hidden" class="custom-wrapper">
-      <div class="row">
+      <div class="row" v-if="payloadForm">
         <div class="mb-5 col-md-8">
           <h6 class="personal-details-header">Personal Details</h6>
           <div class="p-0 mt-1 card">
             <div class="p-2 form-row">
               <div class="form-group col-md-3">
-                <label for="">First Name</label>
-                <input type="text" class="form-control" placeholder="First Name" />
+                <label for="first_name">First Name</label>
+                <input readonly v-model="payloadForm.firstName" type="text" id="first_name" class="form-control" placeholder="First Name" />
               </div>
               <div class="form-group col-md-3">
                 <label for="">Last Name</label>
-                <input type="text" class="form-control" placeholder="Last Name" />
+                <input readonly v-model="payloadForm.lastName" type="text" class="form-control" placeholder="Last Name" />
               </div>
               <div class="form-group col-md-3">
                 <label for="">Gender</label>
@@ -20,13 +20,13 @@
               </div>
               <div class="form-group col-md-3">
                 <label for="">Date of birth</label>
-                <input type="text" class="form-control" placeholder="Date of birth" />
+                <input readonly v-model="payloadForm.dateOfBirth" type="text" class="form-control" placeholder="Date of birth" />
               </div>
             </div>
             <div class="p-2 form-row">
               <div class="form-group col-md-6">
                 <label for="">Email</label>
-                <input type="text" class="form-control" placeholder="Email" />
+                <input readonly v-model="payloadForm.email" type="text" class="form-control" placeholder="Email" />
               </div>
               <div class="form-group col-md-6">
                 <label for="">Phone Number </label>
@@ -128,12 +128,28 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: "ViewUserDetails",
-
   metaInfo: {
     title: "Myyinvest - User Details (Admin)",
     titleTemplate: null
+  },
+  data() {
+    return {
+      payloadForm: {},
+    }
+  },
+  created() {
+    this.singleUser(this.$route.params.id).then((res) => {
+      this.payloadForm = res;
+    });
+  },
+  methods: {
+    ...mapActions({
+      singleUser: "admin/singleUser",
+    }),
   }
 };
 </script>

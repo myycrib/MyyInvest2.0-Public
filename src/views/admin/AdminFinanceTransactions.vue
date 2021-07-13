@@ -1,6 +1,29 @@
 <template>
   <the-admin-layout>
     <div id="style-2" class="table-responsive">
+      <div class="row">
+        <div class="col-6">
+          <div class="form-group row">
+            <label for="colFormLabelSm" class="my-auto col-12 col-sm-2 col-form-label col-form-label-sm">Search</label>
+            <div class="text-left col-12 col-sm-6">
+              <input type="text" name="" class="text-left form-control form-control-s" placeholder="Search Table" id="colFormLabelSm">
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="float-righ form-group row">
+            <div class="col-sm-3"></div>
+            <label for="colFormLabelSm" class="my-auto col-12 col-sm-2 col-form-label col-form-label-sm">Filter</label>
+            <div class="text-left col-12 col-sm-6">
+              <select class="custom-select custom-select-s">
+                <!-- <option selected>Filter Opti</option> -->
+                <option value="">Sort by A to Z</option>
+                <option value="">Sort by Z to A </option>
+              </select>
+            </div>
+          </div>
+        </div>
+      </div>
       <table class="table table-bordered table-hover">
         <thead class="table-header">
           <tr>
@@ -11,58 +34,65 @@
             <th scope="col">Amount Invested</th>
             <th scope="col">No Tokens</th>
             <th scope="col">Plan</th>
-            <th scope="col">Project</th>
             <th scope="col">Payment Frequency</th>
-            <!-- <th scope="col">Status</th> -->
           </tr>
         </thead>
         <tbody>
-          <tr v-for="x in 10" :key="x">
-            <td>{{ zeroPrefix(x) }}{{ x }}</td>
-            <td>17th Feb. 2021</td>
-            <td>Full Name {{ x }}</td>
+          <tr v-for="(transaction, index) in getAllTransactions" :key="index">
+            <td>{{++index}}</td>
+            <td>{{transaction.createdAt}}</td>
+            <td>Full Name {{index}}</td>
             <td>voffiah@gmail.com</td>
-            <td>₦70,000</td>
-            <td>{{ x * 4 }}</td>
-            <td>Plan {{ x }}</td>
-            <td>Project {{ x }}</td>
-            <td>{{ x }} Month(s)</td>
-            <!-- <td>
-              <div class="status">
-                <div class="text-white p-lg-1 status-content" style="border-radius: 1em" :style="changeBackgroundColor(status[x])">{{ status[x] }}</div>
-              </div>
-            </td> -->
+            <td>{{transaction.amount}}</td>
+            <td>{{transaction.noTokens}}</td>
+            <td>{{transaction.planName}} </td>
+            <td>{{transaction.rate}}</td>
           </tr>
         </tbody>
       </table>
     </div>
-
-    <div class="pagination">
-      <button class="mt-2">Previous</button>
-      <button class="mt-2" v-for="n in 5" :key="n" :class="[n === currentPage ? 'button-active' : '']">{{ n }}</button>
-      <button class="mt-2">Next</button>
-    </div>
+    <BasePagination @pagination="fetchAllTransactions" :pagination-data="paginationData" />
   </the-admin-layout>
 </template>
 
 <script>
+import { mapState, mapActions } from "vuex";
+import handleValidation from "../../mixins/validationMixins";
+import BasePagination from "@/components/admin/BasePagination.vue";
+
 export default {
   name: "AdminTransactions",
-
+  mixins: [handleValidation],
   metaInfo: {
     title: "Myyinvest - Transactions (Admin)",
     titleTemplate: null
   },
-
+  components: {
+    BasePagination,
+  },
   data() {
     return {
-      // status: "Success",
-      currentPage: 1,
+      paginationData: {},
       totalpages: 5
     };
   },
-
+  computed: {
+    ...mapState({
+      getAllTransactions: state => state.admin.allTransactions
+    }),
+  },
+  created() {
+    this.fetchAllTransactions();
+  },
   methods: {
+    ...mapActions({
+      allTransactions: "admin/allTransactions",
+    }),
+    fetchAllTransactions(page) {
+      this.allTransactions(page).then((res) => {
+        this.paginationData = res.data.pagination
+      });
+    },
     randomizedStatus() {
       let statuses = ["In progress", "In progress", "Success", "Success", "Success", "Success", "Success", "Failed", "Failed", "Failed", "Failed"];
 
@@ -102,24 +132,15 @@ export default {
       }
     }
   },
-
-  computed: {
-    status() {
-      return this.randomizedStatus();
-    },
-
-    isFirstPage() {
-      return this.currentPage === 1;
-    },
-
-    isLastPage() {
-      return this.currentPage === this.totalpages;
-    }
-  }
 };
 </script>
 
 <style scoped>
+@media (min-width: 920px) {
+  #style-2 {
+    overflow-x: hidden;
+  }
+}
 .table-hover tbody tr:hover {
   box-shadow: 2px 2px 6px #c5baba, -2px -2px 6px #ffffff !important;
   /* box-shadow: 2px 2px 6px #bebebe, -2px -2px 6px #ffffff; */
