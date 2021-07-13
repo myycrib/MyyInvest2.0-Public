@@ -1,6 +1,6 @@
 <template>
   <the-admin-layout>
-    <div id="style-2" style="overflow-x: hidden" class="table-responsive">
+    <div id="style-2" class="table-responsive">
       <div class="row">
         <div class="col-6">
           <div class="form-group row">
@@ -181,6 +181,11 @@ export default {
 .table-hover tbody tr:hover {
   box-shadow: 2px 2px 6px #c5baba, -2px -2px 6px #ffffff !important;
   /* box-shadow: 2px 2px 6px #bebebe, -2px -2px 6px #ffffff; */
+}
+@media (min-width: 920px) {
+  #style-2 {
+    overflow-x: hidden;
+  }
 }
 #style-2::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
