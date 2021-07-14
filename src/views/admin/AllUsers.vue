@@ -2,30 +2,50 @@
   <the-admin-layout>
     <div id="style-2" class="table-responsive">
       <div class="row">
-        <div class="col-6">
+        <div class="col-md-6 col-12">
           <div class="form-group row">
-            <label for="colFormLabelSm" class="my-auto col-12 col-sm-2 col-form-label col-form-label-sm">Search</label>
+            <div class="col-12 col-sm-4">
+              <button class="mr-1 btn-block download" @click="previewDownload">Download</button>
+              <div class="download-overlay" v-if="noDownloadModal === false">
+                <div class="download-modal">
+                  <p>Kindly select range</p>
+
+                  <div class="date-range">
+                    <span>From</span>
+                    <input type="date" name="start-date" id="start-date" />
+                    <span class="to-date">To</span>
+                    <input type="date" name="end-date" id="end-date" />
+                  </div>
+
+                  <div>
+                    <button @click="cancelDownload">Cancel</button>
+                    <button @click="proceedDownload">Proceed</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <label for="colFormLabelSm" class="my-auto col-12 col-sm-2 col-form-label col-form-label-sm">Search :</label>
             <div class="text-left col-12 col-sm-6">
-              <input type="text" name="" class="text-left form-control form-control-s" placeholder="Search Table" id="colFormLabelSm">
+              <input type="text" v-model="searchQuery" class="text-left form-control form-control-s" placeholder="Search Table" id="colFormLabelSm" />
             </div>
           </div>
         </div>
-        <div class="col-6">
-          <div class="float-righ form-group row">
+        <div class="col-md-6 col-12">
+          <div class="form-group row">
             <div class="col-sm-3"></div>
             <label for="colFormLabelSm" class="my-auto col-12 col-sm-2 col-form-label col-form-label-sm">Filter By:</label>
             <div class="text-left col-12 col-sm-6">
-              <select class="custom-select custom-select-s">
-                <!-- <option selected>Filter Opti</option> -->
-                <option value="">Sort by A to Z</option>
-                <option value="">Sort by Z to A </option>
+              <select @change="filterQueryBy" v-model="filterQuery" class="custom-select custom-select-s">
+                <option disabled>Filter Records</option>
+                <option value="asc">Sort by A to Z</option>
+                <option value="desc">Sort by Z to A</option>
               </select>
             </div>
           </div>
         </div>
       </div>
       <table class="table table-bordered table-hover">
-        <thead class="table-header" style="z-index: 10 !important;">
+        <thead class="table-header" style="z-index: 10 !important">
           <tr>
             <th scope="col">S/N</th>
             <th scope="col">First Name</th>
@@ -37,15 +57,15 @@
             <th scope="col">Actions</th>
           </tr>
         </thead>
-        <tbody>
-          <tr v-for="(user, index) in getAllUsersPaginated" :key="index">
-            <td>{{++index}}</td>
-            <td>{{user.firstName}}</td>
-            <td>{{user.lastName}}</td>
-            <td>{{user.email}}</td>
-            <td>{{user.dateOfBirth}}</td>
-            <td>{{user.createdAt}}</td>
-            <td style="display: flex; justify-content: space-between; cursor:pointer">
+        <tbody v-if="resultQuery.length > 0">
+          <tr v-for="(user, index) in resultQuery" :key="index">
+            <td>{{ ++index }}</td>
+            <td>{{ user.firstName }}</td>
+            <td>{{ user.lastName }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.dateOfBirth }}</td>
+            <td>{{ user.createdAt }}</td>
+            <td style="display: flex; justify-content: space-between; cursor: pointer">
               <span class="mr-2 cursor-pointer dropdown">
                 <svg width="17" height="11" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" fill="#0baa12">
                   <svg xmlns="http://www.w3.org/2000/svg" width="17" height="11">
@@ -75,6 +95,11 @@
             </td>
           </tr>
         </tbody>
+        <tbody v-else>
+          <tr>
+            <td colspan="7" class="text-center font-weight-bold">No result found for {{ searchQuery }}</td>
+          </tr>
+        </tbody>
       </table>
     </div>
     <BasePagination @pagination="fetchAllUsersPaginated" :pagination-data="paginationData" />
@@ -101,22 +126,43 @@ export default {
   mixins: [handleValidation],
   metaInfo: {
     title: "Myyinvest - All Users (Admin)",
-    titleTemplate: null
+    titleTemplate: null,
   },
   components: {
     BasePagination,
   },
   data() {
     return {
+      searchQuery: null,
+      filterQuery: 'Filter Records',
       deleteId: null,
       noDeleteModal: true,
       paginationData: {},
+      noDownloadModal: true,
     };
   },
   computed: {
     ...mapState({
-      getAllUsersPaginated: state => state.admin.allUsersPaginated
+      getAllUsersPaginated: (state) => state.admin.allUsersPaginated,
     }),
+    // getAllUsersPaginated: {
+    //   get() {
+    //     return this
+    //   },
+    //   set(val) {
+        
+    //   }
+    // },
+    resultQuery() {
+      if (this.searchQuery) {
+        const result = this.getAllUsersPaginated.filter((item) => item.firstName.toLowerCase().includes(this.searchQuery.toLowerCase()) || item.email.includes(this.searchQuery) || item.lastName.includes(this.searchQuery));
+        if (result.length > 0) {
+          return result;
+        }
+        return [];
+      }
+      return this.getAllUsersPaginated;
+    },
   },
   created() {
     this.fetchAllUsersPaginated();
@@ -126,9 +172,32 @@ export default {
       allUsersPaginated: "admin/allUsersPaginated",
       destroyUser: "admin/destroyUser",
     }),
+    filterQueryBy(event) {
+      if (event.target.value === 'asc') {
+        this.getAllUsersPaginated.sort((a,b) => {
+          let fa = a.firstName.toLowerCase(), fb = b.firstName.toLowerCase()
+          if (fa < fb) {
+            return -1
+          }
+          if (fa > fb) {
+            return 1 
+          }
+        })
+      }else if(event.target.value === 'desc') {
+        this.getAllUsersPaginated.reverse((a,b) => {
+          let fa = a.firstName.toLowerCase(), fb = b.firstName.toLowerCase()
+          if (fa < fb) {
+            return -1
+          }
+          if (fa > fb) {
+            return 1 
+          }
+        })
+      }
+    },
     fetchAllUsersPaginated(page) {
       this.allUsersPaginated(page).then((res) => {
-        this.paginationData = res.data.pagination
+        this.paginationData = res.data.pagination;
       });
     },
     viewUser(id, route) {
@@ -139,7 +208,7 @@ export default {
       }
     },
     deleteItem(id) {
-      this.deleteId = id
+      this.deleteId = id;
       this.noDeleteModal = !this.noDeleteModal;
     },
 
@@ -148,8 +217,7 @@ export default {
     },
 
     proceedToDelete(id) {
-      this.destroyUser(id)
-      .then(res => {
+      this.destroyUser(id).then((res) => {
         if (res.status === 200 || res.status === 201) {
           this.noDeleteModal = !this.noDeleteModal;
           this.handleNotify({
@@ -162,13 +230,106 @@ export default {
             status: "Error",
           });
         }
-      })
+      });
     },
-  }
+    previewDownload() {
+      this.noDownloadModal = !this.noDownloadModal;
+    },
+
+    cancelDownload() {
+      this.noDownloadModal = !this.noDownloadModal;
+    },
+
+    proceedDownload() {
+      alert("What next?");
+    },
+  },
 };
 </script>
 
 <style scoped>
+button.download,
+button.download {
+  padding: 5px 10px;
+  color: var(--myyinvest-white);
+  font-weight: 600;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  background-color: var(--myyinvest-red);
+}
+
+button.download:hover,
+button.download:focus {
+  color: var(--myyinvest-red);
+  border: 2px solid var(--myyinvest-red);
+  background-color: var(--myyinvest-white);
+}
+.download-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1111;
+}
+
+.download-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 300px;
+  padding: calc(2 * var(--base-size));
+  border-radius: 10px;
+  background-color: var(--myyinvest-white);
+  transform: translate(-50%, -50%);
+}
+
+.download-modal p {
+  font-size: var(--font-sm);
+  font-weight: 600;
+  text-align: center;
+}
+
+.download-modal span {
+  font-weight: 600;
+}
+
+.download-modal div span.to-date {
+  margin-top: 10px;
+}
+
+.download-modal div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--base-size);
+}
+
+.download-modal div.date-range {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.download-modal div button {
+  padding: 5px;
+  border: 2px solid var(--myyinvest-red);
+  color: var(--myyinvest-red);
+  font-weight: 600;
+  border-radius: 5px;
+  background-color: var(--myyinvest-white);
+}
+
+.download-modal div button:hover,
+.download-modal div button:focus {
+  border: 2px solid transparent;
+  color: var(--myyinvest-white);
+  background-color: var(--myyinvest-red);
+}
 @media (min-width: 920px) {
   #style-2 {
     overflow-x: hidden;

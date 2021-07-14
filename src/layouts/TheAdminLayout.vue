@@ -17,7 +17,7 @@
         </nav>
 
         <div class="main-contents" @click="smCloseSidebar">
-          <div class="header-options" v-if="hasOptions === true">
+          <!-- <div class="header-options" v-if="hasOptions === true">
             <button class="mr-1 download" v-if="windowWidth > 553" @click="previewDownload">Download</button>
 
             <div class="download-overlay" v-if="noDownloadModal === false">
@@ -45,7 +45,7 @@
                 <option value="">Sort by Z to A </option>
               </select>
             </div>
-          </div>
+          </div> -->
           <!-- <div v-else-if="hasOptions == 'only-remove-download'">
             <div class="mb-2 row">
               <div class="col-md-6">
@@ -219,7 +219,7 @@ export default {
         // "/admin/view-notifications"
       ];
       if (routes.includes(currentRoute) || this.$route.name === "ViewUser" || this.$route.name === "AdminUsersTransactions") {
-        return "height: 78vh;";
+        return "height: 88vh;";
       } else return "";
     },
 
@@ -390,7 +390,7 @@ main nav.side-nav::-webkit-scrollbar {
 }
 
 main article {
-  height: 85vh;
+  height: 88vh;
   padding: 10px;
   box-shadow: 0 0 2px 0 gray;
   border-radius: 10px;
