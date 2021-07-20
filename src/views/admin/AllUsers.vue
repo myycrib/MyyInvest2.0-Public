@@ -6,23 +6,6 @@
           <div class="form-group row">
             <div class="col-12 col-sm-4">
               <button class="mr-1 btn-block download" @click="previewDownload">Download</button>
-              <div class="download-overlay" v-if="noDownloadModal === false">
-                <div class="download-modal">
-                  <p>Kindly select range</p>
-
-                  <div class="date-range">
-                    <span>From</span>
-                    <input type="date" name="start-date" id="start-date" />
-                    <span class="to-date">To</span>
-                    <input type="date" name="end-date" id="end-date" />
-                  </div>
-
-                  <div>
-                    <button @click="cancelDownload">Cancel</button>
-                    <button @click="proceedDownload">Proceed</button>
-                  </div>
-                </div>
-              </div>
             </div>
             <label for="colFormLabelSm" class="my-auto col-12 col-sm-2 col-form-label col-form-label-sm">Search :</label>
             <div class="text-left col-12 col-sm-6">
@@ -103,6 +86,7 @@
       </table>
     </div>
     <BasePagination @pagination="fetchAllUsersPaginated" :pagination-data="paginationData" />
+    <BaseDownloadModal :noDownloadModal="noDownloadModal" @closeModal="cancelDownload" />
     <div class="delete-overlay" v-if="!noDeleteModal">
       <div class="delete-modal">
         <p>Delete post</p>
@@ -120,6 +104,7 @@
 import { mapState, mapActions } from "vuex";
 import handleValidation from "../../mixins/validationMixins";
 import BasePagination from "@/components/admin/BasePagination.vue";
+import BaseDownloadModal from "@/components/admin/BaseDownloadModal.vue";
 
 export default {
   name: "AllUsers",
@@ -130,6 +115,7 @@ export default {
   },
   components: {
     BasePagination,
+    BaseDownloadModal
   },
   data() {
     return {
@@ -147,7 +133,7 @@ export default {
     }),
     resultQuery() {
       if (this.searchQuery) {
-        const result = this.getAllUsersPaginated.filter((item) => item.firstName.toLowerCase().includes(this.searchQuery.toLowerCase()) || item.email.includes(this.searchQuery) || item.lastName.includes(this.searchQuery));
+        const result = this.getAllUsersPaginated.filter((item) => item.firstName.toLowerCase().includes(this.searchQuery.toLowerCase()) || item.email.toLowerCase().includes(this.searchQuery.toLowerCase()) || item.lastName.toLowerCase().includes(this.searchQuery.toLowerCase()));
         if (result.length > 0) {
           return result;
         }
@@ -241,6 +227,9 @@ export default {
 </script>
 
 <style scoped>
+.table-hover tbody tr:hover {
+  box-shadow: 2px 2px 6px #c5baba, -2px -2px 6px #ffffff !important;
+}
 button.download,
 button.download {
   padding: 5px 10px;

@@ -1,9 +1,5 @@
 <template>
   <div class="main-wrap">
-    <!-- <p class="warning-info" v-if="!supportedDevice">
-      Hello friend, <br />
-      This page is only available on bigger screens.
-    </p> -->
     <div class="body">
       <nav class="top-nav">
         <the-nav />
@@ -17,49 +13,6 @@
         </nav>
 
         <div class="main-contents" @click="smCloseSidebar">
-          <!-- <div class="header-options" v-if="hasOptions === true">
-            <button class="mr-1 download" v-if="windowWidth > 553" @click="previewDownload">Download</button>
-
-            <div class="download-overlay" v-if="noDownloadModal === false">
-              <div class="download-modal">
-                <p>Kindly select range</p>
-
-                <div class="date-range">
-                  <span>From</span>
-                  <input type="date" name="start-date" id="start-date" />
-                  <span class="to-date">To</span>
-                  <input type="date" name="end-date" id="end-date" />
-                </div>
-
-                <div>
-                  <button @click="cancelDownload">Cancel</button>
-                  <button @click="proceedDownload">Proceed</button>
-                </div>
-              </div>
-            </div>
-
-            <div class="input-grp">
-              <input type="text" class="my-auto form-control" name="search" id="search_query" placeholder="Search Content..." />
-              <select name="" styl="width: 5vw" class="ml-5 w-50 form-control" id="">
-                <option value="">Sort by A to Z</option>
-                <option value="">Sort by Z to A </option>
-              </select>
-            </div>
-          </div> -->
-          <!-- <div v-else-if="hasOptions == 'only-remove-download'">
-            <div class="mb-2 row">
-              <div class="col-md-6">
-                <input type="text" style="border-radius: 2em" class="my-auto form-control" name="search" id="search_query" placeholder="Search Content..." />
-              </div>
-              <div class="col-md-5">
-                <select name="" class="ml-5 w-100 form-control" id="">
-                  <option value="">Sort by A to Z</option>
-                  <option value="">Sort by Z to A </option>
-                </select>
-              </div>
-              <div class="col-md-1"></div>
-            </div>
-          </div> -->
           <article :style="smallHeight()">
             <div class="content-wrapper">
               <!-- <component :is="layout"> -->

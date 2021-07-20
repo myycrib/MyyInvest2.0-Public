@@ -2,23 +2,26 @@
   <the-admin-layout>
     <div id="style-2" class="table-responsive">
       <div class="row">
-        <div class="col-6">
+        <div class="col-md-6 col-12">
           <div class="form-group row">
-            <label for="colFormLabelSm" class="my-auto col-12 col-sm-2 col-form-label col-form-label-sm">Search</label>
+            <div class="col-12 col-sm-4">
+              <button class="mr-1 btn-block download" @click="previewDownload">Download</button>
+            </div>
+            <label for="colFormLabelSm" class="my-auto col-12 col-sm-2 col-form-label col-form-label-sm">Search :</label>
             <div class="text-left col-12 col-sm-6">
-              <input type="text" name="" class="text-left form-control form-control-s" placeholder="Search Table" id="colFormLabelSm">
+              <input type="text" v-model="searchQuery" class="text-left form-control form-control-s" placeholder="Search Table" id="colFormLabelSm" />
             </div>
           </div>
         </div>
-        <div class="col-6">
-          <div class="float-righ form-group row">
+        <div class="col-md-6 col-12">
+          <div class="form-group row">
             <div class="col-sm-3"></div>
-            <label for="colFormLabelSm" class="my-auto col-12 col-sm-2 col-form-label col-form-label-sm">Filter</label>
+            <label for="colFormLabelSm" class="my-auto col-12 col-sm-2 col-form-label col-form-label-sm">Filter By:</label>
             <div class="text-left col-12 col-sm-6">
-              <select class="custom-select custom-select-s">
-                <!-- <option selected>Filter Opti</option> -->
-                <option value="">Sort by A to Z</option>
-                <option value="">Sort by Z to A </option>
+              <select @change="filterQueryBy" v-model="filterQuery" class="custom-select custom-select-s">
+                <option disabled>Filter Records</option>
+                <option value="asc">Sort by A to Z</option>
+                <option value="desc">Sort by Z to A</option>
               </select>
             </div>
           </div>
@@ -34,8 +37,8 @@
             <th scope="col" class="options">Actions</th>
           </tr>
         </thead>
-        <tbody>
-          <tr v-for="(notification, index) in getAllNotifications" :key="index">
+        <tbody v-if="resultQuery.length > 0">
+          <tr v-for="(notification, index) in resultQuery" :key="index">
             <td>{{ ++index }}</td>
             <td>{{ notification.title }}</td>
             <td>
@@ -81,9 +84,15 @@
             </td>
           </tr>
         </tbody>
+        <tbody v-else>
+          <tr>
+            <td colspan="7" class="text-center font-weight-bold">No result found for {{ searchQuery }}</td>
+          </tr>
+        </tbody>
       </table>
     </div>
     <BasePagination @pagination="fetchAllNotifications" :pagination-data="paginationData" />
+    <BaseDownloadModal :noDownloadModal="noDownloadModal" @closeModal="cancelDownload" />
     <div class="delete-overlay" v-if="!noDeleteModal">
       <div class="delete-modal">
         <p>Delete post</p>
@@ -101,11 +110,13 @@
 import { mapState, mapActions } from "vuex";
 import handleValidation from "../../mixins/validationMixins";
 import BasePagination from "@/components/admin/BasePagination.vue";
+import BaseDownloadModal from "@/components/admin/BaseDownloadModal.vue";
 
 export default {
   name: "ViewAdminNotifications",
   components: {
     BasePagination,
+    BaseDownloadModal
   },
   mixins: [handleValidation],
   metaInfo: {
@@ -118,13 +129,26 @@ export default {
       deleteId: null,
       status: "Published",
       paginationData: {},
+      noDownloadModal: true,
       noDeleteModal: true,
+      searchQuery: null,
+      filterQuery: 'Filter Records',
     };
   },
   computed: {
     ...mapState({
       getAllNotifications: (state) => state.admin.allNotifications,
     }),
+    resultQuery() {
+      if (this.searchQuery) {
+        const result = this.getAllNotifications.filter((item) => item.content.toLowerCase().includes(this.searchQuery.toLowerCase()) || item.title.toLowerCase().includes(this.searchQuery.toLowerCase()));
+        if (result.length > 0) {
+          return result;
+        }
+        return [];
+      }
+      return this.getAllNotifications;
+    },
   },
   created() {
     this.fetchAllNotifications();
@@ -134,6 +158,29 @@ export default {
       allNotifications: "admin/allNotifications",
       destroyNotification: "admin/destroyNotification",
     }),
+    filterQueryBy(event) {
+      if (event.target.value === 'asc') {
+        this.getAllNotifications.sort((a,b) => {
+          let fa = a.title.toLowerCase(), fb = b.title.toLowerCase()
+          if (fa < fb) {
+            return -1
+          }
+          if (fa > fb) {
+            return 1 
+          }
+        })
+      }else if(event.target.value === 'desc') {
+        this.getAllNotifications.reverse((a,b) => {
+          let fa = a.title.toLowerCase(), fb = b.title.toLowerCase()
+          if (fa < fb) {
+            return -1
+          }
+          if (fa > fb) {
+            return 1 
+          }
+        })
+      }
+    },
     fetchAllNotifications(page) {
       this.allNotifications(page).then((res) => {
         this.paginationData = res.data.pagination;
@@ -169,11 +216,33 @@ export default {
         }
       });
     },
+    previewDownload() {
+      this.noDownloadModal = !this.noDownloadModal;
+    },
+    cancelDownload() {
+      this.noDownloadModal = !this.noDownloadModal;
+    },
   },
 };
 </script>
 
 <style scoped>
+button.download,
+button.download {
+  padding: 5px 10px;
+  color: var(--myyinvest-white);
+  font-weight: 600;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  background-color: var(--myyinvest-red);
+}
+
+button.download:hover,
+button.download:focus {
+  color: var(--myyinvest-red);
+  border: 2px solid var(--myyinvest-red);
+  background-color: var(--myyinvest-white);
+}
 @media (min-width: 920px) {
   #style-2 {
     overflow-x: hidden;

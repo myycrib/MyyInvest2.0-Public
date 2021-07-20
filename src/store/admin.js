@@ -120,6 +120,7 @@ const actions = {
     const response = await Api.get(`faq/get?page=${payload}&perpage=5`, true);
     if (response.status === 200 || response.status === 201) {
       commit("SET_ALL_FAQ", response.data.faq);
+      return response;
     }
   },
   // Get single Faq

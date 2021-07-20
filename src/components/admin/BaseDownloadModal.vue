@@ -1,45 +1,30 @@
 <template>
-  <div :class="[!validForm ? 'invalid-form' : '', 'download-overlay']">
+  <div class="download-overlay" v-if="noDownloadModal === false">
     <div class="download-modal">
       <p>Kindly select range</p>
 
       <div class="date-range">
-        <label for="start-date">From</label>
-        <input type="date" name="start-date" id="start-date" :min="minDate" :max="maxDate" required v-model.trim.lazy="startDate" />
-        <span class="error" v-if="!$v.startDate.required">this field is required</span>
-        <!-- <span class="validity" v-if="!$v.startDate.between">Can only be between {{ minDate }} and {{ maxDate }}.</span> -->
-        <!-- <span class="validity" v-if="!$v.startDate.minValue">Cannot be before {{ minDate }}.</span> -->
-        <!-- <span class="validity" v-if="!$v.startDate.isDate">Enter a valid date.</span> -->
-        <!-- <span class="validity" v-if="!$v.startDate.$invalid">Enter a valid date.</span> -->
-        <!-- <span class="validity" v-if="$v.startDate.$error">Enter a valid date.</span> -->
-
-        <label for="end-date" class="to-date">To</label>
-        <input type="date" name="end-date" id="end-date" :min="minDate" :max="maxDate" required v-model.trim.lazy="endDate" />
-        <span class="error" v-if="!$v.endDate.required">this field is required</span>
-        <!-- <span class="validity" v-if="!$v.endDate.between">Can only be between {{ minDate }} and {{ maxDate }}.</span>
-          <span class="validity" v-if="!$v.endDate.maxValue">Cannot be beyound today.</span>
-          <span class="validity" v-if="!$v.startDate.isDate">Enter a valid date.</span> -->
+        <span>From</span>
+        <input class="form-control" type="date" name="start-date" id="start-date" />
+        <span class="to-date">To</span>
+        <input class="form-control" type="date" name="end-date" id="end-date" />
       </div>
 
       <div>
         <button @click="cancelDownload">Cancel</button>
         <button @click="proceedDownload">Proceed</button>
       </div>
-
-      <!-- <p v-if="!validForm">Kindly fill the form correctly.</p> -->
     </div>
   </div>
 </template>
 
 <script>
-import { required } from "vuelidate/lib/validators";
-
 export default {
   props: {
     noDownloadModal: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
 
   data() {
@@ -49,56 +34,17 @@ export default {
       endDate: "",
       maxDate: "2022-12-31",
       submitStatus: null,
-      validForm: true
+      validForm: true,
     };
   },
-
-  validations: {
-    startDate: {
-      required
-      // between: between(this.minDate, this.maxDate)
-      // minValue: minValue(this.minDate)
-      // minValue: minValue => minValue > new Date().toISOString()
-      // minValue: value => value > new Date().toISOString()
-    },
-
-    endDate: {
-      required
-      // between: between(this.minDate, this.maxDate)
-      // maxValue: maxValue(this.maxDate)
-      // How would one call minValue inside function?
-      // min: (value, model) => model.tomorrow ? false : minValue(1)(value)
-      // maxValue: minValue => minValue > new Date().toISOString()
-    }
-  },
-
   methods: {
     cancelDownload() {
       this.$emit("closeModal");
     },
-
     proceedDownload() {
-      // alert("What next?");
-      // this.$emit("pagePreview");
-
-      console.log("submitting...");
-      this.$v.$touch();
-      if (this.$v.$invalid) {
-        this.submitStatus = "ERROR";
-        this.validForm = false;
-
-        setTimeout(() => {
-          this.validForm = true;
-        }, 2000);
-      } else {
-        // do your submit logic here
-        this.submitStatus = "PENDING";
-        setTimeout(() => {
-          this.submitStatus = "OK";
-        }, 500);
-      }
-    }
-  }
+      alert("What next?");
+    },
+  },
 };
 </script>
 

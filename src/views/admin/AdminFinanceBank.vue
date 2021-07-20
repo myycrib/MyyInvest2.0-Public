@@ -10,58 +10,21 @@
             <th scope="col" class="text-center">Account Name</th>
             <th scope="col" class="text-center">Account Number</th>
             <th scope="col" class="text-center">Bank Name</th>
+            <th scope="col" class="text-center">Action</th>
           </tr>
         </thead>
         <tbody>
           <tr v-for="x in 10" :key="x">
+            <td colspan="10"></td>
             <td>{{ zeroPrefix(x) }}{{ x }}</td>
             <td>Full Name {{ x }}</td>
             <td>test{{ x }}@gmail.com</td>
             <td>Account Name {{ x }}</td>
             <td>909289099</td>
             <td>Bank Name {{ x }}</td>
-            <!-- <td>
-              <div class="bank d-flex justify-content-between">
-                <span class="text-center">Bank1 (3454679909 - Savings), Bank2 (5993467990 - Current)</span>
-                <span class="mr-md-3 dropdown" v-if="x % 3 === 0">
-                  <svg width="17" height="22" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" viewBox="394 756 17 22">
-                    <svg width="5" height="5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" fill="#c10000" x="406" y="756">
-                      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="5" height="5">
-                        <path
-                          paint-order="stroke fill markers"
-                          fill-rule="evenodd"
-                          d="M2.575 4.8A2.023 2.023 0 0 1 .55 2.775C.55 1.655 1.455.75 2.575.75c1.12 0 2.025.905 2.025 2.025 0 1.12-.905 2.025-2.025 2.025z"
-                        />
-                      </svg>
-                    </svg>
-                    <svg width="5" height="5" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" fill="#c10000" x="406" y="764">
-                      <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="5" height="5">
-                        <path
-                          paint-order="stroke fill markers"
-                          fill-rule="evenodd"
-                          d="M2.575 4.9A2.023 2.023 0 0 1 .55 2.875C.55 1.755 1.455.85 2.575.85c1.12 0 2.025.905 2.025 2.025 0 1.12-.905 2.025-2.025 2.025z"
-                        />
-                      </svg>
-                    </svg>
-                    <svg width="5" height="6" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" fill="#c10000" x="406" y="772">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="5" height="6">
-                        <path
-                          paint-order="stroke fill markers"
-                          fill-rule="evenodd"
-                          d="M2.575 5A2.023 2.023 0 0 1 .55 2.975C.55 1.855 1.455.95 2.575.95c1.12 0 2.025.905 2.025 2.025C4.6 4.095 3.695 5 2.575 5z"
-                        />
-                      </svg>
-                    </svg>
-                  </svg>
-                  <div class="dropdown-content">
-                    <li>Bank3 (9934516780 - DOM)</li>
-                    <li>Bank4 (4912678830 - Others)</li>
-                    <li>Bank5 (9934516780 - DOM)</li>
-                    <li>Bank6 (4912678830 - Others)</li>
-                  </div>
-                </span>
-              </div>
-            </td> -->
+            <td>
+              <img class="mx-auto text-center cursor-pointer d-block" src="@/assets/admin/icons/arrow-down.svg" alt="">
+            </td>
           </tr>
         </tbody>
       </table>

@@ -32,11 +32,11 @@
         />
       </div>
     </div>
-    <div class="nav-details">
-      <!-- <div class="nav-title">
+    <!-- <div class="nav-details">
+      <div class="nav-title">
         <span>{{ name }}</span>
-      </div> -->
-    </div>
+      </div>
+    </div> -->
   </div>
 </template>
 

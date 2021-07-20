@@ -14,8 +14,10 @@
           <fieldset class="input-grp">
             <legend><label for="pcategory">Post Category</label></legend>
             <select v-model="payloadForm.category" class="form-control" id="">
-              <option>Category 1</option>
-              <option>Category 2</option>
+              <option>General</option>
+              <option>Investment</option>
+              <option>Payments</option>
+              <option>Safety & Security</option>
             </select>
           </fieldset>
           <button class="w-20 mb-3 btn btn-block" type="submit">Submit</button>

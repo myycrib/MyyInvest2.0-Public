@@ -3,23 +3,26 @@
     <!-- <Spinner /> -->
     <div id="style-2" class="table-responsive">
       <div class="row">
-        <div class="col-6">
+        <div class="col-md-6 col-12">
           <div class="form-group row">
-            <label for="colFormLabelSm" class="my-auto col-12 col-sm-2 col-form-label col-form-label-sm">Search</label>
+            <div class="col-12 col-sm-4">
+              <button class="mr-1 btn-block download" @click="previewDownload">Download</button>
+            </div>
+            <label for="colFormLabelSm" class="my-auto col-12 col-sm-2 col-form-label col-form-label-sm">Search :</label>
             <div class="text-left col-12 col-sm-6">
-              <input type="text" name="" class="text-left form-control form-control-s" placeholder="Search Table" id="colFormLabelSm">
+              <input type="text" v-model="searchQuery" class="text-left form-control form-control-s" placeholder="Search Table" id="colFormLabelSm" />
             </div>
           </div>
         </div>
-        <div class="col-6">
-          <div class="float-righ form-group row">
+        <div class="col-md-6 col-12">
+          <div class="form-group row">
             <div class="col-sm-3"></div>
-            <label for="colFormLabelSm" class="my-auto col-12 col-sm-2 col-form-label col-form-label-sm">Filter</label>
+            <label for="colFormLabelSm" class="my-auto col-12 col-sm-2 col-form-label col-form-label-sm">Filter By:</label>
             <div class="text-left col-12 col-sm-6">
-              <select class="custom-select custom-select-s">
-                <!-- <option selected>Filter Opti</option> -->
-                <option value="">Sort by A to Z</option>
-                <option value="">Sort by Z to A </option>
+              <select @change="filterQueryBy" v-model="filterQuery" class="custom-select custom-select-s">
+                <option disabled>Filter Records</option>
+                <option value="asc">Sort by A to Z</option>
+                <option value="desc">Sort by Z to A</option>
               </select>
             </div>
           </div>
@@ -37,8 +40,8 @@
             <th scope="col" class="options">Actions</th>
           </tr>
         </thead>
-        <tbody>
-          <tr v-for="(insight, index) in getAllInsights" :key="index">
+        <tbody v-if="resultQuery.length > 0">
+          <tr v-for="(insight, index) in resultQuery" :key="index">
             <td>{{ ++index }}</td>
             <td> {{ insight.postTitle }} </td>
             <td>
@@ -94,9 +97,15 @@
             </td>
           </tr>
         </tbody>
+        <tbody v-else>
+          <tr>
+            <td colspan="7" class="text-center font-weight-bold">No result found for {{ searchQuery }}</td>
+          </tr>
+        </tbody>
       </table>
     </div>
     <BasePagination @pagination="fetchAllInsights" :pagination-data="paginationData" />
+    <BaseDownloadModal :noDownloadModal="noDownloadModal" @closeModal="cancelDownload" />
     <div class="delete-overlay" v-if="!noDeleteModal">
       <div class="delete-modal">
         <p>Delete post</p>
@@ -114,12 +123,14 @@
 import { mapState, mapActions } from "vuex";
 import handleValidation from "../../mixins/validationMixins";
 import BasePagination from "@/components/admin/BasePagination.vue";
+import BaseDownloadModal from "@/components/admin/BaseDownloadModal.vue";
 
 export default {
   name: "ViewInsights",
   mixins: [handleValidation],
   components: {
     BasePagination,
+    BaseDownloadModal
   },
   metaInfo: {
     title: "Myyinvest - View Insights (Admin)",
@@ -128,6 +139,9 @@ export default {
 
   data() {
     return {
+      noDownloadModal: true,
+      searchQuery: null,
+      filterQuery: 'Filter Records',
       deleteId: null,
       noDeleteModal: true,
       paginationData: {},
@@ -137,6 +151,16 @@ export default {
     ...mapState({
       getAllInsights: state => state.admin.allInsights
     }),
+    resultQuery() {
+      if (this.searchQuery) {
+        const result = this.getAllInsights.filter((item) => item.postTitle.toLowerCase().includes(this.searchQuery.toLowerCase()) || item.authoredBy.toLowerCase().includes(this.searchQuery.toLowerCase()) || item.category.toLowerCase().includes(this.searchQuery.toLowerCase()));
+        if (result.length > 0) {
+          return result;
+        }
+        return [];
+      }
+      return this.getAllInsights;
+    },
   },
   created() {
     this.fetchAllInsights();
@@ -146,6 +170,29 @@ export default {
       allInsights: "admin/allInsights",
       destroyInsight: "admin/destroyInsight",
     }),
+    filterQueryBy(event) {
+      if (event.target.value === 'asc') {
+        this.getAllInsights.sort((a,b) => {
+          let fa = a.postTitle.toLowerCase(), fb = b.postTitle.toLowerCase()
+          if (fa < fb) {
+            return -1
+          }
+          if (fa > fb) {
+            return 1 
+          }
+        })
+      }else if(event.target.value === 'desc') {
+        this.getAllInsights.reverse((a,b) => {
+          let fa = a.postTitle.toLowerCase(), fb = b.postTitle.toLowerCase()
+          if (fa < fb) {
+            return -1
+          }
+          if (fa > fb) {
+            return 1 
+          }
+        })
+      }
+    },
     fetchAllInsights(page) {
       this.allInsights(page).then((res) => {
         this.paginationData = res.data.pagination
@@ -184,6 +231,12 @@ export default {
         }
       })
     },
+    previewDownload() {
+      this.noDownloadModal = !this.noDownloadModal;
+    },
+    cancelDownload() {
+      this.noDownloadModal = !this.noDownloadModal;
+    },
   },
 };
 </script>
@@ -191,7 +244,6 @@ export default {
 <style scoped>
 .table-hover tbody tr:hover {
   box-shadow: 2px 2px 6px #c5baba, -2px -2px 6px #ffffff !important;
-  /* box-shadow: 2px 2px 6px #bebebe, -2px -2px 6px #ffffff; */
 }
 @media (min-width: 920px) {
   #style-2 {
@@ -374,6 +426,88 @@ div.options {
 
 .delete-modal div button:hover,
 .delete-modal div button:focus {
+  border: 2px solid transparent;
+  color: var(--myyinvest-white);
+  background-color: var(--myyinvest-red);
+}
+button.download,
+button.download {
+  padding: 5px 10px;
+  color: var(--myyinvest-white);
+  font-weight: 600;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  background-color: var(--myyinvest-red);
+}
+
+button.download:hover,
+button.download:focus {
+  color: var(--myyinvest-red);
+  border: 2px solid var(--myyinvest-red);
+  background-color: var(--myyinvest-white);
+}
+.download-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 1111;
+}
+
+.download-modal {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 400px;
+  height: 300px;
+  padding: calc(2 * var(--base-size));
+  border-radius: 10px;
+  background-color: var(--myyinvest-white);
+  transform: translate(-50%, -50%);
+}
+
+.download-modal p {
+  font-size: var(--font-sm);
+  font-weight: 600;
+  text-align: center;
+}
+
+.download-modal span {
+  font-weight: 600;
+}
+
+.download-modal div span.to-date {
+  margin-top: 10px;
+}
+
+.download-modal div {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: var(--base-size);
+}
+
+.download-modal div.date-range {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.download-modal div button {
+  padding: 5px;
+  border: 2px solid var(--myyinvest-red);
+  color: var(--myyinvest-red);
+  font-weight: 600;
+  border-radius: 5px;
+  background-color: var(--myyinvest-white);
+}
+
+.download-modal div button:hover,
+.download-modal div button:focus {
   border: 2px solid transparent;
   color: var(--myyinvest-white);
   background-color: var(--myyinvest-red);

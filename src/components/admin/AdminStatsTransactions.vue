@@ -3,22 +3,6 @@
     <section class="section-wrap">
       <div class="custom-card" style="overflow: hidden !important">
         <div class="row">
-          <!-- <div class="mb-3 col-md-4">
-            <div class="card">
-              <div class="d-flex justify-content-between">
-                <span class="text-mute">Income Plan</span>
-              </div>
-              <h5 class="card-value">10,000</h5>
-            </div>
-          </div>
-          <div class="mb-3 col-md-4">
-            <div class="card">
-              <div class="d-flex justify-content-between">
-                <span class="text-mute">Rental Plan</span>
-              </div>
-              <h5 class="card-value">200,000</h5>
-            </div>
-          </div> -->
           <div class="mb-3 col-md-12">
             <div class="card">
               <div class="d-flex justify-content-between">
@@ -33,14 +17,14 @@
     <div v-if="!flipView">
       <section class="section-wrap" v-for="(info, index) in transactionView" :key="index">
         <p class="section-title">{{ info.topic }}</p>
-
-        <div class="mb-3 row" v-for="(detail, index) in info.chart" :key="index">
-          <div class="col-2 col-lg-2">{{ detail.title }}</div>
-          <div class="col-6 col-lg-8">
+        <div class="mb-4 row" v-for="(detail, index) in info.chart" :key="index">
+          <div class="col-4 col-lg-2">{{ detail.title }}</div>
+          <div class="col-6 col-lg-7">
             <div class="chart" :style="{ width: detail.value + '%' }"><span style="visibility: hidden">l</span></div>
           </div>
-          <div class="col-2 col-lg-1">{{ detail.value }}%</div>
-          <div class="col-2 col-lg-1" style="cursor: pointer">
+          <div class="p-0 col-2 col-lg-1">{{ detail.value }}%</div>
+          <div class="mt-4 mt-md-0 col-6 col-lg-1">{{ detail.value * detail.value }}/{{ detail.value * 100 }}</div>
+          <div class="mt-4 text-right mt-md-0 col-6 col-lg-1" style="cursor: pointer">
             <svg @click="flipView = !flipView" width="17" height="11" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:svgjs="http://svgjs.com/svgjs" fill="#0baa12">
               <svg xmlns="http://www.w3.org/2000/svg" width="17" height="11">
                 <path
@@ -51,17 +35,25 @@
               </svg>
             </svg>
           </div>
+          <div class="mt-3 showDivider" style="width: 100%; margin-right: 7px; margin-left: 7px; border-top: 1px solid grey"></div>
         </div>
       </section>
     </div>
     <div v-else id="style-2" class="table-responsive">
-      <div class="m-2">
-        <svg style="width: 50px; height: 30px; cursor: pointer" @click="flipView = !flipView" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
-          <path
-            fill="red"
-            d="M 11 0 C 10.488 0 9.9759375 0.1954375 9.5859375 0.5859375 L 0.5859375 9.5859375 C -0.1950625 10.366937 -0.1950625 11.633062 0.5859375 12.414062 L 9.5859375 21.414062 C 9.9759375 21.805063 10.488 22 11 22 C 11.512 22 12.024062 21.805063 12.414062 21.414062 C 13.195062 20.633063 13.195063 19.366937 12.414062 18.585938 L 6.828125 13 L 32 13 C 39.721 13 46 19.28 46 27 C 46 34.721 39.721 41 32 41 L 18 41 L 17 41 L 0 41 L 0 45 L 17 45 L 18 45 L 33 45 L 33 44.949219 C 42.458993 44.425652 50 36.587491 50 27 C 50 17.587873 42.734578 9.8537846 33.519531 9.078125 C 33.352599 9.0329042 33.181176 9 33 9 L 6.828125 9 L 12.414062 3.4140625 C 13.195062 2.6330625 13.195063 1.3669375 12.414062 0.5859375 C 12.024062 0.1954375 11.512 0 11 0 z"
-          ></path>
-        </svg>
+      <div class="m-3">
+        <div class="row">
+          <div class="col">
+            <button class="mr-1 btn-block download w-50" @click="previewDownload">Download</button>
+          </div>
+          <div class="col">
+            <svg style="width: 50px; height: 30px; cursor: pointer" @click="flipView = !flipView" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50">
+              <path
+                fill="red"
+                d="M 11 0 C 10.488 0 9.9759375 0.1954375 9.5859375 0.5859375 L 0.5859375 9.5859375 C -0.1950625 10.366937 -0.1950625 11.633062 0.5859375 12.414062 L 9.5859375 21.414062 C 9.9759375 21.805063 10.488 22 11 22 C 11.512 22 12.024062 21.805063 12.414062 21.414062 C 13.195062 20.633063 13.195063 19.366937 12.414062 18.585938 L 6.828125 13 L 32 13 C 39.721 13 46 19.28 46 27 C 46 34.721 39.721 41 32 41 L 18 41 L 17 41 L 0 41 L 0 45 L 17 45 L 18 45 L 33 45 L 33 44.949219 C 42.458993 44.425652 50 36.587491 50 27 C 50 17.587873 42.734578 9.8537846 33.519531 9.078125 C 33.352599 9.0329042 33.181176 9 33 9 L 6.828125 9 L 12.414062 3.4140625 C 13.195062 2.6330625 13.195063 1.3669375 12.414062 0.5859375 C 12.024062 0.1954375 11.512 0 11 0 z"
+              ></path>
+            </svg>
+          </div>
+        </div>
       </div>
       <table class="table table-bordered table-hover">
         <thead class="table-header">
@@ -82,24 +74,29 @@
         </tbody>
       </table>
     </div>
+    <BaseDownloadModal :noDownloadModal="noDownloadModal" @closeModal="cancelDownload" />
   </div>
 </template>
 
 <script>
 import transactionView from "@/utils/viewUtils/adminStatistics/transactionHelper.js";
-
+import BaseDownloadModal from "@/components/admin/BaseDownloadModal.vue";
 export default {
   name: "AdminStatsTransaction",
 
   metaInfo: {
     title: "Myyinvest - Statistics > Transactions (Admin)",
-    titleTemplate: null
+    titleTemplate: null,
+  },
+  components: {
+    BaseDownloadModal
   },
 
   data() {
     return {
       transactionView,
-      flipView: false
+      flipView: false,
+      noDownloadModal: true,
     };
   },
   methods: {
@@ -107,12 +104,39 @@ export default {
       if (num < 10) {
         return 0;
       } else return "";
-    }
-  }
+    },
+    previewDownload() {
+      this.noDownloadModal = !this.noDownloadModal;
+    },
+    cancelDownload() {
+      this.noDownloadModal = !this.noDownloadModal;
+    },
+  },
 };
 </script>
 
 <style scoped>
+@media (min-width: 992px) {
+  .showDivider {
+    display: none;
+  }
+}
+button.download,
+button.download {
+  padding: 5px 10px;
+  color: var(--myyinvest-white);
+  font-weight: 600;
+  border: 2px solid transparent;
+  border-radius: 5px;
+  background-color: var(--myyinvest-red);
+}
+
+button.download:hover,
+button.download:focus {
+  color: var(--myyinvest-red);
+  border: 2px solid var(--myyinvest-red);
+  background-color: var(--myyinvest-white);
+}
 #style-2::-webkit-scrollbar-track {
   -webkit-box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
   border-radius: 10px;
