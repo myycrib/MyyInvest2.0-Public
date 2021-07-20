@@ -14,18 +14,41 @@
           </tr>
         </thead>
         <tbody>
-          <tr v-for="x in 10" :key="x">
-            <td colspan="10"></td>
-            <td>{{ zeroPrefix(x) }}{{ x }}</td>
-            <td>Full Name {{ x }}</td>
-            <td>test{{ x }}@gmail.com</td>
-            <td>Account Name {{ x }}</td>
-            <td>909289099</td>
-            <td>Bank Name {{ x }}</td>
-            <td>
-              <img class="mx-auto text-center cursor-pointer d-block" src="@/assets/admin/icons/arrow-down.svg" alt="">
-            </td>
-          </tr>
+          <template v-for="x in 10">
+            <tr :key="x" @click="toggle(x)" :class="{ opened: opened.includes(x) }">
+              <td>{{ zeroPrefix(x) }}{{ x }}</td>
+              <td>Full Name {{ x }}</td>
+              <td>test{{ x }}@gmail.com</td>
+              <td>Account Name {{ x }}</td>
+              <td>909289099</td>
+              <td>Bank Name {{ x }}</td>
+              <td>
+                <img class="mx-auto text-center cursor-pointer d-block" src="@/assets/admin/icons/arrow-down.svg" alt="" />
+              </td>
+            </tr>
+            <tr :key="x" v-if="opened.includes(x)" style="box-shadow: 0px 4px 4px rgba(193, 0, 0, 0.25);">
+              <td class="t"></td>
+              <td class="t">
+                <span class="d-block">Fullname 1</span>
+                <span class="d-block">Fullname 2</span>
+              </td>
+              <td class="t">
+                <span class="d-block">Email1@gmail.com</span>
+                <span class="d-block">Email2@gmail.com</span>
+              </td>
+              <td class="t">
+                <span class="d-block">Account Name 1</span>
+                <span class="d-block">Account Name 2</span>
+              </td>
+              <td class="t">
+                 <span class="d-block">0099003738</span>
+              </td>
+              <td class="t">
+                 <span class="d-block">GT Bank</span>
+              </td>
+              <td class="t"></td>
+            </tr>
+          </template>
         </tbody>
       </table>
     </div>
@@ -44,14 +67,14 @@ export default {
 
   metaInfo: {
     title: "Myyinvest - Transactions (Admin)",
-    titleTemplate: null
+    titleTemplate: null,
   },
 
   data() {
     return {
-      // status: "Success",
+      opened: [],
       currentPage: 1,
-      totalpages: 5
+      totalpages: 5,
     };
   },
 
@@ -82,18 +105,14 @@ export default {
         return "background-color: var(--myyinvest-green)";
       } else return "background-color: var(--myyinvest-danger)";
     },
-
-    previousPage() {
-      if (!this.isFirstPage) {
-        this.currentPage--;
+    toggle(id) {
+      const index = this.opened.indexOf(id);
+      if (index > -1) {
+        this.opened.splice(index, 1);
+      } else {
+        this.opened.push(id);
       }
     },
-
-    nextPage() {
-      if (!this.isLastPage) {
-        this.currentPage++;
-      }
-    }
   },
 
   computed: {
@@ -107,12 +126,15 @@ export default {
 
     isLastPage() {
       return this.currentPage === this.totalpages;
-    }
-  }
+    },
+  },
 };
 </script>
 
 <style scoped>
+.t {
+  border: none !important;
+}
 .bank {
   cursor: pointer;
 }
