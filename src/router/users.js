@@ -189,6 +189,22 @@ export default [
         }
       },
       {
+        path: "myy-portfolio-view/:slug",
+        name: "portfolio-view",
+        component: () => import(/* webpackChunkName: "portfolio-view" */ "../views/users/PortfolioView.vue"),
+        meta: {
+          middleware: [auth]
+        }
+      },
+      {
+        path: "test",
+        name: "portfolio-test",
+        component: () => import("../views/users/Test.vue"),
+        meta: {
+          middleware: [auth]
+        }
+      },
+      {
         path: "browse-assets",
         name: "assets",
         component: () => import(/* webpackChunkName: "browse-assets" */ "../views/Shared/listings/listings.vue"),

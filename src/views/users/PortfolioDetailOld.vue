@@ -3,6 +3,10 @@
     <div class="inv-plan" v-if="getRouteSlug === 'income-plan'">
       <PlanHeader title="income plan" :show-summary="false" />
       <div class="inv-plan__content">
+        <div class="inv-plan__graph-container">
+          <PlanSummary :earnings="10416" :capital="0.26" />
+          <BarChart :chartdata="chartData" :options="options" :styles="myStyles" />
+        </div>
         <div class="trans inv-trans">
           <div class="trans__row inv-trans__heading">
             <div :class="['trans__head', { 'trans__head--mbl-hide': isTableToggled }]">date</div>

@@ -143,6 +143,11 @@ export default [
     component: () => import("@/views/admin/AdminFinanceWallet.vue")
   },
   {
+    path: "/admin/finance/refer-and-earn",
+    name: "AdminFinanceReferEarn",
+    component: () => import("@/views/admin/AdminFinanceReferEarn.vue")
+  },
+  {
     path: "/admin/finance/bank-accounts",
     name: "AdminFinanceBank",
     component: () => import("@/views/admin/AdminFinanceBank.vue")

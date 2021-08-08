@@ -11,7 +11,7 @@
     <div :class="['trans__data', { 'trans__data--mbl-hide': !isToggled }]">{{ startDate }}</div>
     <div :class="['trans__data', { 'trans__data--mbl-hide': !isToggled }]">{{ endDate }}</div>
     <div :class="['trans__data', 'trans__data--sm', 'trans__data--green', { 'trans__data--mbl-hide': !isToggled }]">
-      <a class="inv-trans__link" href="javascript:void(0)" @click="$router.push({ name: 'portfolio-view' })">View</a>
+      <a class="inv-trans__link" href="javascript:void(0)" @click="$emit('display-popup')">VIEW</a>
     </div>
   </div>
 </template>
@@ -55,6 +55,6 @@ export default {
       type: Boolean,
       default: false
     }
-  },
+  }
 };
 </script>

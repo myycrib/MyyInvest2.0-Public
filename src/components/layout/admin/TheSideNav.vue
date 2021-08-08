@@ -90,7 +90,7 @@
         <router-link to="/admin/finance/transactions"> <span></span>Transactions</router-link>
         <router-link to="/admin/finance/wallet"> <span></span>Wallet Accounts</router-link>
         <router-link to="/admin/finance/bank-accounts"> <span></span>Bank Accounts</router-link>
-        <!-- <router-link to="/admin/plans/rental"> <span></span>Refer and Earn</router-link> -->
+        <router-link to="/admin/finance/refer-and-earn"> <span></span>Refer and Earn</router-link>
       </div>
 
       <div :class="[myPath('-insights'), 'main-route']" @click="noInsight = !noInsight">

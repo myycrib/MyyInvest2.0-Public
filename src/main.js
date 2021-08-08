@@ -20,11 +20,18 @@ Vue.use(Editor);
 // import "bootstrap-vue/dist/bootstrap-vue.css";
 // Make BootstrapVue available throughout your project
 Vue.use(BootstrapVue);
+// Optionally install the BootstrapVue icon components plugin
+Vue.use(IconsPlugin)
 
 import TheAdminLayout from "./layouts/TheAdminLayout.vue";
 Vue.component("TheAdminLayout", TheAdminLayout);
 
 import VueMeta from "vue-meta";
+
+import Chartkick from 'vue-chartkick'
+import Chart from 'chart.js'
+
+Vue.use(Chartkick.use(Chart))
 
 // Vue.use(VueMeta, {
 //   // optional pluginOptions
