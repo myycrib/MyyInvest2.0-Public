@@ -1,20 +1,16 @@
 <template>
   <div class="portfolio-wrapper">
     <div class="row">
-      <div class="mb-5 text-center col-md-2">
-        <div class="row">
-          <div class="col-6 col-lg-12">
-            <button @click="showModal" type="button" style="box-shadow: 0px 0px 13px 3px rgba(0, 0, 0, 0.25); border-radius: 10px" class="listing-dtl__btn">Withdraw</button>
-          </div>
-          <div class="mt-md-3 col-6 col-lg-12">
-            <button @click="addMoneyModal = !addMoneyModal" type="button" style="box-shadow: 0px 0px 13px 3px rgba(0, 0, 0, 0.25); border-radius: 10px" class="listing-dtl__btn">Add Money</button>
-          </div>
-        </div>
-      </div>
-      <div class="col-md-10">
+      <div class="col-md-8 col-12 mx-auto">
         <div class="car chart-wrapper inv-plan__graph-containe">
           <line-chart :legend="true" :colors="['#b00']" :data="{ '2021-01-01': 1000, '2021-01-07': 6, '2021-01-14': 700 }"></line-chart>
         </div>
+      </div>
+    </div>
+    <div class="row mt-5">
+      <div class="col-10 mx-auto text-center">
+        <button @click="showModal" type="button" style="box-shadow: 0px 0px 13px 3px rgba(0, 0, 0, 0.25); border-radius: 10px" class="listing-dtl__btn mr-5">Withdraw</button>
+        <button @click="addMoneyModal = !addMoneyModal" type="button" style="box-shadow: 0px 0px 13px 3px rgba(0, 0, 0, 0.25); border-radius: 10px" class="listing-dtl__btn">Add Money</button>
       </div>
     </div>
     <div class="mt-5 row">
@@ -202,7 +198,7 @@
             <span>14% - 28%</span>
           </div>
           <div class="mt-3 lst-card-buttons justify-content-around d-flex">
-            <button @click="confirmWithdrawal" type="button" style="box-shadow: 0px 0px 13px 3px rgba(0, 0, 0, 0.25); border-radius: 10px" class="listing-dtl__btn"> 
+            <button @click="confirmWithdrawal" type="button" style="box-shadow: 0px 0px 13px 3px rgba(0, 0, 0, 0.25); border-radius: 10px" class="listing-dtl__btn">
               <span>Pay Now</span>
               <MainIcon name="caret-right" size="xs" />
             </button>

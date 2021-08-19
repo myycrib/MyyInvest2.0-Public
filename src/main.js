@@ -12,6 +12,7 @@ import "./assets/admin/styles/base.css";
 import helpers from "./utils/helper";
 import '@morioh/v-quill-editor/dist/editor.css';
 import Editor from '@morioh/v-quill-editor'
+import VueGoogleCharts from "vue-google-charts";
 // global register
 Vue.use(Editor);
 
@@ -32,6 +33,7 @@ import Chartkick from 'vue-chartkick'
 import Chart from 'chart.js'
 
 Vue.use(Chartkick.use(Chart))
+Vue.use(VueGoogleCharts);
 
 // Vue.use(VueMeta, {
 //   // optional pluginOptions
@@ -46,10 +48,10 @@ Vue.prototype.$Bus = new Vue();
 // Vue.use(VueTelInput);
 
 const plugin = {
-  install() {
-    Vue.helpers = helpers;
-    Vue.prototype.$helpers = helpers;
-  }
+    install() {
+        Vue.helpers = helpers;
+        Vue.prototype.$helpers = helpers;
+    }
 };
 
 // Vue.use(plugin);
@@ -58,9 +60,9 @@ Vue.use(VueMeta, IconsPlugin, VueTelInput, plugin);
 Vue.config.productionTip = false;
 
 store.dispatch('attemptLogin', localStorage.getItem('myyinvest-token')).then(() => {
-  new Vue({
-    router,
-    store,
-    render: h => h(App)
-  }).$mount("#app");
+    new Vue({
+        router,
+        store,
+        render: h => h(App)
+    }).$mount("#app");
 })
